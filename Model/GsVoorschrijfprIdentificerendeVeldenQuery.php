@@ -1,0 +1,9 @@
+<?php
+
+namespace PharmaIntelligence\GstandaardBundle\Model;
+
+use PharmaIntelligence\GstandaardBundle\Model\om\BaseGsVoorschrijfprIdentificerendeVeldenQuery;
+
+class GsVoorschrijfprIdentificerendeVeldenQuery extends BaseGsVoorschrijfprIdentificerendeVeldenQuery
+{
+}

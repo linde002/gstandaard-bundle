@@ -1,0 +1,9 @@
+<?php
+
+namespace PharmaIntelligence\GstandaardBundle\Model;
+
+use PharmaIntelligence\GstandaardBundle\Model\om\BaseGsInteractiesOmschrijvingCoderingWfgQuery;
+
+class GsInteractiesOmschrijvingCoderingWfgQuery extends BaseGsInteractiesOmschrijvingCoderingWfgQuery
+{
+}
