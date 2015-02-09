@@ -6,4 +6,5 @@ use PharmaIntelligence\GstandaardBundle\Model\om\BaseGsNawGegevensGstandaardQuer
 
 class GsNawGegevensGstandaardQuery extends BaseGsNawGegevensGstandaardQuery
 {
+	
 }

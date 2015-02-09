@@ -163,8 +163,14 @@
 	<foreign-key foreignTable="gs_namen">
       <reference local="artikelnaamnummer" foreign="naamnummer"/>
     </foreign-key>
-    <foreign-key foreignTable="gs_naw_gegevens_gstandaard">
+    <foreign-key foreignTable="gs_naw_gegevens_gstandaard" phpName='Leverancier'>
       <reference local="leverancier_kode" foreign="naw_nummer"/>
+    </foreign-key>
+    <foreign-key foreignTable="gs_naw_gegevens_gstandaard" phpName='Importeur'>
+      <reference local="importeur_kode" foreign="naw_nummer"/>
+    </foreign-key>
+    <foreign-key foreignTable="gs_naw_gegevens_gstandaard" phpName='Registratiehouder'>
+      <reference local="registratiehouder_kode" foreign="naw_nummer"/>
     </foreign-key>
     <foreign-key foreignTable='gs_thesauri_totaal' phpName="LandOmschrijving">
     	<reference local='land_van_herkomst_thesaurus_nummer' foreign='thesaurusnummer'/>
@@ -178,7 +184,7 @@
     	<reference local='deelverpakking_omschrijving_thesnr' foreign='thesaurusnummer'/>
     	<reference local='deelverpakking_omschrijving_kode' foreign='thesaurus_itemnummer'/>
     </foreign-key>
-    <foreign-key foreignTable='gs_logistieke_informatie' phpName="LogistiekeInformatie" skipSql='true'>
+    <foreign-key foreignTable='gs_logistieke_informatie' phpName="LogistiekeInformatie">
     	<reference local='zinummer' foreign='zindex_nummer'/>
     </foreign-key>
     <behavior name="sluggable">

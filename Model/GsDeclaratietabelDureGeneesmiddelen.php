@@ -6,4 +6,7 @@ use PharmaIntelligence\GstandaardBundle\Model\om\BaseGsDeclaratietabelDureGenees
 
 class GsDeclaratietabelDureGeneesmiddelen extends BaseGsDeclaratietabelDureGeneesmiddelen
 {
+	public function getOmrekenFactor() {
+		return $this->getOmrekenfactorAantalToedieningseenhedenPerHpk();
+	}
 }

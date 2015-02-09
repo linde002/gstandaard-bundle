@@ -6,4 +6,5 @@ use PharmaIntelligence\GstandaardBundle\Model\om\BaseGsVoorschrijfprGeneesmiddel
 
 class GsVoorschrijfprGeneesmiddelIdentific extends BaseGsVoorschrijfprGeneesmiddelIdentific
 {
+	
 }
