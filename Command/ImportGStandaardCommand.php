@@ -60,13 +60,16 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		    $filesystem->mkdir($filesystem);
 		$downloadLocation = $downloadDirectory.'GSTNDDB.ZIP';
 		
+		$user = $this->getContainer()->getParameter('pi.gstandaard.user');
+        $password = $this->getContainer()->getParameter('pi.gstandaard.password');
+		
 		
 		$out = fopen($downloadLocation, 'wb');
 		$curl = curl_init(self::GSTANDAARD_URL);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_USERPWD, $this->getContainer()->getParameter('gstandaard_user').":".$this->getContainer()->getParameter('gstandaard_password'));
+		curl_setopt($curl, CURLOPT_USERPWD, $user.":".$password);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FILE, $out);

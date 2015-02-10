@@ -21,7 +21,8 @@ class PharmaIntelligenceGstandaardExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
+        $container->setParameter('pi.gstandaard.user', $config['user']);
+        $container->setParameter('pi.gstandaard.password', $config['password']);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
