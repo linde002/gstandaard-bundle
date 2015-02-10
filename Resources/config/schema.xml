@@ -889,6 +889,9 @@
     <column name="hibc_barcode" phpName="HibcBarcode" type="VARCHAR" size="255" required="false"/>
     <column name="minikaart_kode" phpName="MinikaartKode" type="INTEGER" required="false"/>
     <column name="bestelmogelijkheid" phpName="Bestelmogelijkheid" type="VARCHAR" size="255" required="false"/>
+    <foreign-key foreignTable="gs_artikelen">
+      <reference local="zinummer" foreign="zinummer"/>
+    </foreign-key>
   </table>
   <table name="gs_logistieke_informatie" phpName="GsLogistiekeInformatie" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -927,6 +930,9 @@
     <column name="fabrikant_artikel_codering" phpName="FabrikantArtikelCodering" type="VARCHAR" size="255" required="false"/>
     <column name="thesaurus_verwijzing_status" phpName="ThesaurusVerwijzingStatus" type="INTEGER" required="false"/>
     <column name="status" phpName="Status" type="INTEGER" required="false"/>
+    <foreign-key foreignTable='gs_artikelen'>
+    	<reference local='zindex_nummer' foreign='zinummer'/>
+    </foreign-key>
   </table>
   <table name="gs_lokale_codes_zorgverzekeraars_zspcs" phpName="GsLokaleCodesZorgverzekeraarsZspcs" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -1181,6 +1187,9 @@
     <column name="hibcbarcode" phpName="Hibcbarcode" type="VARCHAR" size="255" required="false"/>
     <column name="handelsproduktkode" phpName="Handelsproduktkode" type="VARCHAR" size="255" required="false"/>
     <column name="identificatie_nummer" phpName="IdentificatieNummer" type="VARCHAR" size="255" required="false"/>
+    <foreign-key foreignTable="gs_artikelen">
+      <reference local="zinummer" foreign="zinummer"/>
+    </foreign-key>
   </table>
   <table name="gs_relaties_tussen_hpk_nivo" phpName="GsRelatiesTussenHpkNivo" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
