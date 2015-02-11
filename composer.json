@@ -15,6 +15,6 @@
     "autoload": {
 		"psr-0": { "PharmaIntelligence\\GstandaardBundle": "" }
 	},
-	"target-dir": "PharmaIntelligence/GstandaardBundle
+	"target-dir": "PharmaIntelligence/GstandaardBundle",
 	"minimum-stability": "dev"
 }
