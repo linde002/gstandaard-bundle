@@ -12,5 +12,9 @@
             "email": "r.vanderlinde@pharma-intelligence.nl"
         }
     ],
-    "minimum-stability": "dev"
+    "autoload": {
+		"psr-0": { "PharmaIntelligence\\GstandaardBundle": "" }
+	},
+	"target-dir": "PharmaIntelligence/GstandaardBundle
+	"minimum-stability": "dev"
 }
