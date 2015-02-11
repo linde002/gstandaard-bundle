@@ -892,6 +892,12 @@
     <foreign-key foreignTable="gs_artikelen">
       <reference local="zinummer" foreign="zinummer"/>
     </foreign-key>
+    <index>
+    	<index-column name='ean_barcode'></index-column>
+    </index>
+    <index>
+    	<index-column name='hibc_barcode'></index-column>
+    </index>
   </table>
   <table name="gs_logistieke_informatie" phpName="GsLogistiekeInformatie" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -1190,6 +1196,9 @@
     <foreign-key foreignTable="gs_artikelen">
       <reference local="zinummer" foreign="zinummer"/>
     </foreign-key>
+    <index>
+    	<index-column name='hibcbarcode'></index-column>
+    </index>
   </table>
   <table name="gs_relaties_tussen_hpk_nivo" phpName="GsRelatiesTussenHpkNivo" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>

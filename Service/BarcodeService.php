@@ -10,6 +10,11 @@ class BarcodeService
     const HIBC_REGEXP = '/^\+[EH]{1}[0-9]{3}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
     const GTIN_REGEXP = '/^([0-9]{8})([0-9]{4,6})?$/';
     
+    /**
+     * 
+     * @param string $barcode
+     * @return boolean
+     */
     public function isBarcode($barcode) {
         if(preg_match(self::EHIBCC_REGEXP, $barcode) === 1) {
             return true;
@@ -23,6 +28,12 @@ class BarcodeService
         return false;
     }
     
+    /**
+     * 
+     * @param string $barcode
+     * @throws InvalidBarcodeException
+     * @return PropelObjectCollection
+     */
     public function findByBarcode($barcode) {
         if(!$this->isBarcode($barcode)) {
             throw new InvalidBarcodeException('Barcode wordt niet ondersteund');
@@ -39,6 +50,12 @@ class BarcodeService
         throw new InvalidBarcodeException('Barcode wordt niet ondersteund');
     }
     
+    /**
+     *
+     * @param string $barcode
+     * @throws InvalidBarcodeException
+     * @return PropelObjectCollection
+     */
     public function findByEHIBCC($barcode) {
         $this->validateEHIBCC($barcode);
         $hpk = $this->hpkkToHpk(substr($barcode, 3, 4));
@@ -49,6 +66,12 @@ class BarcodeService
             ->find();
     }
     
+    /**
+     *
+     * @param string $barcode
+     * @throws InvalidBarcodeException
+     * @return PropelObjectCollection
+     */
     public function findByGTIN($barcode) {
         $this->validateGTIN($barcode);
         return GsArtikelenQuery::create('a')
@@ -62,6 +85,12 @@ class BarcodeService
             ->find();
     }
     
+    /**
+     *
+     * @param string $barcode
+     * @throws InvalidBarcodeException
+     * @return PropelObjectCollection
+     */
     public function findByHIBC($barcode) {
         $this->validateHIBC($barcode);
         /**
@@ -93,7 +122,7 @@ class BarcodeService
                 ->find();
         }
         
-        throw new BarcodeNotFoundException();
+        return new \PropelCollection(array());
     }
     
     protected function licExists($lic) {
@@ -175,17 +204,4 @@ class BarcodeService
     }
 }
 
-class BarcodeException extends \Exception {}
-
-class InvalidBarcodeException extends BarcodeException {}
-
-class BarcodeNotFoundException extends BarcodeException {}
-// HIBC  = +[LIC identifier 4 uit lev_tabel][HPKKODA 4][ident vp = 3]
-// *+ E278 4QID 3DJ0 $*
-// EAN
-
-// gs_relatie_tussen_zinummer_hibc <- EHIBCC + HIBC
-// gs_logistieke_informatie -> GTIN
-// gs_leveranciersassortimenten -> EAN + HIBC
-
-// ZIe ook lev-assortiment
+class InvalidBarcodeException extends \Exception {}
