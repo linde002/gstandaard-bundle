@@ -328,26 +328,6 @@ import:
     startdatum: {start: 96, length: 8, type: date} 
     einddatum: {start: 104, length: 8, type: date} 
  
-  BST150T:
-    _attributes: {table: gs_lokale_codes_zorgverzekeraars_zspcs, modelClass: GsLokaleCodesZorgverzekeraarsZspcs, peerClass: GsLokaleCodesZorgverzekeraarsZspcsPeer}
-    bestandnummer: {start: 0, length: 4, type: integer} 
-    mutatiekode: {start: 4, length: 1, type: integer} 
-    zorgverzekeraar_specifieke_prestatie_code: {start: 5, length: 12, type: integer, primaryKey: true} 
-    uzovi_code_zorgverzekeraar: {start: 17, length: 4, type: integer} 
-    artikel_omschrijving: {start: 21, length: 50, type: varchar(255)} 
-    etiketnaam: {start: 71, length: 27, type: varchar(255)} 
-    memocode: {start: 98, length: 6, type: varchar(255)} 
-    hoeveelheid: {start: 104, length: 8, type: decimal, scale: 2} 
-    thesaurusverwijzing_eenheid: {start: 112, length: 4, type: integer} 
-    eenheid: {start: 116, length: 6, type: integer} 
-    declaratieprijs: {start: 122, length: 8, type: decimal, scale: 2} 
-    wmg: {start: 130, length: 1, type: boolean} 
-    uitsluitend_voor_gecontracteerde_apotheken: {start: 131, length: 1, type: boolean} 
-    tariefsoort_thesaurus_verwijzing: {start: 132, length: 4, type: integer} 
-    tariefsoort: {start: 136, length: 6, type: integer} 
-    begindatum: {start: 142, length: 8, type: date} 
-    vervaldatum: {start: 150, length: 8, type: date} 
- 
   BST160T:
     _attributes: {table: gs_preferentie_beleid, modelClass: GsPreferentieBeleid, peerClass: GsPreferentieBeleidPeer}
     bestandnummer: {start: 0, length: 4, type: integer} 

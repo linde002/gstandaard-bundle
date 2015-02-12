@@ -6,7 +6,7 @@ use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
 
 class BarcodeService
 {
-    const EHIBCC_REGEXP = '/^JFK[A-Za-z0-9]{5}$/';
+    const EHIBCC_REGEXP = '/^JFK[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
     const HIBC_REGEXP = '/^\+[EH]{1}[0-9]{3}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
     const GTIN_REGEXP = '/^([0-9]{8})([0-9]{4,6})?$/';
     

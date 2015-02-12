@@ -55,9 +55,6 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 	protected function downloadGStandaard(InputInterface $input, OutputInterface $output) {
 		$output->writeln(date('[H:i:s]').' Start downloaden G-Standaard');
 		$downloadDirectory = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/');
-		$filesystem = new Filesystem();
-		if(!$filesystem->exists($downloadDirectory))
-		    $filesystem->mkdir($filesystem);
 		$downloadLocation = $downloadDirectory.'GSTNDDB.ZIP';
 		
 		$user = $this->getContainer()->getParameter('pi.gstandaard.user');

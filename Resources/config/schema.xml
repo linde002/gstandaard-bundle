@@ -62,6 +62,10 @@
     <column name="codering_waarde_1_alfanumeriek" phpName="CoderingWaarde1Alfanumeriek" type="VARCHAR" size="255" primaryKey="true" required="true"/>
     <column name="codering_waarde_2_numeriek" phpName="CoderingWaarde2Numeriek" type="INTEGER" primaryKey="true" required="true"/>
     <column name="codering_waarde_3_numeriek" phpName="CoderingWaarde3Numeriek" type="INTEGER" required="false"/>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="BewakingssoortOmschrijving">
+    	<reference local='thesnr_bewakingssoort' foreign='thesaurusnummer'/>
+    	<reference local='bewakingssoort' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
   </table>
   <table name="gs_aanvvoorwaarden_medbew_en_tekstblok" phpName="GsAanvvoorwaardenMedbewEnTekstblok" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -885,7 +889,7 @@
     <column name="btwkode_van_assortimentshouder" phpName="BtwkodeVanAssortimentshouder" type="INTEGER" required="false"/>
     <column name="hoeveelheid" phpName="Hoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
     <column name="eenheid" phpName="Eenheid" type="VARCHAR" size="255" required="false"/>
-    <column name="ean_barcode" phpName="EanBarcode" type="VARCHAR" size='255' required="false"/>
+    <column name="ean_barcode" phpName="EanBarcode" type="bigint" size='14' required="false"/>
     <column name="hibc_barcode" phpName="HibcBarcode" type="VARCHAR" size="255" required="false"/>
     <column name="minikaart_kode" phpName="MinikaartKode" type="INTEGER" required="false"/>
     <column name="bestelmogelijkheid" phpName="Bestelmogelijkheid" type="VARCHAR" size="255" required="false"/>
@@ -902,8 +906,8 @@
   <table name="gs_logistieke_informatie" phpName="GsLogistiekeInformatie" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
-    <column name="gtin" phpName="Gtin" type="BIGINT" size="11" primaryKey="true" required="true"/>
-    <column name="gtin_van_de_data_leverancier" phpName="GtinVanDeDataLeverancier" type="BIGINT" size="13" primaryKey="true" required="true"/>
+    <column name="gtin" phpName="Gtin" type="bigint" size='14' primaryKey="true" required="true"/>
+    <column name="gtin_van_de_data_leverancier" phpName="GtinVanDeDataLeverancier" type="bigint" size='14'  primaryKey="true" required="true"/>
     <column name="omschrijving_gtin" phpName="OmschrijvingGtin" type="VARCHAR" size="255" required="false"/>
     <column name="hoogte_hoeveelheid" phpName="HoogteHoeveelheid" type="DECIMAL" size="12" scale="4" required="false"/>
     <column name="hoogte_eenheid" phpName="HoogteEenheid" type="VARCHAR" size="255" required="false"/>
@@ -923,7 +927,7 @@
     <column name="startdatum_beschikbaarheid_verpakking" phpName="StartdatumBeschikbaarheidVerpakking" type="VARCHAR" size="255" required="false"/>
     <column name="einddatum_beschikbaarheid_verpakking" phpName="EinddatumBeschikbaarheidVerpakking" type="VARCHAR" size="255" required="false"/>
     <column name="stopdatum_verpakking" phpName="StopdatumVerpakking" type="VARCHAR" size="255" required="false"/>
-    <column name="child_gtin" phpName="ChildGtin" type="BIGINT" size="13" primaryKey="true" required="true"/>
+    <column name="child_gtin" phpName="ChildGtin" type="bigint" size='14'  primaryKey="true" required="true"/>
     <column name="child_gtin_hoeveelheid" phpName="ChildGtinHoeveelheid" type="INTEGER" required="false"/>
     <column name="product_type" phpName="ProductType" type="VARCHAR" size="255" required="false"/>
     <column name="lijstprijs" phpName="Lijstprijs" type="DECIMAL" size="12" scale="4" required="false"/>
@@ -939,25 +943,6 @@
     <foreign-key foreignTable='gs_artikelen'>
     	<reference local='zindex_nummer' foreign='zinummer'/>
     </foreign-key>
-  </table>
-  <table name="gs_lokale_codes_zorgverzekeraars_zspcs" phpName="GsLokaleCodesZorgverzekeraarsZspcs" idMethod="native">
-    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
-    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
-    <column name="zorgverzekeraar_specifieke_prestatie_code" phpName="ZorgverzekeraarSpecifiekePrestatieCode" type="BIGINT" size="11" primaryKey="true" required="true"/>
-    <column name="uzovi_code_zorgverzekeraar" phpName="UzoviCodeZorgverzekeraar" type="BIGINT" size="11" required="false"/>
-    <column name="artikel_omschrijving" phpName="ArtikelOmschrijving" type="VARCHAR" size="255" required="false"/>
-    <column name="etiketnaam" phpName="Etiketnaam" type="VARCHAR" size="255" required="false"/>
-    <column name="memocode" phpName="Memocode" type="VARCHAR" size="255" required="false"/>
-    <column name="hoeveelheid" phpName="Hoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thesaurusverwijzing_eenheid" phpName="ThesaurusverwijzingEenheid" type="INTEGER" required="false"/>
-    <column name="eenheid" phpName="Eenheid" type="INTEGER" required="false"/>
-    <column name="declaratieprijs" phpName="Declaratieprijs" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="wmg" phpName="Wmg" type="TINYINT" required="false"/>
-    <column name="uitsluitend_voor_gecontracteerde_apotheken" phpName="UitsluitendVoorGecontracteerdeApotheken" type="TINYINT" required="false"/>
-    <column name="tariefsoort_thesaurus_verwijzing" phpName="TariefsoortThesaurusVerwijzing" type="INTEGER" required="false"/>
-    <column name="tariefsoort" phpName="Tariefsoort" type="INTEGER" required="false"/>
-    <column name="begindatum" phpName="Begindatum" type="DATE" required="false"/>
-    <column name="vervaldatum" phpName="Vervaldatum" type="DATE" required="false"/>
   </table>
   <table name="gs_medicatie_bewaking_koppelen_met_zrs" phpName="GsMedicatieBewakingKoppelenMetZrs" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -976,97 +961,6 @@
     <column name="actiegroep" phpName="Actiegroep" type="INTEGER" required="false"/>
     <column name="actieregel" phpName="Actieregel" type="INTEGER" required="false"/>
     <column name="volgnummer" phpName="Volgnummer" type="INTEGER" primaryKey="true" required="true"/>
-  </table>
-  <table name="gs_medische_hulpmiddelen" phpName="GsMedischeHulpmiddelen" idMethod="native">
-    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
-    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
-    <column name="medisch_hulpmiddelkode" phpName="MedischHulpmiddelkode" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="substitutie_kode" phpName="SubstitutieKode" type="INTEGER" required="false"/>
-    <column name="thnr_soort_hulpmiddel" phpName="ThnrSoortHulpmiddel" type="INTEGER" required="false"/>
-    <column name="soort_hulpmiddelkode" phpName="SoortHulpmiddelkode" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="gesteriliseerd_janee" phpName="GesteriliseerdJanee" type="TINYINT" required="false"/>
-    <column name="thnr_sterilisatiemethode" phpName="ThnrSterilisatiemethode" type="INTEGER" required="false"/>
-    <column name="itemnr_sterilisatiemethode" phpName="ItemnrSterilisatiemethode" type="INTEGER" required="false"/>
-    <column name="thnr_sluiting" phpName="ThnrSluiting" type="INTEGER" required="false"/>
-    <column name="itemnr_sluiting" phpName="ItemnrSluiting" type="INTEGER" required="false"/>
-    <column name="aantal_delen" phpName="AantalDelen" type="INTEGER" required="false"/>
-    <column name="aantal_kanalen" phpName="AantalKanalen" type="INTEGER" required="false"/>
-    <column name="thnr_bevestiging" phpName="ThnrBevestiging" type="INTEGER" required="false"/>
-    <column name="itemnr_bevestiging" phpName="ItemnrBevestiging" type="INTEGER" required="false"/>
-    <column name="breedte_hoeveelheid" phpName="BreedteHoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thnr_breedte_eenheid" phpName="ThnrBreedteEenheid" type="INTEGER" required="false"/>
-    <column name="itemnr_breedte_eenheid" phpName="ItemnrBreedteEenheid" type="INTEGER" required="false"/>
-    <column name="drukklasse" phpName="Drukklasse" type="INTEGER" required="false"/>
-    <column name="diameter_hoeveelheid" phpName="DiameterHoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thnr_diameter_eenheid" phpName="ThnrDiameterEenheid" type="INTEGER" required="false"/>
-    <column name="itemnr_diameter_eenheid" phpName="ItemnrDiameterEenheid" type="INTEGER" required="false"/>
-    <column name="dicht_of_open_geweven" phpName="DichtOfOpenGeweven" type="VARCHAR" size="255" required="false"/>
-    <column name="thnr_doorlaatbaarheid" phpName="ThnrDoorlaatbaarheid" type="INTEGER" required="false"/>
-    <column name="itemnr_doorlaatbaarheid" phpName="ItemnrDoorlaatbaarheid" type="INTEGER" required="false"/>
-    <column name="draagbaar_janee" phpName="DraagbaarJanee" type="TINYINT" required="false"/>
-    <column name="thnr_draagplaats" phpName="ThnrDraagplaats" type="INTEGER" required="false"/>
-    <column name="itemnr_draagplaats" phpName="ItemnrDraagplaats" type="INTEGER" required="false"/>
-    <column name="thnr_extra_kenmerk" phpName="ThnrExtraKenmerk" type="INTEGER" required="false"/>
-    <column name="item_nr_extra_kenmerk" phpName="ItemNrExtraKenmerk" type="INTEGER" required="false"/>
-    <column name="filter_janee" phpName="FilterJanee" type="TINYINT" required="false"/>
-    <column name="flensmaat_hoeveelheid" phpName="FlensmaatHoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thnr_flensmaat_eenheid" phpName="ThnrFlensmaatEenheid" type="INTEGER" required="false"/>
-    <column name="itemnr_flensmaat_eenheid" phpName="ItemnrFlensmaatEenheid" type="INTEGER" required="false"/>
-    <column name="geslacht" phpName="Geslacht" type="VARCHAR" size="255" required="false"/>
-    <column name="glijmiddel_janee" phpName="GlijmiddelJanee" type="TINYINT" required="false"/>
-    <column name="hergebruik_mogelijk_janee" phpName="HergebruikMogelijkJanee" type="TINYINT" required="false"/>
-    <column name="thnr_hulpmiddelpresentatie" phpName="ThnrHulpmiddelpresentatie" type="INTEGER" required="false"/>
-    <column name="itemnr_hulpmiddelpresentatie" phpName="ItemnrHulpmiddelpresentatie" type="INTEGER" required="false"/>
-    <column name="thnr_kleeflaag" phpName="ThnrKleeflaag" type="INTEGER" required="false"/>
-    <column name="itemnr_kleeflaag" phpName="ItemnrKleeflaag" type="INTEGER" required="false"/>
-    <column name="kleur_thesaurusnummer" phpName="KleurThesaurusnummer" type="INTEGER" required="false"/>
-    <column name="itemnr_kleur" phpName="ItemnrKleur" type="INTEGER" required="false"/>
-    <column name="lengte_1_hoeveelheid" phpName="Lengte1Hoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thnr_lengte_1_eenheid" phpName="ThnrLengte1Eenheid" type="INTEGER" required="false"/>
-    <column name="itemnr_lengte_1_eenheid" phpName="ItemnrLengte1Eenheid" type="INTEGER" required="false"/>
-    <column name="lengte_2_hoeveelheid" phpName="Lengte2Hoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thnr_lengte_2_eenheid" phpName="ThnrLengte2Eenheid" type="INTEGER" required="false"/>
-    <column name="itemnr_lengte_2_eenheid" phpName="ItemnrLengte2Eenheid" type="INTEGER" required="false"/>
-    <column name="maasgrootte" phpName="Maasgrootte" type="VARCHAR" size="255" required="false"/>
-    <column name="thnr_maataanduiding" phpName="ThnrMaataanduiding" type="INTEGER" required="false"/>
-    <column name="itemnr_maataanduiding" phpName="ItemnrMaataanduiding" type="INTEGER" required="false"/>
-    <column name="thnr_materiaal" phpName="ThnrMateriaal" type="INTEGER" required="false"/>
-    <column name="itemnr_materiaal" phpName="ItemnrMateriaal" type="INTEGER" required="false"/>
-    <column name="niet_aan_de_wond_hechtend" phpName="NietAanDeWondHechtend" type="VARCHAR" size="255" required="false"/>
-    <column name="thnr_plaats_sluiting" phpName="ThnrPlaatsSluiting" type="INTEGER" required="false"/>
-    <column name="itemnr_plaats_sluiting" phpName="ItemnrPlaatsSluiting" type="INTEGER" required="false"/>
-    <column name="rekpercentage" phpName="Rekpercentage" type="INTEGER" required="false"/>
-    <column name="rekrichting" phpName="Rekrichting" type="VARCHAR" size="255" required="false"/>
-    <column name="thnr_rekaanduiding" phpName="ThnrRekaanduiding" type="INTEGER" required="false"/>
-    <column name="itemnr_rekaanduiding" phpName="ItemnrRekaanduiding" type="INTEGER" required="false"/>
-    <column name="rontgencontrastdraad_aanwezig_jn" phpName="RontgencontrastdraadAanwezigJn" type="TINYINT" required="false"/>
-    <column name="thnr_hulpmiddelsysteem" phpName="ThnrHulpmiddelsysteem" type="INTEGER" required="false"/>
-    <column name="itemnr_hulpmiddelsysteem" phpName="ItemnrHulpmiddelsysteem" type="INTEGER" required="false"/>
-    <column name="terugslagvoorziening_janee" phpName="TerugslagvoorzieningJanee" type="TINYINT" required="false"/>
-    <column name="toepassing_afnameverblijf" phpName="ToepassingAfnameverblijf" type="VARCHAR" size="255" required="false"/>
-    <column name="type_punt_nelatontiemann" phpName="TypePuntNelatontiemann" type="VARCHAR" size="255" required="false"/>
-    <column name="volume_hoeveelheid" phpName="VolumeHoeveelheid" type="DECIMAL" size="8" scale="2" required="false"/>
-    <column name="thnr_volume_eenheid" phpName="ThnrVolumeEenheid" type="INTEGER" required="false"/>
-    <column name="itemnr_volume_eenheid" phpName="ItemnrVolumeEenheid" type="INTEGER" required="false"/>
-    <column name="thnr_vorm" phpName="ThnrVorm" type="INTEGER" required="false"/>
-    <column name="itemnr_vorm" phpName="ItemnrVorm" type="INTEGER" required="false"/>
-    <column name="thnr_vorm_van_de_opening" phpName="ThnrVormVanDeOpening" type="INTEGER" required="false"/>
-    <column name="itemnr_vorm_van_de_opening" phpName="ItemnrVormVanDeOpening" type="INTEGER" required="false"/>
-    <column name="thnr_vorm_van_de_plaat" phpName="ThnrVormVanDePlaat" type="INTEGER" required="false"/>
-    <column name="itemnr_vorm_van_de_plaat" phpName="ItemnrVormVanDePlaat" type="INTEGER" required="false"/>
-    <column name="waterbestendig_janee" phpName="WaterbestendigJanee" type="TINYINT" required="false"/>
-    <column name="wegspoelbaar_janee" phpName="WegspoelbaarJanee" type="TINYINT" required="false"/>
-    <column name="split_janee" phpName="SplitJanee" type="TINYINT" required="false"/>
-    <column name="cuff_janee" phpName="CuffJanee" type="TINYINT" required="false"/>
-    <column name="enkel_of_dubbelzijdig" phpName="EnkelOfDubbelzijdig" type="VARCHAR" size="255" required="false"/>
-    <column name="thnr_absorptievermogen" phpName="ThnrAbsorptievermogen" type="INTEGER" required="false"/>
-    <column name="itemnr_absorptievermogen" phpName="ItemnrAbsorptievermogen" type="INTEGER" required="false"/>
-    <column name="soort_incontinentie_urinefaeces" phpName="SoortIncontinentieUrinefaeces" type="VARCHAR" size="255" required="false"/>
-    <column name="thnr_toebehoren" phpName="ThnrToebehoren" type="INTEGER" required="false"/>
-    <column name="itemnr_toebehoren" phpName="ItemnrToebehoren" type="INTEGER" required="false"/>
-    <column name="thnr_fysische_toestand" phpName="ThnrFysischeToestand" type="INTEGER" required="false"/>
-    <column name="itemnr_fysische_toestand" phpName="ItemnrFysischeToestand" type="INTEGER" required="false"/>
-    <column name="impregneermiddel_samenstelling" phpName="ImpregneermiddelSamenstelling" type="INTEGER" required="false"/>
   </table>
   <table name="gs_meervoudige_produkten" phpName="GsMeervoudigeProdukten" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -1112,6 +1006,22 @@
     <index name="naw_nummer">
       <index-column name="naw_nummer"/>
     </index>
+    <index name="lic_nummer">
+      <index-column name="lic_nummer"/>
+    </index>
+    <index name="gln_code">
+      <index-column name="gln_code"/>
+    </index>
+    <index name="uzovi_code">
+      <index-column name="uzovi_code"/>
+    </index>
+    <index name="agb_code">
+      <index-column name="agb_code"/>
+    </index>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="SoortOmschrijving">
+    	<reference local='thesaurusnummer_soort_naw' foreign='thesaurusnummer'/>
+    	<reference local='naw_soort' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
     <behavior name="sluggable">
 	    <parameter name="slug_pattern" value="{Naam}" />
     	<parameter name="permanent" value="false" />
