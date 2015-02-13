@@ -6,10 +6,7 @@ use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
 
 class BarcodeService
 {
-    const EHIBCC_REGEXP = '/^JFK[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
-    const HIBC_REGEXP = '/^\+[EH]{1}[0-9]{3}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
-    const GTIN_REGEXP = '/^([0-9]{8})([0-9]{4,6})?$/';
-    const GTIN14_EXTENDED_REGEXP = '/^(01[0-9]{1})([0-9]{13})([A-Za-z0-9]*)$/';
+    
     
     /**
      * 
@@ -17,40 +14,22 @@ class BarcodeService
      * @return boolean
      */
     public function isBarcode($barcode) {
-        if(preg_match(self::EHIBCC_REGEXP, $barcode) === 1) {
-            return true;
+        try {
+            $barcode = new Barcode($barcode);
+        } catch(InvalidBarcodeException $e) {
+            return false;
         }
-        if(preg_match(self::HIBC_REGEXP, $barcode) === 1) {
-            return true;
-        }
-        if(preg_match(self::GTIN_REGEXP, $barcode) === 1) {
-            return true;
-        }
-        if(preg_match(self::GTIN14_EXTENDED_REGEXP, $barcode) === 1) {
-            return true;
-        }
-        return false;
+        return true;
     }
     
     /**
      * 
      * @param string $barcode
+     * @throws InvalidBarcodeException
      * @return \PharmaIntelligence\GstandaardBundle\Service\Barcode\BarcodeType
      */
     public function getBarcodeType($barcode) {
-         if(preg_match(self::EHIBCC_REGEXP, $barcode) === 1) {
-            return new BarcodeType(BarcodeType::TYPE_EHIBCC);
-        }
-        if(preg_match(self::HIBC_REGEXP, $barcode) === 1) {
-            return new BarcodeType(BarcodeType::TYPE_HIBC);
-        }
-        if(preg_match(self::GTIN_REGEXP, $barcode) === 1) {
-            return new BarcodeType(BarcodeType::TYPE_GTIN);
-        }
-        if(preg_match(self::GTIN14_EXTENDED_REGEXP, $barcode) === 1) {
-            return new BarcodeType(BarcodeType::TYPE_GTIN14_EXTENDED);
-        }
-        return new BarcodeType(BarcodeType::TYPE_UNKNOWN);
+        return new BarcodeType($barcode);
     }
     
     /**
@@ -60,22 +39,17 @@ class BarcodeService
      * @return PropelObjectCollection
      */
     public function findByBarcode($barcode) {
-        if(!$this->isBarcode($barcode)) {
-            throw new InvalidBarcodeException('Barcode wordt niet ondersteund');
+        $barcode = new Barcode($barcode);
+        
+        if($barcode->getBarcodeType()->isEhibcc()) {
+            return $this->findByEHIBCC($barcode->getProductIdentifier());
         }
-        if(preg_match(self::EHIBCC_REGEXP, $barcode) === 1) {
-            return $this->findByEHIBCC($barcode);
+        if($barcode->getBarcodeType()->isHibc()) {
+            return $this->findByHIBC($barcode->getProductIdentifier());
         }
-        if(preg_match(self::HIBC_REGEXP, $barcode) === 1) {
-            return $this->findByHIBC($barcode);
+        if($barcode->getBarcodeType()->isGtin()) {
+            return $this->findByGTIN($barcode->getProductIdentifier());
         }
-        if(preg_match(self::GTIN_REGEXP, $barcode) === 1) {
-            return $this->findByGTIN($barcode);
-        }
-        if(preg_match(self::GTIN14_EXTENDED_REGEXP, $barcode) === 1) {
-            return $this->findByGTIN14Extended($barcode);
-        }
-        throw new InvalidBarcodeException('Barcode wordt niet ondersteund');
     }
     
     /**
@@ -178,8 +152,6 @@ class BarcodeService
     }
     
     protected function validateGTIN($barcode) {
-        if(preg_match(self::GTIN_REGEXP, $barcode) === 0)
-            throw new InvalidBarcodeException('Barcode is not a GTIN (GTIN8, GTIN11, GTIN12, GTIN13)');
         $checkdigit = substr($barcode, -1);
         if($this->getGTINCheckDigit(substr($barcode, 0, -1)) != $checkdigit) {
             throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getGTINCheckDigit(substr($barcode, 0, -1)).' received: '.$checkdigit);
@@ -187,8 +159,6 @@ class BarcodeService
     }
     
     protected function validateHIBC($barcode) {
-        if(preg_match(self::HIBC_REGEXP, $barcode) === 0)
-            throw new InvalidBarcodeException('Barcode is not a HIBC (+[E/H]000AAAABBBBC)');
         $checkdigit = substr($barcode, -1);
         if($checkdigit !== $this->getModulo43CheckDigit(substr($barcode, 0, -1))) {
             throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getModulo43CheckDigit(substr($barcode, 0, -1)).' received '.$checkdigit);
@@ -196,8 +166,6 @@ class BarcodeService
     }
     
     protected function validateEHIBCC($barcode) {
-        if(preg_match(self::EHIBCC_REGEXP, $barcode) === 0)
-            throw new InvalidBarcodeException('Barcode is not a EHIBCC (JFKhpkk*)');
         $checkdigit = substr($barcode, -1);
         if($checkdigit !== $this->getModulo43CheckDigit(substr($barcode, 0, 7))) {
             throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getModulo43CheckDigit(substr($barcode, 0, 7)).' received '.$checkdigit);
@@ -249,5 +217,3 @@ class BarcodeService
         return $mappingTable[$total%43];
     }
 }
-
-class InvalidBarcodeException extends \Exception {}
