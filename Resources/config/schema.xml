@@ -191,6 +191,9 @@
     <foreign-key foreignTable='gs_logistieke_informatie' phpName="LogistiekeInformatie">
     	<reference local='zinummer' foreign='zindex_nummer'/>
     </foreign-key>
+    <index>
+		<index-column name='mutatie_kode'/>
+	</index>
     <behavior name="sluggable">
 	    <parameter name="slug_pattern" value="{Zinummer}-{GsNamen.NaamVolledig}" />
     	<parameter name="permanent" value="false" />
@@ -943,6 +946,9 @@
     <foreign-key foreignTable='gs_artikelen'>
     	<reference local='zindex_nummer' foreign='zinummer'/>
     </foreign-key>
+    <index>
+		<index-column name='gtin'/>
+	</index>
   </table>
   <table name="gs_medicatie_bewaking_koppelen_met_zrs" phpName="GsMedicatieBewakingKoppelenMetZrs" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>

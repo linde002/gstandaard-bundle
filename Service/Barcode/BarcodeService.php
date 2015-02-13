@@ -1,5 +1,5 @@
 <?php
-namespace PharmaIntelligence\GstandaardBundle\Service;
+namespace PharmaIntelligence\GstandaardBundle\Service\Barcode;
 
 use PharmaIntelligence\GstandaardBundle\Model\GsArtikelenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
@@ -9,6 +9,7 @@ class BarcodeService
     const EHIBCC_REGEXP = '/^JFK[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
     const HIBC_REGEXP = '/^\+[EH]{1}[0-9]{3}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
     const GTIN_REGEXP = '/^([0-9]{8})([0-9]{4,6})?$/';
+    const GTIN14_EXTENDED_REGEXP = '/^(01[0-9]{1})([0-9]{13})([A-Za-z0-9]*)$/';
     
     /**
      * 
@@ -25,7 +26,31 @@ class BarcodeService
         if(preg_match(self::GTIN_REGEXP, $barcode) === 1) {
             return true;
         }
+        if(preg_match(self::GTIN14_EXTENDED_REGEXP, $barcode) === 1) {
+            return true;
+        }
         return false;
+    }
+    
+    /**
+     * 
+     * @param string $barcode
+     * @return \PharmaIntelligence\GstandaardBundle\Service\Barcode\BarcodeType
+     */
+    public function getBarcodeType($barcode) {
+         if(preg_match(self::EHIBCC_REGEXP, $barcode) === 1) {
+            return new BarcodeType(BarcodeType::TYPE_EHIBCC);
+        }
+        if(preg_match(self::HIBC_REGEXP, $barcode) === 1) {
+            return new BarcodeType(BarcodeType::TYPE_HIBC);
+        }
+        if(preg_match(self::GTIN_REGEXP, $barcode) === 1) {
+            return new BarcodeType(BarcodeType::TYPE_GTIN);
+        }
+        if(preg_match(self::GTIN14_EXTENDED_REGEXP, $barcode) === 1) {
+            return new BarcodeType(BarcodeType::TYPE_GTIN14_EXTENDED);
+        }
+        return new BarcodeType(BarcodeType::TYPE_UNKNOWN);
     }
     
     /**
@@ -46,6 +71,9 @@ class BarcodeService
         }
         if(preg_match(self::GTIN_REGEXP, $barcode) === 1) {
             return $this->findByGTIN($barcode);
+        }
+        if(preg_match(self::GTIN14_EXTENDED_REGEXP, $barcode) === 1) {
+            return $this->findByGTIN14Extended($barcode);
         }
         throw new InvalidBarcodeException('Barcode wordt niet ondersteund');
     }
@@ -72,17 +100,35 @@ class BarcodeService
      * @throws InvalidBarcodeException
      * @return PropelObjectCollection
      */
+    public function findByGTIN14Extended($barcode) {
+        $gtin = substr($barcode, 3, 13);
+        return $this->findByGTIN($gtin);
+    }
+    
+    /**
+     *
+     * @param string $barcode
+     * @throws InvalidBarcodeException
+     * @return PropelObjectCollection
+     */
     public function findByGTIN($barcode) {
         $this->validateGTIN($barcode);
-        return GsArtikelenQuery::create('a')
+        $logistiek = GsArtikelenQuery::create('a')
             ->actief()
-            ->joinGsLeveranciersassortimenten('ass')
             ->joinGsLogistiekeInformatieRelatedByZindexNummer('log')
-            ->where('ass.EanBarcode = ?', $barcode)
-            ->_or()
             ->where('log.Gtin = ?', $barcode)
             ->distinct()
             ->find();
+        if($logistiek->count() > 0)
+            return $logistiek;
+        
+        return GsArtikelenQuery::create('a')
+            ->actief()
+            ->joinGsLeveranciersassortimenten('ass')
+            ->where('ass.EanBarcode = ?', $barcode)
+            ->distinct()
+            ->find();
+        
     }
     
     /**
