@@ -192,7 +192,7 @@
     	<reference local='zinummer' foreign='zindex_nummer'/>
     </foreign-key>
     <index>
-		<index-column name='mutatie_kode'/>
+		<index-column name='mutatiekode'/>
 	</index>
     <behavior name="sluggable">
 	    <parameter name="slug_pattern" value="{Zinummer}-{GsNamen.NaamVolledig}" />
