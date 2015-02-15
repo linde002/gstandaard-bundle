@@ -154,21 +154,21 @@ class BarcodeService
     protected function validateGTIN($barcode) {
         $checkdigit = substr($barcode, -1);
         if($this->getGTINCheckDigit(substr($barcode, 0, -1)) != $checkdigit) {
-            throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getGTINCheckDigit(substr($barcode, 0, -1)).' received: '.$checkdigit);
+            throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getGTINCheckDigit(substr($barcode, 0, -1)).' received: '.$checkdigit, InvalidBarcodeException::CODE_INVALID_CHECKSUM);
         }
     }
     
     protected function validateHIBC($barcode) {
         $checkdigit = substr($barcode, -1);
         if($checkdigit !== $this->getModulo43CheckDigit(substr($barcode, 0, -1))) {
-            throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getModulo43CheckDigit(substr($barcode, 0, -1)).' received '.$checkdigit);
+            throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getModulo43CheckDigit(substr($barcode, 0, -1)).' received '.$checkdigit, InvalidBarcodeException::CODE_INVALID_CHECKSUM);
         }
     }
     
     protected function validateEHIBCC($barcode) {
         $checkdigit = substr($barcode, -1);
         if($checkdigit !== $this->getModulo43CheckDigit(substr($barcode, 0, 7))) {
-            throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getModulo43CheckDigit(substr($barcode, 0, 7)).' received '.$checkdigit);
+            throw new InvalidBarcodeException('Invalid checksum. Expected: '.$this->getModulo43CheckDigit(substr($barcode, 0, 7)).' received '.$checkdigit, InvalidBarcodeException::CODE_INVALID_CHECKSUM);
         }
     }
     

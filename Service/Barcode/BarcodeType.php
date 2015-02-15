@@ -39,7 +39,7 @@ class BarcodeType
             }
         }
         if($this->type == self::TYPE_UNKNOWN)
-            throw new InvalidBarcodeException('Barcode is not supported');
+            throw new InvalidBarcodeException('Barcode is not supported', InvalidBarcodeException::CODE_NO_BARCODE);
     }
     
     public function isHibc() {
