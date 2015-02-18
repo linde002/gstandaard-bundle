@@ -13,17 +13,25 @@ GStandaard bundle contains propel bindings and an import task for the [Z-Index](
 * See also the `require` section of [composer.json](composer.json)
 
 ## Installation
-Install the latest version with `composer require pharmaintelligence/gstandaard-bundle`
+Install the latest version with `composer require monolog/monolog`
 
 ## Documentation
 
 ### Setup
 GStandaard-Bundle hooks into the propel settings from your project. Setting up your tables and om-classes can be done using the `propel:model:build` and `propel:migration:*` tasks.
 
-Two parameters are required in your parameters.yml:
-
- - `gstandaard_user:`
- - `gstandaard_password:`
+Two parameters are required in your config.yml:
+```
+# app/config.yml
+pharma_intelligence_gstandaard:
+    user: '%gstandaard_user%'
+    password: '%gstandaard_user%'
+```
+```
+# app/parameters.yml
+gstandaard_user: username
+gstandaard_password: password
+```
 
 These parameters are the username/password you've received from Z-Index to download the G-Standaard.
 
