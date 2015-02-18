@@ -1,1 +1,3 @@
 services:
+    pi.gstandaard.barcode_service:
+        class: PharmaIntelligence\GstandaardBundle\Service\Barcode\BarcodeService
