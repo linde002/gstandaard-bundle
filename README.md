@@ -13,7 +13,7 @@ GStandaard bundle contains propel bindings and an import task for the [Z-Index](
 * See also the `require` section of [composer.json](composer.json)
 
 ## Installation
-Install the latest version with `composer require monolog/monolog`
+Install the latest version with `composer require pharmaintelligence/gstandaard-bundle`
 
 ## Documentation
 
