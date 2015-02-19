@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsArtikelenQuery;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\EventDispatcher\Event;
 
 class ImportGStandaardCommand extends ContainerAwareCommand 
 {
@@ -50,6 +51,13 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->importGstandaard($input, $output);
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
+		
+		/**
+         * Notify subscibers
+		 */
+		$event = new Event();
+		$eventDispatcher = $this->getContainer()->get('event_dispatcher');
+		$eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
 	}
 	
 	protected function downloadGStandaard(InputInterface $input, OutputInterface $output) {
@@ -67,10 +75,11 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_USERPWD, $user.":".$password);
-		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FILE, $out);
 		$result = curl_exec($curl);
+		
 		if($result === false) {
 			throw new \Exception('Fout bij downloaden G-Standaard: '.curl_errno($curl).' '.curl_error($curl));
 		}
