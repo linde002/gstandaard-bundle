@@ -1115,6 +1115,9 @@
     <index>
     	<index-column name='hibcbarcode'></index-column>
     </index>
+    <index>
+    	<index-column name='handelsproduktkode'></index-column>
+    </index>
   </table>
   <table name="gs_relaties_tussen_hpk_nivo" phpName="GsRelatiesTussenHpkNivo" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
