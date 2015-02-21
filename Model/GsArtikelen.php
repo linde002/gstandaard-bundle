@@ -29,6 +29,16 @@ class GsArtikelen extends BaseGsArtikelen
 		}
 	}
 	
+	/**
+	 * 
+	 * @return \PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal
+	 */
+	public function getVerpakkingshoeveelheidEenheidOmschrijving() {
+	   if($this->getGsHandelsproducten()->getBasiseenheidOmschrijving()->getMemokodeItem() != 'ST')
+	       return $this->getDeelverpakkingOmschrijving();
+	   return $this->getGsHandelsproducten()->getBasiseenheidOmschrijving();    
+	}
+	
 	public function isEAV() {
 		return $this->getDeelverpakkingOmschrijving()->getAfkorting() == self::EAV_AFKORTING;
 	}
