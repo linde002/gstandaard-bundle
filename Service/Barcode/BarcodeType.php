@@ -18,7 +18,7 @@ class BarcodeType
     const GTIN12_REGEXP = '/^([0-9]{12})$/';
     const GTIN13_REGEXP = '/^([0-9]{13})$/';
     const GTIN14_REGEXP = '/^01([0-9]{14})$/';
-    const GTIN14_EXTENDED_REGEXP = '/^01([0-9]{14})([0-9]{2})([A-Za-z0-9]*)$/';
+    const GTIN14_EXTENDED_REGEXP = '/^01([0-9]{14})17([A-Za-z0-9]{6})([A-Za-z0-9\-\.%$\/\+ ]*)$/';
     
     protected $type = 0;
     
