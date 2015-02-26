@@ -26,7 +26,7 @@ class Barcode
         return null;
     }
     public function getProductIdentifier() {
-        return $this->attributes['productIdentifier'];
+        return ltrim($this->attributes['productIdentifier'], 0);
     }
     
     public function getVervalDatum() {
