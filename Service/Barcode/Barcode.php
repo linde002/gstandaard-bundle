@@ -20,11 +20,12 @@ class Barcode
         }
     }
     
-    public function getBarcode() {
+    public function getBatch() {
         if(array_key_exists('batch', $this->attributes))
             return $this->attributes['batch'];
         return null;
     }
+    
     public function getProductIdentifier() {
         return ltrim($this->attributes['productIdentifier'], 0);
     }
