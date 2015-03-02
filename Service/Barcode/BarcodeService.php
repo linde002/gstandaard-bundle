@@ -118,8 +118,8 @@ class BarcodeService
          */
         $distinctQuery = GsArtikelenQuery::create('a')
             ->actief()
-            ->joinGsLeveranciersassortimenten('lev')
-            ->joinGsRelatieTussenZinummerHibc('hibc')
+            ->joinGsLeveranciersassortimenten('lev', \Criteria::LEFT_JOIN)
+            ->joinGsRelatieTussenZinummerHibc('hibc', \Criteria::LEFT_JOIN)
             ->where('lev.HibcBarcode = ?', '*'.$barcode.'*')
             ->_or()
             ->where('hibc.Hibcbarcode = ?', '*'.$barcode.'*')

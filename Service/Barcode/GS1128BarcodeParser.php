@@ -12,7 +12,7 @@ class GS1128BarcodeParser
             ),
         '10' => array(
             'name' => 'batch',
-            'length' => 20,
+            'length' => 0,
             'lengthType' => 'variable',
             'type' => 'string'
             ),
@@ -21,7 +21,13 @@ class GS1128BarcodeParser
             'length' => 6,
             'lengthType' => 'fixed',
             'type' => 'date'
-        )
+            ),
+        '21' => array(
+            'name' => 'serialNumber',
+            'length' => 0,
+            'lengthType' => 'variable',
+            'type' => 'string'
+            ),
     );
     
     protected $attributes = array();
