@@ -60,10 +60,10 @@ class GS1128BarcodeParser
         if($segmentMapping['lengthType'] == 'fixed') {
             $segmentLength = $segmentMapping['length'];
         } else {
-            $endIndex = strstr(chr(29), substr($barcodeString, $startIndex));
+            $endIndex = strpos(substr($barcodeString, $startIndex), chr(29));
             if($endIndex === false)
-                $endIndex = strlen($barcodeString)-1;
-            $segmentLength = $endIndex-$startIndex;
+                $endIndex = strlen($barcodeString);
+            $segmentLength = $endIndex-1;
         }
         
         $segmentContents = substr($barcodeString, $startIndex+2, $segmentLength);

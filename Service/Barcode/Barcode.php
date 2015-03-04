@@ -12,7 +12,7 @@ class Barcode
     public function __construct($barcode) {
         $this->barcode = $barcode;    
         $this->type = new BarcodeType($barcode);
-        if($this->type->isGtinExpanded() || $this->type->isGtin14()) {
+        if($this->type->isGtinExpanded() || ($this->type->isGtin14() && strlen($this->barcode) != 14)) {
             $parser = new GS1128BarcodeParser();
             $this->attributes = $parser->parse($barcode); 
         } else {
