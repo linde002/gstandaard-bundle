@@ -76,7 +76,7 @@ class GS1128BarcodeParser
     
     protected function convertToDate($dateString) {
         if(substr($dateString, 3, 2) == 00) {
-            $date = \DateTime::createFromFormat('ym01', substr($dateString, 0, 4));
+            $date = \DateTime::createFromFormat('ym', substr($dateString, 0, 4));
             return \DateTime::createFromFormat('Ymd', $date->format('Ymt'));
         }
         return \DateTime::createFromFormat('ymd', $dateString);
