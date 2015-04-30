@@ -16,7 +16,7 @@ class BarcodeType
     const HIBC_REGEXP = '/^\+[EH]{1}[0-9]{3}[A-Za-z0-9]{4}[A-Za-z0-9]{4}[A-Za-z0-9\-\.%$\/\+ ]{1}$/';
     const GTIN8_REGEXP = '/^([0-9]{8})$/';
     const GTIN12_REGEXP = '/^([0-9]{12})$/';
-    const GTIN13_REGEXP = '/^([0-9]{13})$/';
+    const GTIN13_REGEXP = '/^(01){0,1}([0-9]{13})$/';
     const GTIN14_REGEXP = '/^(01){0,1}([0-9]{14})$/';
     const GTIN14_EXTENDED_REGEXP = '/^01([0-9]{14})([A-Za-z0-9\-\.%$\/\+ \x1d]*)$/';
     

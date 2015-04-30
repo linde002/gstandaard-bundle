@@ -15,6 +15,9 @@ class Barcode
         if($this->type->isGtinExpanded() || ($this->type->isGtin14() && strlen($this->barcode) != 14)) {
             $parser = new GS1128BarcodeParser();
             $this->attributes = $parser->parse($barcode); 
+        } elseif ($this->type->isGtin() && !$this->type->isGtinExpanded() && strlen($this->barcode) > 13) {
+            $parser = new GS1128BarcodeParser();
+            $this->attributes = $parser->parse($barcode);
         } else {
             $this->attributes['productIdentifier'] = $this->barcode;
         }
