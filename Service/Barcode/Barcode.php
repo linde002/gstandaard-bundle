@@ -21,6 +21,8 @@ class Barcode
         } else {
             $this->attributes['productIdentifier'] = $this->barcode;
         }
+        if(!array_key_exists('productIdentifier', $this->attributes))
+            $this->attributes['productIdentifier'] = $barcode;
     }
     
     public function getBatch() {
