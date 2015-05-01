@@ -113,6 +113,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				,	t2.`naam_item_50_posities`
 				,	t3.`naam_item_50_posities`
 				,	t4.`naam_item_50_posities`
+		        ,   IF(t3.`naam_item_50_posities` != 'STUK', t2.`naam_item_50_posities`, t3.naam_item_50_posities)
 				,	a.`handelsproduktkode`
 				,	hpk.`prkcode`
 				,	pri.`generiekeproductcode`

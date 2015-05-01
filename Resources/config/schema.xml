@@ -7,6 +7,7 @@
     	<column name='deelverpakking_omschrijving' type='varchar' size='255'/>
     	<column name='basiseenheid_omschrijving' type='varchar' size='255'/>
     	<column name='inkoophoeveelheid_omschrijving' type='varchar' size='255'/>
+    	<column name='verpakkingshoeveelheid_omschrijving' type='varchar' size='255'/>
     	<column name='hpk' type='integer' />
     	<column name='prk' type='integer' />
     	<column name='gpk' type='integer' />

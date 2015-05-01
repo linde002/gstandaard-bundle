@@ -63,7 +63,6 @@ class BarcodeService
         $hpk = $this->hpkkToHpk(substr($barcode, 3, 4));
         return GsArtikelenQuery::create()
             ->actief()
-            ->actief()
             ->filterByHandelsproduktkode($hpk)
             ->find();
     }
