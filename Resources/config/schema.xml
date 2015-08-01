@@ -405,6 +405,17 @@
     <column name="ddd_toedieningsweg_thesaurusnummer" phpName="DddToedieningswegThesaurusnummer" type="INTEGER" required="false"/>
     <column name="dddtoedieningsweg" phpName="Dddtoedieningsweg" type="INTEGER" primaryKey="true" required="true"/>
     <column name="ddd_statusaanduiding" phpName="DddStatusaanduiding" type="INTEGER" required="false"/>
+    <foreign-key foreignTable="gs_atc_codes">
+      <reference local="atccode" foreign="atccode"/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="EenheidOmschrijving">
+    	<reference local='dddeenheid_thesaurusnummer' foreign='thesaurusnummer'/>
+    	<reference local='dddeenheid' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="ToedieningswegOmschrijving">
+    	<reference local='ddd_toedieningsweg_thesaurusnummer' foreign='thesaurusnummer'/>
+    	<reference local='dddtoedieningsweg' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
   </table>
   <table name="gs_declaratietabel_dure_geneesmiddelen" phpName="GsDeclaratietabelDureGeneesmiddelen" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -630,7 +641,7 @@
     <column name="produktgroep_thesaurusnummer" phpName="ProduktgroepThesaurusnummer" type="INTEGER" required="false"/>
     <column name="produktgroep_kode" phpName="ProduktgroepKode" type="INTEGER" required="false"/>
     <column name="soortelijk_gewicht" phpName="SoortelijkGewicht" type="DECIMAL" size="7" scale="5" required="false"/>
-    <column name="aantal_ddds_per_basiseenh_produkt" phpName="AantalDddsPerBasiseenhProdukt" type="DECIMAL" scale="3" required="false"/>
+    <column name="aantal_ddds_per_basiseenh_produkt" phpName="AantalDddsPerBasiseenhProdukt" type="DECIMAL" size='10' scale="3" required="false"/>
     <column name="aantal_druppels_per_ml" phpName="AantalDruppelsPerMl" type="DECIMAL" size="5" scale="2" required="false"/>
     <column name="pifnummer_thesaurusnummer" phpName="PifnummerThesaurusnummer" type="INTEGER" required="false"/>
     <column name="pifnummer" phpName="Pifnummer" type="INTEGER" required="false"/>
