@@ -755,6 +755,10 @@
     	<reference local='thesaurus_rzv_verstrekking' foreign='thesaurusnummer'/>
     	<reference local='rzvverstrekking' foreign='thesaurus_itemnummer'/>
     </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="RzvBijlage2Omschrijving" skipSql='true'>
+    	<reference local='rzv_thesaurus_120' foreign='thesaurusnummer'/>
+    	<reference local='rzvvoorwaarden_bijlage_2' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
   </table>
   <table name="gs_header_relatie_bestand" phpName="GsHeaderRelatieBestand" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
