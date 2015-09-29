@@ -52,6 +52,25 @@
 	      <reference local="atc" foreign="atccode"/>
 	    </foreign-key>
   </table>
+  <table name='gs_atc_codes_extended' skipSql='true' readOnly='true'>
+    <column name="atccode" type="VARCHAR" size="255" primaryKey="true" required="true"/>
+	<column name="atcnederlandse_omschrijving" type="VARCHAR" size="255" required="false"/>
+	<column name="anatomische_hoofdgroep_code" type="VARCHAR" size="255" required="false"/>
+	<column name="anatomische_hoofdgroep" type="VARCHAR" size="255" required="false"/>
+	<column name="therapeutische_hoofdgroep_code" type="VARCHAR" size="255" required="false"/>
+	<column name="therapeutische_hoofdgroep" type="VARCHAR" size="255" required="false"/>
+	<column name="therapeutische_subgroep_code" type="VARCHAR" size="255" required="false"/>
+	<column name="therapeutische_subgroep" type="VARCHAR" size="255" required="false"/>
+	<column name="chemische_subgroep_code" type="VARCHAR" size="255" required="false"/>
+	<column name="chemische_subgroep" type="VARCHAR" size="255" required="false"/>
+	<column name="chemische_stofnaam_code" type="VARCHAR" size="255" required="false"/>
+	<column name="chemische_stofnaam" type="VARCHAR" size="255" required="false"/>
+	<column name="volledige_naam" type="longvarchar" required="false"/>
+	<column name="merken" type="VARCHAR" size="255" required="false"/>
+	<foreign-key foreignTable="gs_atc_codes">
+      <reference local="atccode" foreign="atccode"/>
+    </foreign-key>
+  </table>
   <table name="gs_aanvullende_medicatiebewakingsgegevens" phpName="GsAanvullendeMedicatiebewakingsgegevens" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
