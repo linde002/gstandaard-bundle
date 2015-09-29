@@ -13,24 +13,24 @@ use PharmaIntelligence\GstandaardBundle\Model\GsArtikelenQuery;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\EventDispatcher\Event;
 
-class ImportGStandaardCommand extends ContainerAwareCommand 
+class ImportGStandaardCommand extends ContainerAwareCommand
 {
 	protected $output = null;
-	
+
 	protected $importType = self::IMPORT_FULL;
-	
+
 	protected $recordMap = array();
-	
+
 	const IMPORT_FULL = 1;
 	const IMPORT_MUTATIES = 2;
-	
+
 	const MUTATIE_GEEN = 0;
 	const MUTATIE_VERWIJDER = 1;
 	const MUTATIE_WIJZIGEN = 2;
 	const MUTATIE_NIEUW = 3;
-	
+
 	const GSTANDAARD_URL = 'https://www.z-index.nl/@@download-file?filename=GSTNDDB';
-	
+
 	protected function configure()
 	{
 		$this
@@ -42,8 +42,8 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				InputOption::VALUE_NONE,
 				'Wanneer alleen records met een mutatiecode > 0 moeten worden verwerkt')
 		;
-	}		
-	
+	}
+
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$this->downloadGStandaard($input, $output);
@@ -51,7 +51,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->importGstandaard($input, $output);
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
-		
+
 		/**
          * Notify subscibers
 		 */
@@ -59,16 +59,16 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$eventDispatcher = $this->getContainer()->get('event_dispatcher');
 		$eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
 	}
-	
+
 	protected function downloadGStandaard(InputInterface $input, OutputInterface $output) {
 		$output->writeln(date('[H:i:s]').' Start downloaden G-Standaard');
 		$downloadDirectory = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/');
 		$downloadLocation = $downloadDirectory.'GSTNDDB.ZIP';
-		
+
 		$user = $this->getContainer()->getParameter('pi.gstandaard.user');
         $password = $this->getContainer()->getParameter('pi.gstandaard.password');
-		
-		
+
+
 		$out = fopen($downloadLocation, 'wb');
 		$curl = curl_init(self::GSTANDAARD_URL);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -79,13 +79,13 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FILE, $out);
 		$result = curl_exec($curl);
-		
+
 		if($result === false) {
 			throw new \Exception('Fout bij downloaden G-Standaard: '.curl_errno($curl).' '.curl_error($curl));
 		}
 		$output->writeln(date('[H:i:s]').' Gereed downloaden G-Standaard');
 	}
-	
+
 	protected function extractGStandaard(InputInterface $input, OutputInterface $output) {
 		$output->writeln(date('[H:i:s]').' Start uitpakken G-Standaard');
 		$outputLocation = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/');
@@ -99,7 +99,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		unlink($outputLocation.'GSTNDDB.ZIP');
 		$output->writeln(date('[H:i:s]').' Gereed uitpakken G-Standaard');
 	}
-	
+
 	protected function updateCacheTables(InputInterface $input, OutputInterface $output) {
 		$output->writeln('<info>Cache tabellen bijwerken</info>');
 		$output->writeln('Truncating gs_artikel_eigenschappen');
@@ -144,8 +144,44 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				LEFT JOIN `gs_thesauri_totaal` as t3 ON hpk.`basiseenheid_verpakking` = t3.`thesaurus_itemnummer` AND hpk.`basiseenheid_verpakking_thesnr` = t3.`thesaurusnummer`
 				LEFT JOIN `gs_thesauri_totaal` as t4 ON hpk.`eenheid_inkoophoeveelheid`= t4.`thesaurus_itemnummer` AND hpk.`eenheid_inkoophoeveelheid_thesnr` = t4.`thesaurusnummer`
 				WHERE zinummer > 0");
+		$output->writeln('Filling ATC extended table');
+		\Propel::getConnection()->query("
+		    REPLACE INTO gs_atc_codes_extended
+            SELECT
+            	a.atccode AS atccode
+            ,	a.atcnederlandse_omschrijving AS atcnederlandse_omschrijving
+            ,	b.atccode
+            ,	b.atcnederlandse_omschrijving AS anatomische_hoofdgroep
+            ,	c.atccode
+            ,	c.atcnederlandse_omschrijving AS therapeutische_hoofdgroep
+            ,	d.atccode
+            ,	d.atcnederlandse_omschrijving AS therapeutische_subgroep
+            ,	e.atccode
+            ,	e.atcnederlandse_omschrijving AS chemische_subgroep
+            ,	f.atccode
+            ,	f.atcnederlandse_omschrijving AS chemische_stofnaam
+            ,	CONCAT(
+            		IFNULL(b.atcnederlandse_omschrijving, ''),' / ',
+            		IFNULL(c.atcnederlandse_omschrijving, ''),' / ',
+            		IFNULL(d.atcnederlandse_omschrijving, ''),' / ',
+            		IFNULL(e.atcnederlandse_omschrijving, ''),' / ',
+            		IFNULL(f.atcnederlandse_omschrijving, '')) as volledige_naam
+            ,	GROUP_CONCAT(DISTINCT IF(hpk.merkstamnaam = '', NULL, hpk.merkstamnaam) SEPARATOR ', ') as merken
+            FROM gs_atc_codes a
+            LEFT JOIN gs_atc_codes b on substr(a.atccode,1,1) = b.atccode
+            LEFT JOIN gs_atc_codes c on rpad(substr(a.atccode,1,3),3,'?') = c.atccode
+            LEFT JOIN gs_atc_codes d on rpad(substr(a.atccode,1,4),4,'?') = d.atccode
+            LEFT JOIN gs_atc_codes e on rpad(substr(a.atccode,1,5),5,'?') = e.atccode
+            LEFT JOIN gs_atc_codes f on rpad(substr(a.atccode,1,7),7,'?') = f.atccode
+            LEFT JOIN gs_generieke_producten as gpk ON a.atccode = gpk.atccode
+            LEFT JOIN gs_voorschrijfpr_geneesmiddel_identific as prk ON(gpk.generiekeproductcode = prk.generiekeproductcode AND prk.prkcode > 0)
+            LEFT JOIN gs_handelsproducten as hpk USING(prkcode)
+            LEFT JOIN gs_artikelen as art USING(handelsproduktkode)
+            WHERE LENGTH(a.atccode) > 0
+            GROUP BY a.atccode
+		");
 	}
-	
+
 	protected function importGstandaard(InputInterface $input, OutputInterface $output) {
 		$output->writeln('<info>Importeren G-Standaard</info>');
 		if($input->getOption('alleenMutaties')) {
@@ -165,7 +201,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		foreach($this->zindexConfig['import'] as $fileName => $import) {
 			try {
 				$this->import($fileName, $import);
-					
+
 			}
 			catch(\Exception $e) {
 				$output->writeln('<error>Import '.$fileName.' failed: '.$e->getMessage().'</error>');
@@ -174,14 +210,14 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$output->writeln('G-standaard bijgewerkt');
 		$output->writeln('Tijd: '.(time()-$start).' seconden');
 	}
-	
+
 	protected function updateSlugs(InputInterface $input, OutputInterface $output) {
 		$output->writeln('Slugs bijwerken');
 		$this->createLeverancierSlugs();
 		$this->createArtikelSlugs();
 		$output->writeln('Slugs bijgewerkt');
 	}
-	
+
 	protected function createArtikelSlugs() {
 		$zindexNummers = GsArtikelenQuery::create()
 			->select(array('ZiNummer'))
@@ -193,7 +229,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			$artikel->save();
 		}
 	}
-	
+
 	protected function createLeverancierSlugs() {
 		$leveranciers = GsNawGegevensGstandaardQuery::create()
 			->where('Slug IS NULL')
@@ -202,7 +238,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			$leverancier->save();
 		}
 	}
-		
+
 		protected function import($fileName, array $importData) {
 			$start = time();
 			$this->output->writeln('<info>Importing '.$importData['_attributes']['table'].' ('.$fileName.')</info>');
@@ -210,7 +246,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			$progress->setFormat(ProgressHelper::FORMAT_QUIET);
 			$fullFilename = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/'.$fileName);
 			$omClass = 'PharmaIntelligence\\GstandaardBundle\\Model\\'.$importData['_attributes']['modelClass'];
-			
+
 			if(!file_exists($fullFilename))
 				throw new \Exception($fullFilename.' does not exists');
 			$fh = fopen($fullFilename, 'r');
@@ -223,13 +259,13 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			// Vorige maand gewijzigde rijen op code geen wijzigingen zetten.
 			$sql = 'UPDATE '.constant($omClass.'Peer::TABLE_NAME').' SET mutatiekode = 0 WHERE mutatiekode = '.self::MUTATIE_WIJZIGEN;
 			\Propel::getConnection()->query($sql);
-			
+
 			while(($row = fgets($fh)) == true) {
 				$progress->advance();
 				$rowData = $this->getRowData($row, $importData);
 				if($this->importType == self::IMPORT_FULL || $fileName == 'BST000T') {
 					$this->updateRow($rowData, $omClass);
-					
+
 				}
 				else {
 					switch($rowData['mutatiekode']) {
@@ -259,33 +295,33 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				$this->output->writeln('<comment>'.(int)$this->recordMap[$fileName]['nieuw'].' records nieuw.</comment>');
 				$this->output->writeln('<comment>'.($this->recordMap[$fileName]['totaal']-$this->recordMap[$fileName]['ongewijzigd']).' records verwerkt.</comment>');
 			}
-			
+
 			$this->output->writeln('<info>Tijd: '. (time()-$start).' seconden</info>');
 			$this->output->writeln(' ');
 		}
 
-		
+
 		protected function updateRow($rowData, $omClass) {
-			
+
 			$peerClass = $omClass.'Peer';
 			$values = $rowData;
 			$values['mutatiekode'] = $values['mutatie_code'];
 			unset($values['mutatie_code']);
-			
-			
+
+
 			$sql = 'REPLACE '.constant($peerClass.'::TABLE_NAME').' (';
 			$sql .= implode(', ', array_keys($values));
 			$sql .= ') VALUES (';
-			
+
 			$sql .= implode(', ', array_fill(0, count($values), '?'));
 			$sql .= ')';
 			$stmt = \Propel::getConnection()->prepare($sql);
 			$values = array_values($values);
 			$stmt->execute($values);
-			
+
 			return;
 		}
-		
+
 		protected function getRowData($rowString, $importData) {
 			$rowData = array('mutatie_code' => trim(substr($rowString, 4, 1)));
 			foreach($importData as $fieldName => $params) {
@@ -295,7 +331,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			}
 			return $this->mapDataRow($importData, $rowData);
 		}
-		
+
 		protected function mapDataRow($dataDict, $row) {
 			foreach($dataDict as $field => $fieldOptions) {
 				if($field == '_attributes')
@@ -320,7 +356,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			}
 			return $row;
 		}
-		
+
 		protected function getPrimaryKeys($importData) {
 			$keys = array();
 			foreach($importData as $columnName => $columnOptions) {
@@ -333,7 +369,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			}
 			return $keys;
 		}
-		
+
 		protected function mapRecordlengths() {
 			$fileDefinition = $this->zindexConfig['import']['BST000T'];
 			$fileName = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/BST000T');
