@@ -52,7 +52,7 @@
 	      <reference local="atc" foreign="atccode"/>
 	    </foreign-key>
   </table>
-  <table name='gs_atc_codes_extended' skipSql='true' readOnly='true'>
+  <table name='gs_atc_codes_extended'>
     <column name="atccode" type="VARCHAR" size="255" primaryKey="true" required="true"/>
 	<column name="atcnederlandse_omschrijving" type="VARCHAR" size="255" required="false"/>
 	<column name="anatomische_hoofdgroep_code" type="VARCHAR" size="255" required="false"/>
