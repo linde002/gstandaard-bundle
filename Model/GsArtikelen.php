@@ -21,6 +21,9 @@ class GsArtikelen extends BaseGsArtikelen
 
 	const EAV_AFKORTING = 'EAV';
 
+	const LAND_NIET_INGEVULD = 0;
+	const LAND_ONBEKEND = 500;
+
 	public function isWmg() {
 	    return $this->getWtgkode() < 9;
 	}
@@ -31,6 +34,10 @@ class GsArtikelen extends BaseGsArtikelen
 		} else {
 			return $this->getLogistiekeInformatie()->getGtin();
 		}
+	}
+
+	public function isParallel() {
+	    return !in_array($this->getLandVanHerkomstKode(), array(self::LAND_NIET_INGEVULD, self::LAND_ONBEKEND));
 	}
 
 	/**
