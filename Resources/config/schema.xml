@@ -445,7 +445,7 @@
     <column name="hoeveelheid_per_toedieningseenheid" phpName="HoeveelheidPerToedieningseenheid" type="DECIMAL" size="8" scale="2" required="false"/>
     <column name="thesaurus_verwijzing_eenheid" phpName="ThesaurusVerwijzingEenheid" type="INTEGER" required="false"/>
     <column name="eenheid" phpName="Eenheid" type="INTEGER" required="false"/>
-    <column name="omrekenfactor_aantal_toedieningseenheden_per_hpk" phpName="OmrekenfactorAantalToedieningseenhedenPerHpk" type="DECIMAL" size="8" scale="2" required="false"/>
+    <column name="omrekenfactor_aantal_toedieningseenheden_per_hpk" phpName="OmrekenfactorAantalToedieningseenhedenPerHpk" type="DECIMAL" size="14" scale="8" required="false"/>
     <column name="tarief" phpName="Tarief" type="DECIMAL" size="8" scale="2" required="false"/>
     <column name="thesaurus_nummer_beleidsregel" phpName="ThesaurusNummerBeleidsregel" type="INTEGER" required="false"/>
     <column name="itemnummer_beleidsregel" phpName="ItemnummerBeleidsregel" type="INTEGER" required="false"/>
@@ -1104,6 +1104,13 @@
     <column name="preferentie_cluster_code" phpName="PreferentieClusterCode" type="INTEGER" required="false"/>
     <column name="prkcode" phpName="Prkcode" type="INTEGER" required="false"/>
     <column name="handelsproduktkode" phpName="Handelsproduktkode" type="INTEGER" required="false"/>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="PreferentieStatusOmschrijving">
+    	<reference local='thesaurusverwijzing_preferentie_status' foreign='thesaurusnummer'/>
+    	<reference local='preferentie_status' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable="gs_artikelen">
+	    <reference local="zindex_nummer" foreign="zinummer"/>
+	</foreign-key>
   </table>
   <table name="gs_prijs_tarief_tabel" phpName="GsPrijsTariefTabel" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -1120,6 +1127,18 @@
     <column name="tarief_prijs_bedrag" phpName="TariefPrijsBedrag" type="DECIMAL" size="16" scale="6" required="false"/>
     <column name="startdatum_van_tariefprijsbedrag" phpName="StartdatumVanTariefprijsbedrag" type="INTEGER" required="false"/>
     <column name="einddatum_van_tariefprijsbedrag" phpName="EinddatumVanTariefprijsbedrag" type="INTEGER" required="false"/>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="SoortCoderingOmschrijving">
+    	<reference local='thesaurusverwijzing_soort_codering' foreign='thesaurusnummer'/>
+    	<reference local='soort_codering' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="SoortTariefprijsbedragOmschrijving">
+    	<reference local='thesaurusverwijzing_srt_tariefprijsbedrag' foreign='thesaurusnummer'/>
+    	<reference local='soort_tariefprijsbedrag' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="SoortBronOmschrijving">
+    	<reference local='thesaurusverwijzing_soort_bron' foreign='thesaurusnummer'/>
+    	<reference local='soort_bron' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
   </table>
   <table name="gs_relatie_bestand" phpName="GsRelatieBestand" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -1136,6 +1155,10 @@
     <column name="stamnaamcode" phpName="Stamnaamcode" type="INTEGER" primaryKey="true" required="true"/>
     <column name="ongewenste_groepen_thesaurus_122" phpName="OngewensteGroepenThesaurus122" type="INTEGER" required="false"/>
     <column name="ongewenste_groepsnummer" phpName="OngewensteGroepsnummer" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="OngewensteGroepenOmschrijving">
+    	<reference local='ongewenste_groepen_thesaurus_122' foreign='thesaurusnummer'/>
+    	<reference local='ongewenste_groepsnummer' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
   </table>
   <table name="gs_relatie_tussen_zinummer_hibc" phpName="GsRelatieTussenZinummerHibc" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
