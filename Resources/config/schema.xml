@@ -464,6 +464,42 @@
     	<reference local='eenheid' foreign='thesaurus_itemnummer'/>
     </foreign-key>
   </table>
+
+  <table name="gs_supplementaire_producten_met_nza_maximumtarief" idMethod="native">
+    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
+    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
+    <column name="zindex_nummer" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="nza_maximum_tarief_inc_btw_laag" type="decimal" size='14' scale='6'/>
+    <column name="thesaurus_nummer_soort_supplementair_product" type="integer"/>
+    <column name="soort_supplementair_product" type='integer'/>
+    <foreign-key foreignTable="gs_artikelen">
+      <reference local="zindex_nummer" foreign="zinummer"/>
+    </foreign-key>
+    <!-- <foreign-key foreignTable='gs_thesauri_totaal' phpName='SupplementairProductSoortOmschrijving'>
+    	<reference local='thesaurus_nummer_soort_supplementair_product' foreign='thesaurusnummer'/>
+    	<reference local='soort_supplementair_product' foreign='thesaurus_itemnummer'/>
+    </foreign-key> -->
+  </table>
+  <table name="gs_indicaties_bij_supplementaire_producten" idMethod="native">
+    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
+    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
+    <column name="zindex_nummer" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="indicatie_id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="tekstmodule_indicatie_id" type='integer' />
+    <column name="thesaurus_nummer_soort_indicatie" type='integer' />
+    <column name="soort_indicatie" type='integer' />
+    <column name="duiding_id" type='integer' />
+    <column name="tekstmodule_duiding_id" type='integer' />
+    <column name="aanspraak_op_geneesmiddel_bij_indicatie_volgens_zn" type='char' size='1' />
+    <foreign-key foreignTable="gs_artikelen">
+      <reference local="zindex_nummer" foreign="zinummer"/>
+    </foreign-key>
+    <!-- <foreign-key foreignTable='gs_thesauri_totaal' phpName='IndicatieSoortOmschrijving'>
+    	<reference local='thesaurus_nummer_soort_indicatie' foreign='thesaurusnummer'/>
+    	<reference local='soort_indicatie' foreign='thesaurus_itemnummer'/>
+    </foreign-key> -->
+  </table>
+
   <table name="gs_doseringen_basisalgemeen" phpName="GsDoseringenBasisalgemeen" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
