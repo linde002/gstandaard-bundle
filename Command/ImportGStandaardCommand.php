@@ -350,6 +350,13 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 						else
 							$row[$field] = substr($date, 4, 4).'-'.substr($date, 2, 2).'-'.substr($date, 0, 2);
 						break;
+					case 'dateus':
+						    $date = $row[$field];
+						    if(empty($date))
+						        $date = null;
+						    else
+						        $row[$field] = substr($date, 0, 4).'-'.substr($date, 4, 2).'-'.substr($date, 6, 2);
+						    break;
 					case 'boolean':
 						$row[$field] = $row[$field] == 'J'?true:false;
 				}
