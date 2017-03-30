@@ -108,6 +108,29 @@ import:
     registratie_nummer_2: {start: 307, length: 2, type: varchar(255)}
     registratie_nummer_3: {start: 309, length: 6, type: integer}
 
+  BST007T:
+    _attributes: {table: gs_logistieke_verpakkingsinformatie, modelClass: GsLogistiekeVerpakkingsinformatie, peerClass: GsLogistiekeVerpakkingsinformatiePeer}
+    bestandnummer: {start: 0, length: 4, type: integer}
+    mutatiekode: {start: 4, length: 1, type: integer}
+    gln: {start: 5, length: 13, type: integer}
+    gtin: {start: 18, length: 14, type: integer}
+    zindex_nummer: {start: 32, length: 8, type: integer}
+    thesaurus_soorten_verpakkingen: {start: 40, length: 4, type: integer}
+    thesaurusitem_soorten_verpakkingen: {start: 44, length: 6, type: integer}
+    naam_op_verpakking: {start: 50, length: 140, type: varchar(255)}
+    onderscheidend_kenmerk: {start: 190, length: 50, type: varchar}
+    startdatum_beschikbaarheid_verpakking: {start: 240, length: 8, type: date}
+    einddatum_beschikbaarheid_verpakking: {start: 248, length: 8, type: date}
+    gtin_van_het_verpakt_item:  {start: 256, length: 14, type: integer}
+    aantal_van_het_verpakt_item:  {start: 270, length: 6, type: integer}
+    thesaurus_met_items_van_eenheden:  {start: 276, length: 4, type: integer}
+    hoogte_van_verpakking: {start: 280, length: 8, type: decimal, scale: 2}
+    thesaurusitem_van_eenheid_hoogte: {start: 288, length: 6, type: integer}
+    breedte_van_verpakking: {start: 294, length: 8, type: decimal, scale: 2}
+    thesaurusitem_van_eenheid_breedte: {start: 302, length: 6, type: integer}
+    diepte_van_verpakking: {start: 308, length: 8, type: decimal, scale: 2}
+    thesaurusitem_van_eenheid_diepte: {start: 316, length: 6, type: integer}
+
   BST005T:
     _attributes: {table: gs_leveranciersassortimenten, modelClass: GsLeveranciersassortimenten, peerClass: GsLeveranciersassortimentenPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
@@ -344,7 +367,7 @@ import:
     mutatiekode: {start: 4, length: 1, type: integer}
     zindex_nummer: {start: 5, length: 8, type: integer, primaryKey: true}
     indicatie_id: {start: 13, length: 9, type: integer, primaryKey: true}
-    tekstmodule_indicatie_id: {start: 6, length: 8, type: integer}
+    tekstmodule_indicatie_id: {start: 22, length: 8, type: integer}
     thesaurus_nummer_soort_indicatie: {start: 28, length: 4, type: integer}
     soort_indicatie: {start: 32, length: 6, type: integer}
     duiding_id: {start: 38, length: 9, type: integer}

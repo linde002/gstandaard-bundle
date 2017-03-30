@@ -126,6 +126,47 @@
     <column name="tekstsoort" phpName="Tekstsoort" type="INTEGER" required="false"/>
     <column name="tekst_nivo_kode" phpName="TekstNivoKode" type="INTEGER" required="false"/>
   </table>
+  <table name="gs_logistieke_verpakkingsinformatie" phpName="GsLogistiekeVerpakkingsinformatie" idMethod="native">
+    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
+    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
+    <column name="gln" type="BIGINT" size="13" primaryKey="true" required="true"/>
+    <column name="gtin" type="BIGINT" size="14" primaryKey="true" required="true"/>
+    <column name="zindex_nummer" phpName="ZindexNummer" type="INTEGER" required="false"/>
+    <column name="thesaurus_soorten_verpakkingen" type="INTEGER" required="false"/>
+    <column name="thesaurusitem_soorten_verpakkingen" type="INTEGER" required="false"/>
+    <column name="naam_op_verpakking" type="VARCHAR" size="255" required="false"/>
+    <column name="onderscheidend_kenmerk" type="VARCHAR" size="255" required="false"/>
+    <column name="startdatum_beschikbaarheid_verpakking" type="date" required="false"/>
+    <column name="einddatum_beschikbaarheid_verpakking" type="date" required="false"/>
+    <column name="gtin_van_het_verpakt_item" type="BIGINT" size="14" primaryKey="true" required="true"/>
+    <column name="aantal_van_het_verpakt_item" type="INTEGER" required="false"/>
+    <column name="thesaurus_met_items_van_eenheden" type="INTEGER" required="false"/>
+    <column name="hoogte_van_verpakking" type="DECIMAL" size="12" scale="4" required="false"/>
+    <column name="thesaurusitem_van_eenheid_hoogte" type='integer' required="false"/>
+    <column name="breedte_van_verpakking" type="DECIMAL" size="12" scale="4" required="false"/>
+    <column name="thesaurusitem_van_eenheid_breedte" type='integer' required="false"/>
+    <column name="diepte_van_verpakking" type="DECIMAL" size="12" scale="4" required="false"/>
+    <column name="thesaurusitem_van_eenheid_diepte" type='integer' required="false"/>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="SoortenVerpakkingOmschrijving">
+    	<reference local='thesaurus_soorten_verpakkingen' foreign='thesaurusnummer'/>
+    	<reference local='thesaurusitem_soorten_verpakkingen' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="HoogteEenheidOmschrijving">
+    	<reference local='thesaurus_met_items_van_eenheden' foreign='thesaurusnummer'/>
+    	<reference local='thesaurusitem_van_eenheid_hoogte' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="DiepteEenheidOmschrijving">
+    	<reference local='thesaurus_met_items_van_eenheden' foreign='thesaurusnummer'/>
+    	<reference local='thesaurusitem_van_eenheid_diepte' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="BreedteEenheidOmschrijving">
+    	<reference local='thesaurus_met_items_van_eenheden' foreign='thesaurusnummer'/>
+    	<reference local='thesaurusitem_van_eenheid_breedte' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_artikelen'>
+    	<reference local='zindex_nummer' foreign='zinummer'/>
+    </foreign-key>
+  </table>
   <table name="gs_artikelen" phpName="GsArtikelen" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
