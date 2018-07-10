@@ -256,7 +256,7 @@
 		<index-column name='mutatiekode'/>
 	</index>
     <behavior name="sluggable">
-	    <parameter name="slug_pattern" value="{Zinummer}-{GsNamen.NaamVolledig}" />
+	    <parameter name="slug_pattern" value="{Zinummer}-{GsNamen()->getNaamVolledig()}" />
     	<parameter name="permanent" value="false" />
     </behavior>
   </table>
@@ -539,6 +539,20 @@
     	<reference local='thesaurus_nummer_soort_indicatie' foreign='thesaurusnummer'/>
     	<reference local='soort_indicatie' foreign='thesaurus_itemnummer'/>
     </foreign-key> -->
+  </table>
+
+  <table name="gs_verkorte_addon_indicatieteksten" idMethod="native">
+    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
+    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
+    <column name="indicatie_id" type="INTEGER" primaryKey="true" required="true" autoIncrement='false'/>
+    <column name="verkorte_indicatie" type="varchar" size='255' required="true"/>
+    <column name="tekstmodule_indicatie" type='integer' />
+    <index>
+    	<index-column name='indicatie_id' />
+    </index>
+    <index>
+    	<index-column name='tekstmodule_indicatie' />
+    </index>
   </table>
 
   <table name="gs_doseringen_basisalgemeen" phpName="GsDoseringenBasisalgemeen" idMethod="native">

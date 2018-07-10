@@ -374,6 +374,14 @@ import:
     tekstmodule_duiding_id: {start: 47, length: 6, type: integer}
     aanspraak_op_geneesmiddel_bij_indicatie_volgens_zn: {start: 53, length: 1, type: varchar(255)}
 
+  BST133T:
+    _attributes: {table: gs_verkorte_addon_indicatieteksten, modelClass: GsVerkorteAddonIndicatieteksten, peerClass: GsVerkorteAddonIndicatietekstenPeer}
+    bestandnummer: {start: 0, length: 4, type: integer}
+    mutatiekode: {start: 4, length: 1, type: integer}
+    indicatie_id: {start: 5, length: 9, type: integer, primaryKey: true}
+    verkorte_indicatie: {start: 14, length: 120, type: varchar(255)}
+    tekstmodule_indicatie: {start: 134, length: 6, type: integer}
+
   BST160T:
     _attributes: {table: gs_preferentie_beleid, modelClass: GsPreferentieBeleid, peerClass: GsPreferentieBeleidPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
