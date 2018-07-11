@@ -3,7 +3,7 @@
     "description": "Propel bindings for Z-Index (http://www.z-index.nl)",
     "require": {
         "symfony/symfony": "~2.6",
-        "propel/propel-bundle": "1.4.*",
+        "propel/propel-bundle": "1.5.*",
         "ext-curl": "*"
     },
     "license": "MIT",
