@@ -256,7 +256,7 @@
 		<index-column name='mutatiekode'/>
 	</index>
     <behavior name="sluggable">
-	    <parameter name="slug_pattern" value="{Zinummer}-{GsNamen()->getNaamVolledig()}" />
+	    <parameter name="slug_pattern" value="{Zinummer}-{GsNamen()->getNaamVolledig}" />
     	<parameter name="permanent" value="false" />
     </behavior>
   </table>
