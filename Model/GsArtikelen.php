@@ -36,6 +36,30 @@ class GsArtikelen extends BaseGsArtikelen
 		}
 	}
 
+	public function getHeeftBarcodeOpKae() {
+	    $logistiekeVerpakkingsInformatie = GsLogistiekeVerpakkingsinformatieQuery::create()
+    	    ->filterByMutatiekode(self::MUTATIE_VERWIJDER, \Criteria::NOT_EQUAL)
+    	    ->filterByZindexNummer($this->getZinummer())
+    	    ->findOne();
+	    if(is_null($logistiekeVerpakkingsInformatie)) {
+	        return false;
+	    }
+	    if(strlen($logistiekeVerpakkingsInformatie->getGtinVanHetVerpaktItem()) < 13) {
+	        return false;
+	    }
+	    $verpaktItem = GsLogistiekeVerpakkingsinformatieQuery::create()
+    	    ->filterByMutatiekode(self::MUTATIE_VERWIJDER, \Criteria::NOT_EQUAL)
+    	    ->filterByGtin($logistiekeVerpakkingsInformatie->getGtinVanHetVerpaktItem())
+    	    ->findOne();
+	    if(is_null($verpaktItem)) {
+	        return true;
+	    }
+	    if($verpaktItem->getZindexNummer() == ''){
+	        return true;
+	    }
+	    return false;
+	}
+	
 	public function isParallel() {
 	    return !in_array($this->getLandVanHerkomstKode(), array(self::LAND_NIET_INGEVULD, self::LAND_ONBEKEND));
 	}
