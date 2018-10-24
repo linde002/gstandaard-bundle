@@ -21,6 +21,16 @@
 		<column name='atc_naam' type='varchar' size='255' />
 		<column name='leverancier_nummer' type='integer' />
 		<column name='leverancier_naam' type='varchar' size='255' />
+		<column name='is_zvz' type='boolean' default='false' />
+		<column name='is_dwg' type='boolean' default='false' />
+		<column name='artikelnummer_fabrikant' type='varchar' size='255' />
+        <column name='toedieningsvorm' type='varchar' size='255' />
+       	<column name='farmaceutische_vorm' type='varchar' size='255' />
+        <column name='productgroep' type='varchar' size='255' />
+        <column name='primaire_werkzame_stof_naam' type='varchar' size='255' />
+        <column name='primaire_werkzame_stof_eenheid' type='varchar' size='255' />
+        <column name='primaire_werkzame_stof_hoeveelheid' type='decimal' size='12' scale='3' />
+        <column name='meest_recente_aip' type='decimal' size='8' scale='2' />
 		<index>
 			<index-column name='hpk'/>
 		</index>
@@ -32,6 +42,21 @@
 		</index>
 		<index>
 			<index-column name='atc'/>
+		</index>
+		<index>
+			<index-column name='is_zvz'/>
+		</index>
+		<index>
+			<index-column name='is_dwg'/>
+		</index>
+		<index>
+           <index-column name='toedieningsvorm'/>
+        </index>
+		<index>
+			<index-column name='farmaceutische_vorm'/>
+		</index>
+		<index>
+			<index-column name='productgroep'/>
 		</index>
 		<foreign-key foreignTable="gs_artikelen">
 	      <reference local="zindex_nummer" foreign="zinummer"/>
