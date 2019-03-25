@@ -3,11 +3,11 @@
 	<table name='gs_artikel_eigenschappen' phpName='GsArtikelEigenschappen' readOnly='true' >
     	<column name='zindex_nummer' type='integer' required='true' primaryKey='true' autoIncrement='false'/>
     	<column name='verpakkings_hoeveelheid' type='integer'/>
+    	<column name='verpakkings_hoeveelheid_omschrijving' type='varchar' size='255'/>
     	<column name='hoofdverpakking_omschrijving' type='varchar' size='255'/>
     	<column name='deelverpakking_omschrijving' type='varchar' size='255'/>
     	<column name='basiseenheid_omschrijving' type='varchar' size='255'/>
     	<column name='inkoophoeveelheid_omschrijving' type='varchar' size='255'/>
-    	<column name='verpakkingshoeveelheid_omschrijving' type='varchar' size='255'/>
     	<column name='hpk' type='integer' />
     	<column name='prk' type='integer' />
     	<column name='gpk' type='integer' />
@@ -25,12 +25,14 @@
 		<column name='is_dwg' type='boolean' default='false' />
 		<column name='artikelnummer_fabrikant' type='varchar' size='255' />
         <column name='toedieningsvorm' type='varchar' size='255' />
+        <column name='toedieningsweg' type='varchar' size='255' />
        	<column name='farmaceutische_vorm' type='varchar' size='255' />
         <column name='productgroep' type='varchar' size='255' />
         <column name='primaire_werkzame_stof_naam' type='varchar' size='255' />
         <column name='primaire_werkzame_stof_eenheid' type='varchar' size='255' />
         <column name='primaire_werkzame_stof_hoeveelheid' type='decimal' size='12' scale='3' />
         <column name='meest_recente_aip' type='decimal' size='8' scale='2' />
+        <column name='emballage_naam' type='varchar' size='255' />
 		<index>
 			<index-column name='hpk'/>
 		</index>
@@ -58,6 +60,9 @@
 		<index>
 			<index-column name='productgroep'/>
 		</index>
+		<index>
+           <index-column name='toedieningsweg'/>
+        </index>
 		<foreign-key foreignTable="gs_artikelen">
 	      <reference local="zindex_nummer" foreign="zinummer"/>
 	    </foreign-key>
