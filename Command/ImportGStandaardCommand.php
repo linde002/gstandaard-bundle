@@ -105,15 +105,17 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$output->writeln('Truncating gs_artikel_eigenschappen');
 		\Propel::getConnection()->query('TRUNCATE TABLE gs_artikel_eigenschappen;');
 		$output->writeln('Filling gs_artikel_eigenschappen');
-		\Propel::getConnection()->query("
-				REPLACE INTO gs_artikel_eigenschappen SELECT
+		\Propel::getConnection()->query('
+				REPLACE INTO gs_artikel_eigenschappen
+                SELECT
+
 					a.`zinummer`
-				,	IF(t3.`naam_item_50_posities` != 'STUK', a.`aantal_hoofdverpakkingen`*a.`aantal_deelverpakkingen`, a.`aantal_deelverpakkingen`*a.`aantal_hoofdverpakkingen`*a.`hoeveelheid_per_deelverpakking`) as verpakkings_hoeveelheid
+				,	IF(t3.`naam_item_50_posities` != "STUK", a.`aantal_hoofdverpakkingen`*a.`aantal_deelverpakkingen`, a.`aantal_deelverpakkingen`*a.`aantal_hoofdverpakkingen`*a.`hoeveelheid_per_deelverpakking`) as verpakkings_hoeveelheid
+		        ,	IF(t3.`naam_item_50_posities` != "STUK", t2.naam_item_50_posities, t3.naam_item_50_posities) as verpakkings_hoeveelheid_omschrijving
 				,	t1.`naam_item_50_posities`
 				,	t2.`naam_item_50_posities`
 				,	t3.`naam_item_50_posities`
-				,	t4.`naam_item_50_posities`
-		        ,   IF(t3.`naam_item_50_posities` != 'STUK', t2.`naam_item_50_posities`, t3.naam_item_50_posities)
+				,	t4.`naam_item_50_posities` as x
 				,	a.`handelsproduktkode`
 				,	hpk.`prkcode`
 				,	pri.`generiekeproductcode`
@@ -127,6 +129,18 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				,	atc.`atcnederlandse_omschrijving`
 				,	l.`naw_nummer`
 				,	l.`naam`
+				,	IF(COUNT(bijz.`mutatiekode`) > 0, 1, 0) as is_zvz
+				,	IF(COUNT(dwg.`mutatiekode`) > 0, 1, 0) as is_dwg
+				,	a.`fabrikant_artikelkodering`
+				,	t5.`naam_item_50_posities`
+                ,   GROUP_CONCAT(DISTINCT t10.naam_item_50_posities)
+				,	t6.`naam_item_50_posities`
+				,	t7.`naam_item_50_posities`
+				,	nam.generieke_naam
+				,	t8.`naam_item_4_posities`
+				,	IF(t3.`naam_item_50_posities` = "MILLILITER", sam.hoeveelheid_werkzame_stof*a.`hoeveelheid_per_deelverpakking`, sam.hoeveelheid_werkzame_stof)
+				,	a.`inkoopprijs`
+                ,   t9.naam_item_50_posities
 				FROM `gs_artikelen` as a
 				LEFT JOIN `gs_naw_gegevens_gstandaard` as l ON a.`leverancier_kode` = l.`naw_nummer`
 				LEFT JOIN `gs_handelsproducten` as hpk ON a.`handelsproduktkode` = hpk.`handelsproduktkode`
@@ -134,6 +148,9 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				LEFT JOIN `gs_voorschrijfproducten` as prk ON pri.`prkcode` = prk.`prkcode`
 				LEFT JOIN `gs_generieke_producten` as gpk ON pri.`generiekeproductcode` = gpk.`generiekeproductcode`
 				LEFT JOIN `gs_atc_codes` as atc ON gpk.`atccode` = atc.`atccode`
+				LEFT JOIN `gs_bijzondere_kenmerken` as bijz ON (hpk.`handelsproduktkode` = bijz.`handelsproduktkode` AND bijz.`bijzondere_kenmerk` = 106)
+                LEFT JOIN gs_supplementaire_producten_met_nza_maximumtarief as dwg ON dwg.zindex_nummer = a.zinummer AND dwg.mutatiekode <> 1
+				
 				LEFT JOIN gs_namen as n1 ON a.`artikelnaamnummer` = n1.`naamnummer`
 				LEFT JOIN gs_namen as n2 ON hpk.`handelsproduktnaamnummer` = n2.`naamnummer`
 				LEFT JOIN gs_namen as n3 ON prk.`naamnummer_prescriptie_product` = n3.`naamnummer`
@@ -143,7 +160,18 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				LEFT JOIN `gs_thesauri_totaal` as t2 ON a.`deelverpakking_omschrijving_kode` = t2.`thesaurus_itemnummer` AND a.`deelverpakking_omschrijving_thesnr` = t2.`thesaurusnummer`
 				LEFT JOIN `gs_thesauri_totaal` as t3 ON hpk.`basiseenheid_verpakking` = t3.`thesaurus_itemnummer` AND hpk.`basiseenheid_verpakking_thesnr` = t3.`thesaurusnummer`
 				LEFT JOIN `gs_thesauri_totaal` as t4 ON hpk.`eenheid_inkoophoeveelheid`= t4.`thesaurus_itemnummer` AND hpk.`eenheid_inkoophoeveelheid_thesnr` = t4.`thesaurusnummer`
-				WHERE zinummer > 0");
+				LEFT JOIN `gs_thesauri_totaal` as t5 ON t5.thesaurusnummer = 7 AND t5.thesaurus_itemnummer = gpk.`toedieningsweg_code`
+				LEFT JOIN `gs_thesauri_totaal` as t6 ON t6.thesaurusnummer = 6 AND t6.thesaurus_itemnummer = gpk.`farmaceutische_vorm_code`
+				LEFT JOIN `gs_thesauri_totaal` as t7 ON t7.thesaurusnummer = 20 AND t7.thesaurus_itemnummer = hpk.`produktgroep_kode`
+				LEFT JOIN `gs_ingegeven_samenstellingen` as sam ON sam.`aanduiding_werkzaamhulpstof` = "W" AND sam.`volgnummer` = 1 AND sam.`handelsproduktkode` = hpk.`handelsproduktkode`
+				LEFT JOIN `gs_eenheden` as eenh ON eenh.`code` = sam.`handelsproduktkode` AND eenh.soort_code = 1 AND eenh.eenheid = sam.`eenhhoeveelheid_werkzame_stof_kode` AND eenh.hoeveelheid > 0
+				LEFT JOIN `gs_thesauri_totaal` as t8 ON t8.thesaurusnummer = 1 AND t8.thesaurus_itemnummer = sam.`eenhhoeveelheid_werkzame_stof_kode`
+				LEFT JOIN `gs_generieke_namen` as nam ON sam.`generiekenaamkode` = nam.`generiekenaamkode`
+                LEFT JOIN `gs_thesauri_totaal` as t9 ON t9.thesaurusnummer = 73 AND t9.thesaurus_itemnummer = pri.emballagetype_kode
+                LEFT JOIN gs_enkelvoudige_toedieningswegen_hpk as thpk ON hpk.`handelsproduktkode` = thpk.handelsproduktkode
+                LEFT JOIN `gs_thesauri_totaal` as t10 ON t10.thesaurusnummer = 7 AND t10.thesaurus_itemnummer = thpk.enkelvoudige_toedieningsweg_itemnr
+				WHERE zinummer > 0
+				GROUP BY a.`zinummer`');
 		$output->writeln('Filling ATC extended table');
 		\Propel::getConnection()->query("
 		    REPLACE INTO gs_atc_codes_extended
@@ -338,7 +366,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 					continue;
 				switch($fieldOptions['type']) {
 					case 'decimal':
-						$row[$field] = $row[$field]/pow(10, $fieldOptions['scale']);
+						@$row[$field] = $row[$field]/pow(10, $fieldOptions['scale']);
 						break;
 					case 'integer':
 						$row[$field] = ltrim($row[$field], 0);
