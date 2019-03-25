@@ -106,15 +106,48 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		\Propel::getConnection()->query('TRUNCATE TABLE gs_artikel_eigenschappen;');
 		$output->writeln('Filling gs_artikel_eigenschappen');
 		\Propel::getConnection()->query('
-				REPLACE INTO gs_artikel_eigenschappen
+				REPLACE INTO gs_artikel_eigenschappen (
+                    zindex_nummer
+                ,   verpakkings_hoeveelheid
+                ,   hoofdverpakking_omschrijving
+                ,   deelverpakking_omschrijving
+                ,   basiseenheid_omschrijving
+                ,   inkoophoeveelheid_omschrijving
+                ,   verpakkings_hoeveelheid_omschrijving
+                ,   hpk
+                ,   prk
+                ,   gpk
+                ,   atc
+                ,   etiket_naam
+                ,   merk_naam
+                ,   hpk_naam
+                ,   prk_naam
+                ,   gpk_naam
+                ,   stof_naam
+                ,   atc_naam
+                ,   leverancier_nummer
+                ,   leverancier_naam
+                ,   is_zvz
+                ,   is_dwg
+                ,   artikelnummer_fabrikant
+                ,   toedieningsvorm
+                ,   toedieningsweg
+                ,   farmaceutische_vorm
+                ,   productgroep
+                ,   primaire_werkzame_stof_naam
+                ,   primaire_werkzame_stof_eenheid
+                ,   primaire_werkzame_stof_hoeveelheid
+                ,   meest_recente_aip
+                ,   emballage_naam
+                )
                 SELECT
 					a.`zinummer`
 				,	IF(t3.`naam_item_50_posities` != "STUK", a.`aantal_hoofdverpakkingen`*a.`aantal_deelverpakkingen`, a.`aantal_deelverpakkingen`*a.`aantal_hoofdverpakkingen`*a.`hoeveelheid_per_deelverpakking`) as verpakkings_hoeveelheid
-		        ,	IF(t3.`naam_item_50_posities` != "STUK", t2.naam_item_50_posities, t3.naam_item_50_posities) as verpakkings_hoeveelheid_omschrijving
 				,	t1.`naam_item_50_posities`
 				,	t2.`naam_item_50_posities`
 				,	t3.`naam_item_50_posities`
 				,	t4.`naam_item_50_posities` as x
+                ,	IF(t3.`naam_item_50_posities` != "STUK", t2.naam_item_50_posities, t3.naam_item_50_posities) as verpakkings_hoeveelheid_omschrijving
 				,	a.`handelsproduktkode`
 				,	hpk.`prkcode`
 				,	pri.`generiekeproductcode`
