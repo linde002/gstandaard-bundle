@@ -48,6 +48,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 	{
 		$this->downloadGStandaard($input, $output);
 		$this->extractGStandaard($input, $output);
+		$this->updateAddOnHistorie($input, $output);
 		$this->importGstandaard($input, $output);
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
@@ -58,6 +59,18 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$event = new Event();
 		$eventDispatcher = $this->getContainer()->get('event_dispatcher');
 		$eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
+	}
+	
+	public function updateAddOnHistorie(InputInterface $input, OutputInterface $output) {
+	    $output->writeln(date('[H:i:s]').' Add-ons wegschrijven in historie-bestand');
+	    $datumAddOn = date('Y-m-01');
+	    $statement = \Propel::getConnection()->prepare("
+	        REPLACE INTO gs_supplementaire_producten_historie
+	        SELECT ?, zindex_nummer, nza_maximum_tarief_inc_btw_laag, thesaurus_nummer_soort_supplementair_product, soort_supplementair_product
+	        FROM gs_supplementaire_producten_met_nza_maximumtarief
+	    ");
+	    $statement->execute(array($datumAddOn));
+	    $output->writeln(date('[H:i:s]').' Add-ons wegschrijven afgerond');
 	}
 
 	protected function downloadGStandaard(InputInterface $input, OutputInterface $output) {

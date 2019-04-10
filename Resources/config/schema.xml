@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" namespace='PharmaIntelligence\GstandaardBundle\Model'>
+	<table name="gs_supplementaire_producten_historie" idMethod="native">
+	    <column name='datum_product' type='date' primaryKey='true' />
+	    <column name="zindex_nummer" type="INTEGER" primaryKey="true" required="true"/>
+	    <column name="nza_maximum_tarief_inc_btw_laag" type="decimal" size='14' scale='6'/>
+	    <column name="thesaurus_nummer_soort_supplementair_product" type="integer"/>
+	    <column name="soort_supplementair_product" type='integer'/>
+	    <foreign-key foreignTable="gs_artikelen">
+	      <reference local="zindex_nummer" foreign="zinummer"/>
+	    </foreign-key>
+	    <foreign-key foreignTable='gs_thesauri_totaal'>
+	    	<reference local='thesaurus_nummer_soort_supplementair_product' foreign='thesaurusnummer'/>
+	    	<reference local='soort_supplementair_product' foreign='thesaurus_itemnummer'/>
+	    </foreign-key>
+	</table>
 	<table name='gs_artikel_eigenschappen' phpName='GsArtikelEigenschappen' readOnly='true' >
     	<column name='zindex_nummer' type='integer' required='true' primaryKey='true' autoIncrement='false'/>
     	<column name='verpakkings_hoeveelheid' type='integer'/>
