@@ -131,29 +131,29 @@ import:
     diepte_van_verpakking: {start: 308, length: 8, type: decimal, scale: 2}
     thesaurusitem_van_eenheid_diepte: {start: 316, length: 6, type: integer}
 
-  BST005T:
-    _attributes: {table: gs_leveranciersassortimenten, modelClass: GsLeveranciersassortimenten, peerClass: GsLeveranciersassortimentenPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    assortimentsnummer: {start: 5, length: 8, type: integer, primaryKey: true}
-    zinummer: {start: 13, length: 8, type: integer}
-    intern_artikelnummer_assorthouder: {start: 21, length: 15, type: varchar(255)}
-    faktor_van_het_artikelnummer: {start: 36, length: 6, type: decimal, scale: 3}
-    omschrijving: {start: 42, length: 50, type: varchar(255)}
-    assortimentshouder: {start: 92, length: 5, type: integer}
-    datum_van_ingang: {start: 97, length: 8, type: date}
-    retourtermijn: {start: 105, length: 2, type: integer}
-    retouraanduiding: {start: 107, length: 1, type: varchar(255)}
-    retourpercentage: {start: 108, length: 3, type: integer}
-    assortimentsprijs: {start: 111, length: 8, type: decimal, scale: 2}
-    opgegeven_verkoopprijs: {start: 119, length: 8, type: decimal, scale: 2}
-    btwkode_van_assortimentshouder: {start: 127, length: 1, type: integer}
-    hoeveelheid: {start: 128, length: 8, type: decimal, scale: 2}
-    eenheid: {start: 136, length: 2, type: varchar(255)}
-    ean_barcode: {start: 138, length: 14, type: varchar(255)}
-    hibc_barcode: {start: 152, length: 20, type: varchar(255)}
-    minikaart_kode: {start: 172, length: 7, type: integer}
-    bestelmogelijkheid: {start: 179, length: 1, type: varchar(255)}
+  #BST005T:
+  #  _attributes: {table: gs_leveranciersassortimenten, modelClass: GsLeveranciersassortimenten, peerClass: GsLeveranciersassortimentenPeer}
+  #  bestandnummer: {start: 0, length: 4, type: integer}
+  #  mutatiekode: {start: 4, length: 1, type: integer}
+  #  assortimentsnummer: {start: 5, length: 8, type: integer, primaryKey: true}
+  #  zinummer: {start: 13, length: 8, type: integer}
+  #  intern_artikelnummer_assorthouder: {start: 21, length: 15, type: varchar(255)}
+  #  faktor_van_het_artikelnummer: {start: 36, length: 6, type: decimal, scale: 3}
+  #  omschrijving: {start: 42, length: 50, type: varchar(255)}
+  #  assortimentshouder: {start: 92, length: 5, type: integer}
+  #  datum_van_ingang: {start: 97, length: 8, type: date}
+  #  retourtermijn: {start: 105, length: 2, type: integer}
+  #  retouraanduiding: {start: 107, length: 1, type: varchar(255)}
+  #  retourpercentage: {start: 108, length: 3, type: integer}
+  #  assortimentsprijs: {start: 111, length: 8, type: decimal, scale: 2}
+  #  opgegeven_verkoopprijs: {start: 119, length: 8, type: decimal, scale: 2}
+  #  btwkode_van_assortimentshouder: {start: 127, length: 1, type: integer}
+  #  hoeveelheid: {start: 128, length: 8, type: decimal, scale: 2}
+  #  eenheid: {start: 136, length: 2, type: varchar(255)}
+  #  ean_barcode: {start: 138, length: 14, type: varchar(255)}
+  #  hibc_barcode: {start: 152, length: 20, type: varchar(255)}
+  #  minikaart_kode: {start: 172, length: 7, type: integer}
+  #  bestelmogelijkheid: {start: 179, length: 1, type: varchar(255)}
 
 #  BST010T:
 #    _attributes: {table: gs_logistieke_informatie, modelClass: GsLogistiekeInformatie, peerClass: GsLogistiekeInformatiePeer}
@@ -1073,15 +1073,15 @@ import:
     aanvullende_kode_5: {start: 115, length: 1, type: varchar(255)}
     aanvullende_kode_6: {start: 116, length: 1, type: varchar(255)}
 
-  BST910T:
-    _attributes: {table: gs_relaties_tussen_thesaurusitemnummers, modelClass: GsRelatiesTussenThesaurusitemnummers, peerClass: GsRelatiesTussenThesaurusitemnummersPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    thesaurus_relatienummer: {start: 5, length: 3, type: integer, primaryKey: true}
-    thesaurusnummer_in: {start: 8, length: 3, type: integer, primaryKey: true}
-    thesaurusnummer_uit: {start: 11, length: 3, type: integer, primaryKey: true}
-    thesaurus_itemnummer_in: {start: 14, length: 3, type: integer, primaryKey: true}
-    thesaurus_itemnummer_uit: {start: 17, length: 3, type: integer, primaryKey: true}
+#  BST910T:
+#    _attributes: {table: gs_relaties_tussen_thesaurusitemnummers, modelClass: GsRelatiesTussenThesaurusitemnummers, peerClass: GsRelatiesTussenThesaurusitemnummersPeer}
+#    bestandnummer: {start: 0, length: 4, type: integer}
+#    mutatiekode: {start: 4, length: 1, type: integer}
+#    thesaurus_relatienummer: {start: 5, length: 3, type: integer, primaryKey: true}
+#    thesaurusnummer_in: {start: 8, length: 3, type: integer, primaryKey: true}
+#    thesaurusnummer_uit: {start: 11, length: 3, type: integer, primaryKey: true}
+#    thesaurus_itemnummer_in: {start: 14, length: 3, type: integer, primaryKey: true}
+#    thesaurus_itemnummer_uit: {start: 17, length: 3, type: integer, primaryKey: true}
 
   BST911T:
     _attributes: {table: gs_header_relatie_bestand, modelClass: GsHeaderRelatieBestand, peerClass: GsHeaderRelatieBestandPeer}
