@@ -131,69 +131,6 @@ import:
     diepte_van_verpakking: {start: 308, length: 8, type: decimal, scale: 2}
     thesaurusitem_van_eenheid_diepte: {start: 316, length: 6, type: integer}
 
-  #BST005T:
-  #  _attributes: {table: gs_leveranciersassortimenten, modelClass: GsLeveranciersassortimenten, peerClass: GsLeveranciersassortimentenPeer}
-  #  bestandnummer: {start: 0, length: 4, type: integer}
-  #  mutatiekode: {start: 4, length: 1, type: integer}
-  #  assortimentsnummer: {start: 5, length: 8, type: integer, primaryKey: true}
-  #  zinummer: {start: 13, length: 8, type: integer}
-  #  intern_artikelnummer_assorthouder: {start: 21, length: 15, type: varchar(255)}
-  #  faktor_van_het_artikelnummer: {start: 36, length: 6, type: decimal, scale: 3}
-  #  omschrijving: {start: 42, length: 50, type: varchar(255)}
-  #  assortimentshouder: {start: 92, length: 5, type: integer}
-  #  datum_van_ingang: {start: 97, length: 8, type: date}
-  #  retourtermijn: {start: 105, length: 2, type: integer}
-  #  retouraanduiding: {start: 107, length: 1, type: varchar(255)}
-  #  retourpercentage: {start: 108, length: 3, type: integer}
-  #  assortimentsprijs: {start: 111, length: 8, type: decimal, scale: 2}
-  #  opgegeven_verkoopprijs: {start: 119, length: 8, type: decimal, scale: 2}
-  #  btwkode_van_assortimentshouder: {start: 127, length: 1, type: integer}
-  #  hoeveelheid: {start: 128, length: 8, type: decimal, scale: 2}
-  #  eenheid: {start: 136, length: 2, type: varchar(255)}
-  #  ean_barcode: {start: 138, length: 14, type: varchar(255)}
-  #  hibc_barcode: {start: 152, length: 20, type: varchar(255)}
-  #  minikaart_kode: {start: 172, length: 7, type: integer}
-  #  bestelmogelijkheid: {start: 179, length: 1, type: varchar(255)}
-
-#  BST010T:
-#    _attributes: {table: gs_logistieke_informatie, modelClass: GsLogistiekeInformatie, peerClass: GsLogistiekeInformatiePeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    gtin: {start: 5, length: 14, type: integer, primaryKey: true}
-#    gtin_van_de_data_leverancier: {start: 19, length: 13, type: integer, primaryKey: true}
-#    omschrijving_gtin: {start: 32, length: 140, type: varchar(255)}
-#    hoogte_hoeveelheid: {start: 172, length: 12, type: decimal, scale: 4}
-#    hoogte_eenheid: {start: 184, length: 2, type: varchar(255)}
-#    breedte_hoeveelheid: {start: 186, length: 12, type: decimal, scale: 4}
-#    breedte_eenheid: {start: 198, length: 2, type: varchar(255)}
-#    diepte_hoeveelheid: {start: 200, length: 12, type: decimal, scale: 4}
-#    diepte_eenheid: {start: 212, length: 2, type: varchar(255)}
-#    bruto_gewicht_hoeveelheid: {start: 214, length: 12, type: decimal, scale: 4}
-#    bruto_gewicht_eenheid: {start: 226, length: 2, type: varchar(255)}
-#    netto_gewicht_hoeveelheid: {start: 228, length: 12, type: decimal, scale: 4}
-#    netto_gewicht_eenheid: {start: 240, length: 2, type: varchar(255)}
-#    indicatie_basiseenheid: {start: 242, length: 1, type: boolean}
-#    indicatie_consumenteneenheid: {start: 243, length: 1, type: boolean}
-#    indicatie_besteleenheid: {start: 244, length: 1, type: boolean}
-#    indicatie_levereenheid: {start: 245, length: 1, type: boolean}
-#    indicatie_factuureenheid: {start: 246, length: 1, type: boolean}
-#    startdatum_beschikbaarheid_verpakking: {start: 247, length: 10, type: varchar(255)}
-#    einddatum_beschikbaarheid_verpakking: {start: 257, length: 10, type: varchar(255)}
-#    stopdatum_verpakking: {start: 267, length: 10, type: varchar(255)}
-#    child_gtin: {start: 277, length: 14, type: integer, primaryKey: true}
-#    child_gtin_hoeveelheid: {start: 291, length: 8, type: integer}
-#    product_type: {start: 299, length: 2, type: varchar(255)}
-#    lijstprijs: {start: 301, length: 12, type: decimal, scale: 4}
-#    retailprijs: {start: 313, length: 12, type: decimal, scale: 4}
-#    netto_inhoud_hoeveelheid: {start: 325, length: 12, type: decimal, scale: 4}
-#    netto_inhoud_eenheid: {start: 337, length: 2, type: varchar(255)}
-#    zindex_nummer: {start: 339, length: 8, type: integer}
-#    hoeveelheid_verpakking: {start: 347, length: 8, type: decimal, scale: 2}
-#    memocode_eenheid_verpakking: {start: 355, length: 2, type: varchar(255)}
-#    fabrikant_artikel_codering: {start: 357, length: 12, type: varchar(255)}
-#    thesaurus_verwijzing_status: {start: 369, length: 4, type: integer}
-#    status: {start: 373, length: 6, type: integer}
-
 
   BST031T:
     _attributes: {table: gs_handelsproducten, modelClass: GsHandelsproducten, peerClass: GsHandelsproductenPeer}
@@ -332,25 +269,6 @@ import:
     generiekeproductcode: {start: 29, length: 8, type: integer}
     aantal_eenheden_gpk_in_prk: {start: 37, length: 8, type: decimal, scale: 2}
     aantal_eenheden_gpk_in_hpk: {start: 45, length: 8, type: decimal, scale: 2}
-
-#  BST130T:
-#    _attributes: {table: gs_declaratietabel_dure_geneesmiddelen, modelClass: GsDeclaratietabelDureGeneesmiddelen, peerClass: GsDeclaratietabelDureGeneesmiddelenPeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    handelsproduktkode: {start: 5, length: 8, type: integer, primaryKey: true}
-#    zorgactiviteit_code: {start: 13, length: 8, type: integer, primaryKey: true}
-#    omschrijving: {start: 21, length: 30, type: varchar(255)}
-#    hoeveelheid_per_toedieningseenheid: {start: 51, length: 8, type: decimal, scale: 2}
-#    thesaurus_verwijzing_eenheid: {start: 59, length: 4, type: integer}
-#    eenheid: {start: 63, length: 6, type: integer}
-#    omrekenfactor_aantal_toedieningseenheden_per_hpk: {start: 69, length: 8, type: decimal, scale: 2}
-#    tarief: {start: 77, length: 8, type: decimal, scale: 2}
-#    thesaurus_nummer_beleidsregel: {start: 85, length: 4, type: integer}
-#    itemnummer_beleidsregel: {start: 89, length: 6, type: integer}
-#    zorgactiviteit_voldoet_aan_beleidsregel: {start: 95, length: 1, type: boolean}
-#    startdatum: {start: 96, length: 8, type: date}
-#    einddatum: {start: 104, length: 8, type: date}
-#    omrekenfactor_aantal_toedieningseenheden_per_hpk: {start: 112, length: 14, type: decimal, scale: 8}
 
   BST131T:
     _attributes: {table: gs_supplementaire_producten_met_nza_maximumtarief, modelClass: GsSupplementaireProductenMetNzaMaximumtarief, peerClass: GsSupplementaireProductenMetNzaMaximumtariefPeer}
@@ -650,18 +568,6 @@ import:
     groepnaam: {start: 9, length: 50, type: varchar(255)}
     groepvolgorde_kode: {start: 59, length: 11, type: integer}
 
-#  BST600T:
-#    _attributes: {table: gs_aanvullende_medicatiebewakingsgegevens, modelClass: GsAanvullendeMedicatiebewakingsgegevens, peerClass: GsAanvullendeMedicatiebewakingsgegevensPeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    thesnr_bewakingssoort: {start: 5, length: 4, type: integer}
-#    bewakingssoort: {start: 9, length: 6, type: integer, primaryKey: true}
-#    medicatiebewaking_identificerende_code: {start: 15, length: 8, type: integer, primaryKey: true}
-#    thesaurusverwijzing_aanvullende_voorwaarde: {start: 23, length: 4, type: integer}
-#    medicatiebewaking_aanvullende_voorwaarde: {start: 27, length: 6, type: integer, primaryKey: true}
-#    codering_waarde_1_alfanumeriek: {start: 33, length: 1, type: varchar(255), primaryKey: true}
-#    codering_waarde_2_numeriek: {start: 34, length: 8, type: integer, primaryKey: true}
-#    codering_waarde_3_numeriek: {start: 42, length: 8, type: integer}
 
   BST601T:
     _attributes: {table: gs_aanvvoorwaarden_medbew_en_tekstblok, modelClass: GsAanvvoorwaardenMedbewEnTekstblok, peerClass: GsAanvvoorwaardenMedbewEnTekstblokPeer}
@@ -721,15 +627,6 @@ import:
     interactiewaarschuwing_code: {start: 5, length: 8, type: integer, primaryKey: true}
     thesaurusnr_zorggroep_1002: {start: 13, length: 4, type: integer, primaryKey: true}
     zorggroepcodering: {start: 17, length: 6, type: integer, primaryKey: true}
-
-#  BST628T:
-#    _attributes: {table: gs_interacties_omschrijving_codering_wfg, modelClass: GsInteractiesOmschrijvingCoderingWfg, peerClass: GsInteractiesOmschrijvingCoderingWfgPeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    soort_codering: {start: 5, length: 3, type: integer, primaryKey: true}
-#    wfgcode: {start: 8, length: 1, type: varchar(255), primaryKey: true}
-#    regelnummer: {start: 9, length: 3, type: integer, primaryKey: true}
-#    tekstuele_omschrijving: {start: 12, length: 80, type: varchar(255)}
 
   BST632T:
     _attributes: {table: gs_ongewenste_groepen, modelClass: GsOngewensteGroepen, peerClass: GsOngewensteGroepenPeer}
@@ -796,24 +693,6 @@ import:
     frequentie_tijdseenheid: {start: 65, length: 4, type: integer}
     basisset_voor_denekamp_berekening: {start: 69, length: 1, type: boolean}
     dosisnummer: {start: 70, length: 10, type: integer}
-
-#  BST644T:
-#    _attributes: {table: gs_dosisgegevens, modelClass: GsDosisgegevens, peerClass: GsDosisgegevensPeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    dosisnummer: {start: 5, length: 10, type: integer, primaryKey: true}
-#    norm_minimum: {start: 15, length: 6, type: decimal, scale: 3}
-#    norm_maximum: {start: 21, length: 6, type: decimal, scale: 3}
-#    absoluut_minimum: {start: 27, length: 6, type: decimal, scale: 3}
-#    absoluut_maximum: {start: 33, length: 6, type: decimal, scale: 3}
-#    norm_minimum_per_kg: {start: 39, length: 6, type: decimal, scale: 3}
-#    norm_maximum_per_kg: {start: 45, length: 6, type: decimal, scale: 3}
-#    absoluut_minimum_per_kg: {start: 51, length: 6, type: decimal, scale: 3}
-#    absoluut_maximum_per_kg: {start: 57, length: 6, type: decimal, scale: 3}
-#    norm_minimum_per_m2: {start: 63, length: 6, type: decimal, scale: 3}
-#    norm_maximum_per_m2: {start: 69, length: 6, type: decimal, scale: 3}
-#    absoluut_minimum_per_m2: {start: 75, length: 6, type: decimal, scale: 3}
-#    absoluut_maximum_per_m2: {start: 81, length: 6, type: decimal, scale: 3}
 
   BST655T:
     _attributes: {table: gs_bewakingen_te_controleren_indicaties, modelClass: GsBewakingenTeControlerenIndicaties, peerClass: GsBewakingenTeControlerenIndicatiesPeer}
@@ -1073,16 +952,6 @@ import:
     aanvullende_kode_5: {start: 115, length: 1, type: varchar(255)}
     aanvullende_kode_6: {start: 116, length: 1, type: varchar(255)}
 
-#  BST910T:
-#    _attributes: {table: gs_relaties_tussen_thesaurusitemnummers, modelClass: GsRelatiesTussenThesaurusitemnummers, peerClass: GsRelatiesTussenThesaurusitemnummersPeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    thesaurus_relatienummer: {start: 5, length: 3, type: integer, primaryKey: true}
-#    thesaurusnummer_in: {start: 8, length: 3, type: integer, primaryKey: true}
-#    thesaurusnummer_uit: {start: 11, length: 3, type: integer, primaryKey: true}
-#    thesaurus_itemnummer_in: {start: 14, length: 3, type: integer, primaryKey: true}
-#    thesaurus_itemnummer_uit: {start: 17, length: 3, type: integer, primaryKey: true}
-
   BST911T:
     _attributes: {table: gs_header_relatie_bestand, modelClass: GsHeaderRelatieBestand, peerClass: GsHeaderRelatieBestandPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
@@ -1105,18 +974,6 @@ import:
     verwijzing_identificatie_1_alfanumeriek: {start: 19, length: 20, type: varchar(255), primaryKey: true}
     verwijzing_identificatie_2_numeriek: {start: 39, length: 8, type: integer, primaryKey: true}
     verwijzing_identificatie_2_alfanumeriek: {start: 47, length: 20, type: varchar(255), primaryKey: true}
-
-#  BST920T:
-#    _attributes: {table: gs_teksten, modelClass: GsTeksten, peerClass: GsTekstenPeer}
-#    bestandnummer: {start: 0, length: 4, type: integer}
-#    mutatiekode: {start: 4, length: 1, type: integer}
-#    tekstmodulethesaurus_103: {start: 5, length: 3, type: integer}
-#    tekstmodule: {start: 8, length: 3, type: integer, primaryKey: true}
-#    tekst_nivo_kode: {start: 11, length: 8, type: integer, primaryKey: true}
-#    tekstsoortthesaurus_104: {start: 19, length: 3, type: integer}
-#    tekstsoort: {start: 22, length: 3, type: integer, primaryKey: true}
-#    tekstregelnummer: {start: 25, length: 4, type: integer, primaryKey: true}
-#    tekst: {start: 29, length: 132, type: varchar(255)}
 
   BST921T:
     _attributes: {table: gs_tekstblokken_ascii, modelClass: GsTekstblokkenAscii, peerClass: GsTekstblokkenAsciiPeer}
