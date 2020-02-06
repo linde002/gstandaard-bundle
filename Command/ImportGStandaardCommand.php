@@ -2,7 +2,7 @@
 
 namespace PharmaIntelligence\GstandaardBundle\Command;
 
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -315,19 +315,19 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		protected function import($fileName, array $importData) {
 			$start = time();
 			$this->output->writeln('<info>Importing '.$importData['_attributes']['table'].' ('.$fileName.')</info>');
-			$progress = $this->getHelperSet()->get('progress');
-			$progress->setFormat(ProgressHelper::FORMAT_QUIET);
 			$fullFilename = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/'.$fileName);
 			$omClass = 'PharmaIntelligence\\GstandaardBundle\\Model\\'.$importData['_attributes']['modelClass'];
 
 			if(!file_exists($fullFilename))
 				throw new \Exception($fullFilename.' does not exists');
 			$fh = fopen($fullFilename, 'r');
-			$progress->start($this->output, $this->recordMap[$fileName]['totaal']);
+			$progress = new ProgressBar($this->output, $this->recordMap[$fileName]['totaal']);
+			$progress->setFormat('debug');
+			$progress->start($this->output);
 			$recordsPerStap = floor($this->recordMap[$fileName]['totaal']/100);
 			if($recordsPerStap == 0)
 				$recordsPerStap = 1;
-			$progress->setRedrawFrequency($recordsPerStap);
+			 $progress->setRedrawFrequency($recordsPerStap);
 
 			// Vorige maand gewijzigde rijen op code geen wijzigingen zetten.
 			$sql = 'UPDATE '.constant($omClass.'Peer::TABLE_NAME').' SET mutatiekode = 0 WHERE mutatiekode = '.self::MUTATIE_WIJZIGEN;
