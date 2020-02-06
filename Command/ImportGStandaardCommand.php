@@ -359,6 +359,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			fclose($fh);
 			unlink($fullFilename);
 			$progress->finish();
+			$this->output->writeln('');
 			$this->output->writeln('<comment>'.$this->recordMap[$fileName]['totaal'].' records in G-Standaard.</comment>');
 			if($this->importType == self::IMPORT_FULL)
 				$this->output->writeln('<comment>'.$this->recordMap[$fileName]['totaal'].' records verwerkt.</comment>');
