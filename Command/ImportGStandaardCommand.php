@@ -323,7 +323,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			$fh = fopen($fullFilename, 'r');
 			$progress = new ProgressBar($this->output, $this->recordMap[$fileName]['totaal']);
 			$progress->setFormat('debug');
-			$progress->start($this->output);
+			$progress->start();
 			$recordsPerStap = floor($this->recordMap[$fileName]['totaal']/100);
 			if($recordsPerStap == 0)
 				$recordsPerStap = 1;
