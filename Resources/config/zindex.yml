@@ -476,21 +476,6 @@ import:
     thesnr_bijzondere_kenmerken: {start: 21, length: 4, type: integer}
     bijzondere_kenmerk: {start: 25, length: 6, type: integer, primaryKey: true}
 
-  BST405T:
-    _attributes: {table: gs_ziccode, modelClass: GsZiccode, peerClass: GsZiccodePeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    instellingscode: {start: 5, length: 4, type: varchar(255), primaryKey: true}
-    naam_van_de_instelling: {start: 9, length: 50, type: varchar(255)}
-    straatnaam: {start: 59, length: 24, type: varchar(255)}
-    huisnummer: {start: 83, length: 5, type: integer}
-    huisnummer_toevoeging: {start: 88, length: 4, type: varchar(255)}
-    postcode: {start: 92, length: 6, type: varchar(255)}
-    plaats: {start: 98, length: 24, type: varchar(255)}
-    zoeksleutel: {start: 122, length: 15, type: varchar(255)}
-    agbcode_van_de_instelling: {start: 137, length: 8, type: integer}
-    agbcode_toevoegsel_lokaties: {start: 145, length: 6, type: varchar(255)}
-
   BST410T:
     _attributes: {table: gs_codestelsel_zrs, modelClass: GsCodestelselZrs, peerClass: GsCodestelselZrsPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
