@@ -5,10 +5,12 @@ namespace PharmaIntelligence\GstandaardBundle\Model\om;
 use \BaseObject;
 use \BasePeer;
 use \Criteria;
+use \DateTime;
 use \Exception;
 use \PDO;
 use \Persistent;
 use \Propel;
+use \PropelDateTime;
 use \PropelException;
 use \PropelPDO;
 use PharmaIntelligence\GstandaardBundle\Model\GsRubrieken;
@@ -107,6 +109,18 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
      * @var        string
      */
     protected $opmaak;
+
+    /**
+     * The value for the gebruik_van_veld field.
+     * @var        string
+     */
+    protected $gebruik_van_veld;
+
+    /**
+     * The value for the datum_gebruik field.
+     * @var        string
+     */
+    protected $datum_gebruik;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -258,6 +272,57 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
     {
 
         return $this->opmaak;
+    }
+
+    /**
+     * Get the [gebruik_van_veld] column value.
+     *
+     * @return string
+     */
+    public function getGebruikVanVeld()
+    {
+
+        return $this->gebruik_van_veld;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [datum_gebruik] column value.
+     *
+     *
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *				 If format is null, then the raw DateTime object will be returned.
+     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getDatumGebruik($format = null)
+    {
+        if ($this->datum_gebruik === null) {
+            return null;
+        }
+
+        if ($this->datum_gebruik === '0000-00-00') {
+            // while technically this is not a default value of null,
+            // this seems to be closest in meaning.
+            return null;
+        }
+
+        try {
+            $dt = new DateTime($this->datum_gebruik);
+        } catch (Exception $x) {
+            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->datum_gebruik, true), $x);
+        }
+
+        if ($format === null) {
+            // Because propel.useDateTimeClass is true, we return a DateTime object.
+            return $dt;
+        }
+
+        if (strpos($format, '%') !== false) {
+            return strftime($format, $dt->format('U'));
+        }
+
+        return $dt->format($format);
+
     }
 
     /**
@@ -513,6 +578,50 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
     } // setOpmaak()
 
     /**
+     * Set the value of [gebruik_van_veld] column.
+     *
+     * @param  string $v new value
+     * @return GsRubrieken The current object (for fluent API support)
+     */
+    public function setGebruikVanVeld($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->gebruik_van_veld !== $v) {
+            $this->gebruik_van_veld = $v;
+            $this->modifiedColumns[] = GsRubriekenPeer::GEBRUIK_VAN_VELD;
+        }
+
+
+        return $this;
+    } // setGebruikVanVeld()
+
+    /**
+     * Sets the value of [datum_gebruik] column to a normalized version of the date/time value specified.
+     *
+     * @param mixed $v string, integer (timestamp), or DateTime value.
+     *               Empty strings are treated as null.
+     * @return GsRubrieken The current object (for fluent API support)
+     */
+    public function setDatumGebruik($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->datum_gebruik !== null || $dt !== null) {
+            $currentDateAsString = ($this->datum_gebruik !== null && $tmpDt = new DateTime($this->datum_gebruik)) ? $tmpDt->format('Y-m-d') : null;
+            $newDateAsString = $dt ? $dt->format('Y-m-d') : null;
+            if ($currentDateAsString !== $newDateAsString) {
+                $this->datum_gebruik = $newDateAsString;
+                $this->modifiedColumns[] = GsRubriekenPeer::DATUM_GEBRUIK;
+            }
+        } // if either are not null
+
+
+        return $this;
+    } // setDatumGebruik()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -556,6 +665,8 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
             $this->lengte_van_de_rubriek = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
             $this->aantal_decimalen = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
             $this->opmaak = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->gebruik_van_veld = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->datum_gebruik = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -565,7 +676,7 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 12; // 12 = GsRubriekenPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 14; // 14 = GsRubriekenPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating GsRubrieken object", $e);
@@ -809,6 +920,12 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
         if ($this->isColumnModified(GsRubriekenPeer::OPMAAK)) {
             $modifiedColumns[':p' . $index++]  = '`opmaak`';
         }
+        if ($this->isColumnModified(GsRubriekenPeer::GEBRUIK_VAN_VELD)) {
+            $modifiedColumns[':p' . $index++]  = '`gebruik_van_veld`';
+        }
+        if ($this->isColumnModified(GsRubriekenPeer::DATUM_GEBRUIK)) {
+            $modifiedColumns[':p' . $index++]  = '`datum_gebruik`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `gs_rubrieken` (%s) VALUES (%s)',
@@ -855,6 +972,12 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
                         break;
                     case '`opmaak`':
                         $stmt->bindValue($identifier, $this->opmaak, PDO::PARAM_STR);
+                        break;
+                    case '`gebruik_van_veld`':
+                        $stmt->bindValue($identifier, $this->gebruik_van_veld, PDO::PARAM_STR);
+                        break;
+                    case '`datum_gebruik`':
+                        $stmt->bindValue($identifier, $this->datum_gebruik, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1019,6 +1142,12 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
             case 11:
                 return $this->getOpmaak();
                 break;
+            case 12:
+                return $this->getGebruikVanVeld();
+                break;
+            case 13:
+                return $this->getDatumGebruik();
+                break;
             default:
                 return null;
                 break;
@@ -1059,6 +1188,8 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
             $keys[9] => $this->getLengteVanDeRubriek(),
             $keys[10] => $this->getAantalDecimalen(),
             $keys[11] => $this->getOpmaak(),
+            $keys[12] => $this->getGebruikVanVeld(),
+            $keys[13] => $this->getDatumGebruik(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1134,6 +1265,12 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
             case 11:
                 $this->setOpmaak($value);
                 break;
+            case 12:
+                $this->setGebruikVanVeld($value);
+                break;
+            case 13:
+                $this->setDatumGebruik($value);
+                break;
         } // switch()
     }
 
@@ -1170,6 +1307,8 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
         if (array_key_exists($keys[9], $arr)) $this->setLengteVanDeRubriek($arr[$keys[9]]);
         if (array_key_exists($keys[10], $arr)) $this->setAantalDecimalen($arr[$keys[10]]);
         if (array_key_exists($keys[11], $arr)) $this->setOpmaak($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setGebruikVanVeld($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setDatumGebruik($arr[$keys[13]]);
     }
 
     /**
@@ -1193,6 +1332,8 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
         if ($this->isColumnModified(GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK)) $criteria->add(GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK, $this->lengte_van_de_rubriek);
         if ($this->isColumnModified(GsRubriekenPeer::AANTAL_DECIMALEN)) $criteria->add(GsRubriekenPeer::AANTAL_DECIMALEN, $this->aantal_decimalen);
         if ($this->isColumnModified(GsRubriekenPeer::OPMAAK)) $criteria->add(GsRubriekenPeer::OPMAAK, $this->opmaak);
+        if ($this->isColumnModified(GsRubriekenPeer::GEBRUIK_VAN_VELD)) $criteria->add(GsRubriekenPeer::GEBRUIK_VAN_VELD, $this->gebruik_van_veld);
+        if ($this->isColumnModified(GsRubriekenPeer::DATUM_GEBRUIK)) $criteria->add(GsRubriekenPeer::DATUM_GEBRUIK, $this->datum_gebruik);
 
         return $criteria;
     }
@@ -1275,6 +1416,8 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
         $copyObj->setLengteVanDeRubriek($this->getLengteVanDeRubriek());
         $copyObj->setAantalDecimalen($this->getAantalDecimalen());
         $copyObj->setOpmaak($this->getOpmaak());
+        $copyObj->setGebruikVanVeld($this->getGebruikVanVeld());
+        $copyObj->setDatumGebruik($this->getDatumGebruik());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1337,6 +1480,8 @@ abstract class BaseGsRubrieken extends BaseObject implements Persistent
         $this->lengte_van_de_rubriek = null;
         $this->aantal_decimalen = null;
         $this->opmaak = null;
+        $this->gebruik_van_veld = null;
+        $this->datum_gebruik = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

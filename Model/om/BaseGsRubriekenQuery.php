@@ -27,6 +27,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsRubriekenQuery;
  * @method GsRubriekenQuery orderByLengteVanDeRubriek($order = Criteria::ASC) Order by the lengte_van_de_rubriek column
  * @method GsRubriekenQuery orderByAantalDecimalen($order = Criteria::ASC) Order by the aantal_decimalen column
  * @method GsRubriekenQuery orderByOpmaak($order = Criteria::ASC) Order by the opmaak column
+ * @method GsRubriekenQuery orderByGebruikVanVeld($order = Criteria::ASC) Order by the gebruik_van_veld column
+ * @method GsRubriekenQuery orderByDatumGebruik($order = Criteria::ASC) Order by the datum_gebruik column
  *
  * @method GsRubriekenQuery groupByBestandnummer() Group by the bestandnummer column
  * @method GsRubriekenQuery groupByMutatiekode() Group by the mutatiekode column
@@ -40,6 +42,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsRubriekenQuery;
  * @method GsRubriekenQuery groupByLengteVanDeRubriek() Group by the lengte_van_de_rubriek column
  * @method GsRubriekenQuery groupByAantalDecimalen() Group by the aantal_decimalen column
  * @method GsRubriekenQuery groupByOpmaak() Group by the opmaak column
+ * @method GsRubriekenQuery groupByGebruikVanVeld() Group by the gebruik_van_veld column
+ * @method GsRubriekenQuery groupByDatumGebruik() Group by the datum_gebruik column
  *
  * @method GsRubriekenQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method GsRubriekenQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -60,6 +64,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsRubriekenQuery;
  * @method GsRubrieken findOneByLengteVanDeRubriek(int $lengte_van_de_rubriek) Return the first GsRubrieken filtered by the lengte_van_de_rubriek column
  * @method GsRubrieken findOneByAantalDecimalen(int $aantal_decimalen) Return the first GsRubrieken filtered by the aantal_decimalen column
  * @method GsRubrieken findOneByOpmaak(string $opmaak) Return the first GsRubrieken filtered by the opmaak column
+ * @method GsRubrieken findOneByGebruikVanVeld(string $gebruik_van_veld) Return the first GsRubrieken filtered by the gebruik_van_veld column
+ * @method GsRubrieken findOneByDatumGebruik(string $datum_gebruik) Return the first GsRubrieken filtered by the datum_gebruik column
  *
  * @method array findByBestandnummer(int $bestandnummer) Return GsRubrieken objects filtered by the bestandnummer column
  * @method array findByMutatiekode(int $mutatiekode) Return GsRubrieken objects filtered by the mutatiekode column
@@ -73,6 +79,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsRubriekenQuery;
  * @method array findByLengteVanDeRubriek(int $lengte_van_de_rubriek) Return GsRubrieken objects filtered by the lengte_van_de_rubriek column
  * @method array findByAantalDecimalen(int $aantal_decimalen) Return GsRubrieken objects filtered by the aantal_decimalen column
  * @method array findByOpmaak(string $opmaak) Return GsRubrieken objects filtered by the opmaak column
+ * @method array findByGebruikVanVeld(string $gebruik_van_veld) Return GsRubrieken objects filtered by the gebruik_van_veld column
+ * @method array findByDatumGebruik(string $datum_gebruik) Return GsRubrieken objects filtered by the datum_gebruik column
  */
 abstract class BaseGsRubriekenQuery extends ModelCriteria
 {
@@ -165,7 +173,7 @@ abstract class BaseGsRubriekenQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `bestandnummer`, `mutatiekode`, `naam_van_het_bestand`, `volgnummer`, `naam_van_de_rubriek`, `omschrijving_van_de_rubriek`, `rubriekscode`, `sleutelkode_van_de_rubriek`, `type_van_de_rubriek`, `lengte_van_de_rubriek`, `aantal_decimalen`, `opmaak` FROM `gs_rubrieken` WHERE `naam_van_het_bestand` = :p0 AND `volgnummer` = :p1';
+        $sql = 'SELECT `bestandnummer`, `mutatiekode`, `naam_van_het_bestand`, `volgnummer`, `naam_van_de_rubriek`, `omschrijving_van_de_rubriek`, `rubriekscode`, `sleutelkode_van_de_rubriek`, `type_van_de_rubriek`, `lengte_van_de_rubriek`, `aantal_decimalen`, `opmaak`, `gebruik_van_veld`, `datum_gebruik` FROM `gs_rubrieken` WHERE `naam_van_het_bestand` = :p0 AND `volgnummer` = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_STR);
@@ -690,6 +698,78 @@ abstract class BaseGsRubriekenQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(GsRubriekenPeer::OPMAAK, $opmaak, $comparison);
+    }
+
+    /**
+     * Filter the query on the gebruik_van_veld column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByGebruikVanVeld('fooValue');   // WHERE gebruik_van_veld = 'fooValue'
+     * $query->filterByGebruikVanVeld('%fooValue%'); // WHERE gebruik_van_veld LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $gebruikVanVeld The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return GsRubriekenQuery The current query, for fluid interface
+     */
+    public function filterByGebruikVanVeld($gebruikVanVeld = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($gebruikVanVeld)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $gebruikVanVeld)) {
+                $gebruikVanVeld = str_replace('*', '%', $gebruikVanVeld);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(GsRubriekenPeer::GEBRUIK_VAN_VELD, $gebruikVanVeld, $comparison);
+    }
+
+    /**
+     * Filter the query on the datum_gebruik column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDatumGebruik('2011-03-14'); // WHERE datum_gebruik = '2011-03-14'
+     * $query->filterByDatumGebruik('now'); // WHERE datum_gebruik = '2011-03-14'
+     * $query->filterByDatumGebruik(array('max' => 'yesterday')); // WHERE datum_gebruik < '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $datumGebruik The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return GsRubriekenQuery The current query, for fluid interface
+     */
+    public function filterByDatumGebruik($datumGebruik = null, $comparison = null)
+    {
+        if (is_array($datumGebruik)) {
+            $useMinMax = false;
+            if (isset($datumGebruik['min'])) {
+                $this->addUsingAlias(GsRubriekenPeer::DATUM_GEBRUIK, $datumGebruik['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($datumGebruik['max'])) {
+                $this->addUsingAlias(GsRubriekenPeer::DATUM_GEBRUIK, $datumGebruik['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(GsRubriekenPeer::DATUM_GEBRUIK, $datumGebruik, $comparison);
     }
 
     /**

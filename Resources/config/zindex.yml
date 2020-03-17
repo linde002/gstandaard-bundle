@@ -50,6 +50,8 @@ import:
     lengte_van_de_rubriek: {start: 99, length: 4, type: integer}
     aantal_decimalen: {start: 103, length: 2, type: integer}
     opmaak: {start: 105, length: 6, type: varchar(255)}
+    gebruik_van_veld: {start: 111, length: 1, type: varchar(255)}
+    datum_gebruik: {start: 112, length: 8, type: dateus}
 
   BST004T:
     _attributes: {table: gs_artikelen, modelClass: GsArtikelen, peerClass: GsArtikelenPeer}
@@ -131,6 +133,19 @@ import:
     diepte_van_verpakking: {start: 308, length: 8, type: decimal, scale: 2}
     thesaurusitem_van_eenheid_diepte: {start: 316, length: 6, type: integer}
 
+  BST014T:
+    _attributes: {table: gs_rzv_aanspraak, modelClass: GsRzvAanspraak, peerClass: GsRzvAanspraakPeer}
+    bestandnummer: {start: 0, length: 4, type: integer}
+    mutatiekode: {start: 4, length: 1, type: integer}
+    zinummer: {start: 5, length: 8, type: integer, primaryKey: true}
+    thesaurus_rzv_verstrekking: {start: 13, length: 4, type: integer}
+    rzvverstrekking: {start: 17, length: 6, type: integer}
+    thesaurus_rzv_hulpmiddelen: {start: 23, length: 4, type: integer}
+    hulpmiddelen_zorg: {start: 27, length: 6, type: integer}
+    rzv_thesaurus_120: {start: 33, length: 4, type: integer}
+    rzvvoorwaarden_bijlage_2: {start: 37, length: 6, type: integer}
+    tekstmodule: {start: 43, length: 3, type: integer}
+    tekst_verwijzing: {start: 46, length: 3, type: integer}
 
   BST031T:
     _attributes: {table: gs_handelsproducten, modelClass: GsHandelsproducten, peerClass: GsHandelsproductenPeer}
@@ -243,6 +258,29 @@ import:
     reden_hulpstof_identificerend: {start: 73, length: 6, type: integer}
     instant: {start: 79, length: 1, type: varchar(255)}
     extra_kenmerk_tbv_voorschrijven: {start: 80, length: 6, type: integer}
+
+  BST052T:
+    _attributes: {table: gs_prescriptie_product, modelClass: GsPrescriptieProduct, peerClass: GsPrescriptieProductPeer}
+    bestandnummer: {start: 0, length: 4, type: integer}
+    mutatiekode: {start: 4, length: 1, type: integer}
+    prkcode: {start: 5, length: 8, type: integer, primaryKey: true} ### VOLGORDE VANAF HIER
+    naamnummer_prescriptie_product: {start: 13, length: 7, type: integer}
+    generiekeproductcode: {start: 20, length: 8, type: integer}
+    thesnr_reden_voorschrijven_hpk_niveau: {start: 28,length: 4, type: integer}
+    reden_voorschrijven_hpk_niveau: {start: 32, length: 6, type: integer}
+    thesnr_emballagetype: {start:38 , length: 4, type: integer}
+    emballagetype: {start: 42, length: 6, type: integer}
+    thesnr_basiseenheid_product: {start: 48, length: 4, type: integer}
+    basiseenheid_product: {start: 52, length: 6, type: integer}
+    productgrootte_algemeen: {start: 58, length: 9, type: decimal, scale: 2}
+    thesnr_hulpmiddel_aard: {start: 67, length: 4, type: integer}
+    hulpmiddel_aard: {start: 71, length: 6, type: integer}
+    hulpmiddel_aard_hoeveelheid: {start: 77, length: 2, type: integer}
+    meervoudig_product_jn: {start: 79, length: 1, type: varchar}
+    thesnr_reden_hulpstof_identificerend: {start: 80, length: 4, type: integer}
+    reden_hulpstof_identificerend: {start: 84, length: 6, type: integer}
+    thesnr_verwijzing_extra_kenmerk: {start: 90, length: 4, type: integer}
+    verwijzing_extra_kenmerk: {start: 94, length: 6, type: integer}
 
   BST059T:
     _attributes: {table: gs_voorschrijfpr_identificerende_velden, modelClass: GsVoorschrijfprIdentificerendeVelden, peerClass: GsVoorschrijfprIdentificerendeVeldenPeer}
@@ -571,47 +609,6 @@ import:
     codering_waarde_1_alfanumeriek: {start: 61, length: 1, type: varchar(255), primaryKey: true}
     codering_waarde_2_numeriek: {start: 62, length: 8, type: integer, primaryKey: true}
     codering_waarde_3_numeriek: {start: 70, length: 8, type: integer}
-
-  BST625T:
-    _attributes: {table: gs_interacties_koppeling, modelClass: GsInteractiesKoppeling, peerClass: GsInteractiesKoppelingPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    gpk_code_interactiewaarschuwing_a: {start: 5, length: 8, type: integer, primaryKey: true}
-    gpk_code_interactiewaarschuwing_b: {start: 13, length: 8, type: integer, primaryKey: true}
-    interactiewaarschuwing_code: {start: 21, length: 8, type: integer, primaryKey: true}
-    relevante_periode_na_staken_van_a_in_dagen: {start: 29, length: 3, type: integer}
-    relevante_periode_na_staken_van_b_in_dagen: {start: 32, length: 3, type: integer}
-    relevant_indien_a_wordt_toegevoegd_aan_b: {start: 35, length: 1, type: boolean}
-    relevant_indien_b_wordt_toegevoegd_aan_a: {start: 36, length: 1, type: boolean}
-
-  BST626T:
-    _attributes: {table: gs_interacties_gegevens, modelClass: GsInteractiesGegevens, peerClass: GsInteractiesGegevensPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    interactiewaarschuwing_code: {start: 5, length: 8, type: integer, primaryKey: true}
-    datum_vastlegging: {start: 13, length: 8, type: integer}
-    datum_opname_in_gstandaard: {start: 21, length: 8, type: integer}
-    datum_laaste_mutatie_in_gstandaard: {start: 29, length: 8, type: integer}
-    code_onderbouwing_bewijslast_bij_interactie: {start: 37, length: 1, type: varchar(255)}
-    code_ernst_van_potentieel_effect_bij_interactie: {start: 38, length: 1, type: varchar(255)}
-    omschrijving_interactiewaarschuwing: {start: 39, length: 50, type: varchar(255)}
-    interactiefolderthesaurus_128: {start: 89, length: 3, type: integer}
-    folder: {start: 92, length: 3, type: integer}
-    interactie: {start: 95, length: 1, type: boolean}
-    vervolg_actie: {start: 96, length: 1, type: boolean}
-    ia_te_volgen_door_monitoren: {start: 97, length: 1, type: boolean}
-    ook_bij_staken_van_het_voorschrift: {start: 98, length: 1, type: boolean}
-    afhandeling_voorschrijver: {start: 99, length: 1, type: boolean}
-    afhandeling_balie_in_apotheek: {start: 100, length: 1, type: boolean}
-    afhandeling_farmaceutisch_specialist: {start: 101, length: 1, type: boolean}
-
-  BST627T:
-    _attributes: {table: gs_interacties_niet_bij_bep_specialisme, modelClass: GsInteractiesNietBijBepSpecialisme, peerClass: GsInteractiesNietBijBepSpecialismePeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    interactiewaarschuwing_code: {start: 5, length: 8, type: integer, primaryKey: true}
-    thesaurusnr_zorggroep_1002: {start: 13, length: 4, type: integer, primaryKey: true}
-    zorggroepcodering: {start: 17, length: 6, type: integer, primaryKey: true}
 
   BST632T:
     _attributes: {table: gs_ongewenste_groepen, modelClass: GsOngewensteGroepen, peerClass: GsOngewensteGroepenPeer}
@@ -1014,4 +1011,3 @@ import:
     wmg_tarief: {start: 141, length: 8, type: decimal, scale: 2}
     thesnr_toeslag_thuis: {start: 149, length: 4, type: integer}
     toeslag_thuis: {start: 153, length: 6, type: integer}
-

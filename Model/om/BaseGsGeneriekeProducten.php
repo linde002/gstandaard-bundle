@@ -22,6 +22,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenPeer;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamen;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamenQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaalQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
@@ -218,6 +220,12 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
     protected $collGsArtikelEigenschappensPartial;
 
     /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProducts;
+    protected $collGsPrescriptieProductsPartial;
+
+    /**
      * @var        PropelObjectCollection|GsVoorschrijfprGeneesmiddelIdentific[] Collection to store aggregation of GsVoorschrijfprGeneesmiddelIdentific objects.
      */
     protected $collGsVoorschrijfprGeneesmiddelIdentifics;
@@ -248,6 +256,12 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $gsArtikelEigenschappensScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -1173,6 +1187,8 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             $this->aToedieningswegOmschrijving = null;
             $this->collGsArtikelEigenschappens = null;
 
+            $this->collGsPrescriptieProducts = null;
+
             $this->collGsVoorschrijfprGeneesmiddelIdentifics = null;
 
         } // if (deep)
@@ -1351,6 +1367,24 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
 
             if ($this->collGsArtikelEigenschappens !== null) {
                 foreach ($this->collGsArtikelEigenschappens as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsPrescriptieProductsScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsScheduledForDeletion as $gsPrescriptieProduct) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProduct->save($con);
+                    }
+                    $this->gsPrescriptieProductsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProducts !== null) {
+                foreach ($this->collGsPrescriptieProducts as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1682,6 +1716,14 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
                     }
                 }
 
+                if ($this->collGsPrescriptieProducts !== null) {
+                    foreach ($this->collGsPrescriptieProducts as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
                 if ($this->collGsVoorschrijfprGeneesmiddelIdentifics !== null) {
                     foreach ($this->collGsVoorschrijfprGeneesmiddelIdentifics as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -1870,6 +1912,9 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             }
             if (null !== $this->collGsArtikelEigenschappens) {
                 $result['GsArtikelEigenschappens'] = $this->collGsArtikelEigenschappens->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProducts) {
+                $result['GsPrescriptieProducts'] = $this->collGsPrescriptieProducts->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collGsVoorschrijfprGeneesmiddelIdentifics) {
                 $result['GsVoorschrijfprGeneesmiddelIdentifics'] = $this->collGsVoorschrijfprGeneesmiddelIdentifics->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -2154,6 +2199,12 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             foreach ($this->getGsArtikelEigenschappens() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addGsArtikelEigenschappen($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsPrescriptieProducts() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProduct($relObj->copy($deepCopy));
                 }
             }
 
@@ -2498,6 +2549,9 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
     {
         if ('GsArtikelEigenschappen' == $relationName) {
             $this->initGsArtikelEigenschappens();
+        }
+        if ('GsPrescriptieProduct' == $relationName) {
+            $this->initGsPrescriptieProducts();
         }
         if ('GsVoorschrijfprGeneesmiddelIdentific' == $relationName) {
             $this->initGsVoorschrijfprGeneesmiddelIdentifics();
@@ -2855,6 +2909,406 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
     }
 
     /**
+     * Clears out the collGsPrescriptieProducts collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsGeneriekeProducten The current object (for fluent API support)
+     * @see        addGsPrescriptieProducts()
+     */
+    public function clearGsPrescriptieProducts()
+    {
+        $this->collGsPrescriptieProducts = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProducts collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProducts($v = true)
+    {
+        $this->collGsPrescriptieProductsPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProducts collection.
+     *
+     * By default this just sets the collGsPrescriptieProducts collection to an empty array (like clearcollGsPrescriptieProducts());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProducts($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProducts && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProducts = new PropelObjectCollection();
+        $this->collGsPrescriptieProducts->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsGeneriekeProducten is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProducts($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProducts || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProducts) {
+                // return empty collection
+                $this->initGsPrescriptieProducts();
+            } else {
+                $collGsPrescriptieProducts = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByGsGeneriekeProducten($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsPartial && count($collGsPrescriptieProducts)) {
+                      $this->initGsPrescriptieProducts(false);
+
+                      foreach ($collGsPrescriptieProducts as $obj) {
+                        if (false == $this->collGsPrescriptieProducts->contains($obj)) {
+                          $this->collGsPrescriptieProducts->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsPartial = true;
+                    }
+
+                    $collGsPrescriptieProducts->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProducts;
+                }
+
+                if ($partial && $this->collGsPrescriptieProducts) {
+                    foreach ($this->collGsPrescriptieProducts as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProducts[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProducts = $collGsPrescriptieProducts;
+                $this->collGsPrescriptieProductsPartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProducts;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProduct objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProducts A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsGeneriekeProducten The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProducts(PropelCollection $gsPrescriptieProducts, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsToDelete = $this->getGsPrescriptieProducts(new Criteria(), $con)->diff($gsPrescriptieProducts);
+
+
+        $this->gsPrescriptieProductsScheduledForDeletion = $gsPrescriptieProductsToDelete;
+
+        foreach ($gsPrescriptieProductsToDelete as $gsPrescriptieProductRemoved) {
+            $gsPrescriptieProductRemoved->setGsGeneriekeProducten(null);
+        }
+
+        $this->collGsPrescriptieProducts = null;
+        foreach ($gsPrescriptieProducts as $gsPrescriptieProduct) {
+            $this->addGsPrescriptieProduct($gsPrescriptieProduct);
+        }
+
+        $this->collGsPrescriptieProducts = $gsPrescriptieProducts;
+        $this->collGsPrescriptieProductsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProducts(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProducts || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProducts) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProducts());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByGsGeneriekeProducten($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProducts);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsGeneriekeProducten The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProduct(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProducts === null) {
+            $this->initGsPrescriptieProducts();
+            $this->collGsPrescriptieProductsPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProducts->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProduct($l);
+
+            if ($this->gsPrescriptieProductsScheduledForDeletion and $this->gsPrescriptieProductsScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsScheduledForDeletion->remove($this->gsPrescriptieProductsScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProduct $gsPrescriptieProduct The gsPrescriptieProduct object to add.
+     */
+    protected function doAddGsPrescriptieProduct($gsPrescriptieProduct)
+    {
+        $this->collGsPrescriptieProducts[]= $gsPrescriptieProduct;
+        $gsPrescriptieProduct->setGsGeneriekeProducten($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProduct $gsPrescriptieProduct The gsPrescriptieProduct object to remove.
+     * @return GsGeneriekeProducten The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProduct($gsPrescriptieProduct)
+    {
+        if ($this->getGsPrescriptieProducts()->contains($gsPrescriptieProduct)) {
+            $this->collGsPrescriptieProducts->remove($this->collGsPrescriptieProducts->search($gsPrescriptieProduct));
+            if (null === $this->gsPrescriptieProductsScheduledForDeletion) {
+                $this->gsPrescriptieProductsScheduledForDeletion = clone $this->collGsPrescriptieProducts;
+                $this->gsPrescriptieProductsScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsScheduledForDeletion[]= $gsPrescriptieProduct;
+            $gsPrescriptieProduct->setGsGeneriekeProducten(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinRedenVoorschrijvenHpkNiveauOmschrijving($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('RedenVoorschrijvenHpkNiveauOmschrijving', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinEmballagetypeOmschrijving($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('EmballagetypeOmschrijving', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinBasiseenheidProductOmschrijving($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('BasiseenheidProductOmschrijving', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinHulpmiddelAardOmschrijving($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('HulpmiddelAardOmschrijving', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinRedenHulpstofIdentificerendOmschrijving($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('RedenHulpstofIdentificerendOmschrijving', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsGeneriekeProducten is new, it will return
+     * an empty collection; or if this GsGeneriekeProducten has previously
+     * been saved, it will retrieve related GsPrescriptieProducts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsGeneriekeProducten.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsJoinVerwijzingExtraKenmerkOmschrijving($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('VerwijzingExtraKenmerkOmschrijving', $join_behavior);
+
+        return $this->getGsPrescriptieProducts($query, $con);
+    }
+
+    /**
      * Clears out the collGsVoorschrijfprGeneesmiddelIdentifics collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
@@ -3134,6 +3588,11 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collGsPrescriptieProducts) {
+                foreach ($this->collGsPrescriptieProducts as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collGsVoorschrijfprGeneesmiddelIdentifics) {
                 foreach ($this->collGsVoorschrijfprGeneesmiddelIdentifics as $o) {
                     $o->clearAllReferences($deep);
@@ -3162,6 +3621,10 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             $this->collGsArtikelEigenschappens->clearIterator();
         }
         $this->collGsArtikelEigenschappens = null;
+        if ($this->collGsPrescriptieProducts instanceof PropelCollection) {
+            $this->collGsPrescriptieProducts->clearIterator();
+        }
+        $this->collGsPrescriptieProducts = null;
         if ($this->collGsVoorschrijfprGeneesmiddelIdentifics instanceof PropelCollection) {
             $this->collGsVoorschrijfprGeneesmiddelIdentifics->clearIterator();
         }

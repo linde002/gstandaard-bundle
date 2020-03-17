@@ -38,6 +38,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsPreferentieBeleid;
 use PharmaIntelligence\GstandaardBundle\Model\GsPreferentieBeleidQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsRelatieTussenZinummerHibc;
 use PharmaIntelligence\GstandaardBundle\Model\GsRelatieTussenZinummerHibcQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraak;
+use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraakQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsSupplementaireProductenHistorie;
 use PharmaIntelligence\GstandaardBundle\Model\GsSupplementaireProductenHistorieQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsSupplementaireProductenMetNzaMaximumtarief;
@@ -451,6 +453,11 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
      * @var        GsArtikelEigenschappen one-to-one related GsArtikelEigenschappen object
      */
     protected $singleGsArtikelEigenschappen;
+
+    /**
+     * @var        GsRzvAanspraak one-to-one related GsRzvAanspraak object
+     */
+    protected $singleGsRzvAanspraak;
 
     /**
      * @var        PropelObjectCollection|GsLogistiekeVerpakkingsinformatie[] Collection to store aggregation of GsLogistiekeVerpakkingsinformatie objects.
@@ -2811,6 +2818,8 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
 
             $this->singleGsArtikelEigenschappen = null;
 
+            $this->singleGsRzvAanspraak = null;
+
             $this->collGsLogistiekeVerpakkingsinformaties = null;
 
             $this->singleGsSupplementaireProductenMetNzaMaximumtarief = null;
@@ -3046,6 +3055,12 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
             if ($this->singleGsArtikelEigenschappen !== null) {
                 if (!$this->singleGsArtikelEigenschappen->isDeleted() && ($this->singleGsArtikelEigenschappen->isNew() || $this->singleGsArtikelEigenschappen->isModified())) {
                         $affectedRows += $this->singleGsArtikelEigenschappen->save($con);
+                }
+            }
+
+            if ($this->singleGsRzvAanspraak !== null) {
+                if (!$this->singleGsRzvAanspraak->isDeleted() && ($this->singleGsRzvAanspraak->isNew() || $this->singleGsRzvAanspraak->isModified())) {
+                        $affectedRows += $this->singleGsRzvAanspraak->save($con);
                 }
             }
 
@@ -3678,6 +3693,12 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
                     }
                 }
 
+                if ($this->singleGsRzvAanspraak !== null) {
+                    if (!$this->singleGsRzvAanspraak->validate($columns)) {
+                        $failureMap = array_merge($failureMap, $this->singleGsRzvAanspraak->getValidationFailures());
+                    }
+                }
+
                 if ($this->collGsLogistiekeVerpakkingsinformaties !== null) {
                     foreach ($this->collGsLogistiekeVerpakkingsinformaties as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -4053,6 +4074,9 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
             }
             if (null !== $this->singleGsArtikelEigenschappen) {
                 $result['GsArtikelEigenschappen'] = $this->singleGsArtikelEigenschappen->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->singleGsRzvAanspraak) {
+                $result['GsRzvAanspraak'] = $this->singleGsRzvAanspraak->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
             }
             if (null !== $this->collGsLogistiekeVerpakkingsinformaties) {
                 $result['GsLogistiekeVerpakkingsinformaties'] = $this->collGsLogistiekeVerpakkingsinformaties->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -4553,6 +4577,11 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
             $relObj = $this->getGsArtikelEigenschappen();
             if ($relObj) {
                 $copyObj->setGsArtikelEigenschappen($relObj->copy($deepCopy));
+            }
+
+            $relObj = $this->getGsRzvAanspraak();
+            if ($relObj) {
+                $copyObj->setGsRzvAanspraak($relObj->copy($deepCopy));
             }
 
             foreach ($this->getGsLogistiekeVerpakkingsinformaties() as $relObj) {
@@ -5451,6 +5480,42 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
         $this->singleGsArtikelEigenschappen = $v;
 
         // Make sure that that the passed-in GsArtikelEigenschappen isn't already associated with this object
+        if ($v !== null && $v->getGsArtikelen(null, false) === null) {
+            $v->setGsArtikelen($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Gets a single GsRzvAanspraak object, which is related to this object by a one-to-one relationship.
+     *
+     * @param PropelPDO $con optional connection object
+     * @return GsRzvAanspraak
+     * @throws PropelException
+     */
+    public function getGsRzvAanspraak(PropelPDO $con = null)
+    {
+
+        if ($this->singleGsRzvAanspraak === null && !$this->isNew()) {
+            $this->singleGsRzvAanspraak = GsRzvAanspraakQuery::create()->findPk($this->getPrimaryKey(), $con);
+        }
+
+        return $this->singleGsRzvAanspraak;
+    }
+
+    /**
+     * Sets a single GsRzvAanspraak object as related to this object by a one-to-one relationship.
+     *
+     * @param                  GsRzvAanspraak $v GsRzvAanspraak
+     * @return GsArtikelen The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setGsRzvAanspraak(GsRzvAanspraak $v = null)
+    {
+        $this->singleGsRzvAanspraak = $v;
+
+        // Make sure that that the passed-in GsRzvAanspraak isn't already associated with this object
         if ($v !== null && $v->getGsArtikelen(null, false) === null) {
             $v->setGsArtikelen($this);
         }
@@ -6876,6 +6941,9 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
             if ($this->singleGsArtikelEigenschappen) {
                 $this->singleGsArtikelEigenschappen->clearAllReferences($deep);
             }
+            if ($this->singleGsRzvAanspraak) {
+                $this->singleGsRzvAanspraak->clearAllReferences($deep);
+            }
             if ($this->collGsLogistiekeVerpakkingsinformaties) {
                 foreach ($this->collGsLogistiekeVerpakkingsinformaties as $o) {
                     $o->clearAllReferences($deep);
@@ -6946,6 +7014,10 @@ abstract class BaseGsArtikelen extends BaseObject implements Persistent
             $this->singleGsArtikelEigenschappen->clearIterator();
         }
         $this->singleGsArtikelEigenschappen = null;
+        if ($this->singleGsRzvAanspraak instanceof PropelCollection) {
+            $this->singleGsRzvAanspraak->clearIterator();
+        }
+        $this->singleGsRzvAanspraak = null;
         if ($this->collGsLogistiekeVerpakkingsinformaties instanceof PropelCollection) {
             $this->collGsLogistiekeVerpakkingsinformaties->clearIterator();
         }

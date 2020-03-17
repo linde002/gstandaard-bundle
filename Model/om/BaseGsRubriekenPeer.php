@@ -29,13 +29,13 @@ abstract class BaseGsRubriekenPeer
     const TM_CLASS = 'PharmaIntelligence\\GstandaardBundle\\Model\\map\\GsRubriekenTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 12;
+    const NUM_COLUMNS = 14;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 12;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /** the column name for the bestandnummer field */
     const BESTANDNUMMER = 'gs_rubrieken.bestandnummer';
@@ -73,6 +73,12 @@ abstract class BaseGsRubriekenPeer
     /** the column name for the opmaak field */
     const OPMAAK = 'gs_rubrieken.opmaak';
 
+    /** the column name for the gebruik_van_veld field */
+    const GEBRUIK_VAN_VELD = 'gs_rubrieken.gebruik_van_veld';
+
+    /** the column name for the datum_gebruik field */
+    const DATUM_GEBRUIK = 'gs_rubrieken.datum_gebruik';
+
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -92,12 +98,12 @@ abstract class BaseGsRubriekenPeer
      * e.g. GsRubriekenPeer::$fieldNames[GsRubriekenPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Bestandnummer', 'Mutatiekode', 'NaamVanHetBestand', 'Volgnummer', 'NaamVanDeRubriek', 'OmschrijvingVanDeRubriek', 'Rubriekscode', 'SleutelkodeVanDeRubriek', 'TypeVanDeRubriek', 'LengteVanDeRubriek', 'AantalDecimalen', 'Opmaak', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('bestandnummer', 'mutatiekode', 'naamVanHetBestand', 'volgnummer', 'naamVanDeRubriek', 'omschrijvingVanDeRubriek', 'rubriekscode', 'sleutelkodeVanDeRubriek', 'typeVanDeRubriek', 'lengteVanDeRubriek', 'aantalDecimalen', 'opmaak', ),
-        BasePeer::TYPE_COLNAME => array (GsRubriekenPeer::BESTANDNUMMER, GsRubriekenPeer::MUTATIEKODE, GsRubriekenPeer::NAAM_VAN_HET_BESTAND, GsRubriekenPeer::VOLGNUMMER, GsRubriekenPeer::NAAM_VAN_DE_RUBRIEK, GsRubriekenPeer::OMSCHRIJVING_VAN_DE_RUBRIEK, GsRubriekenPeer::RUBRIEKSCODE, GsRubriekenPeer::SLEUTELKODE_VAN_DE_RUBRIEK, GsRubriekenPeer::TYPE_VAN_DE_RUBRIEK, GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK, GsRubriekenPeer::AANTAL_DECIMALEN, GsRubriekenPeer::OPMAAK, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('BESTANDNUMMER', 'MUTATIEKODE', 'NAAM_VAN_HET_BESTAND', 'VOLGNUMMER', 'NAAM_VAN_DE_RUBRIEK', 'OMSCHRIJVING_VAN_DE_RUBRIEK', 'RUBRIEKSCODE', 'SLEUTELKODE_VAN_DE_RUBRIEK', 'TYPE_VAN_DE_RUBRIEK', 'LENGTE_VAN_DE_RUBRIEK', 'AANTAL_DECIMALEN', 'OPMAAK', ),
-        BasePeer::TYPE_FIELDNAME => array ('bestandnummer', 'mutatiekode', 'naam_van_het_bestand', 'volgnummer', 'naam_van_de_rubriek', 'omschrijving_van_de_rubriek', 'rubriekscode', 'sleutelkode_van_de_rubriek', 'type_van_de_rubriek', 'lengte_van_de_rubriek', 'aantal_decimalen', 'opmaak', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        BasePeer::TYPE_PHPNAME => array ('Bestandnummer', 'Mutatiekode', 'NaamVanHetBestand', 'Volgnummer', 'NaamVanDeRubriek', 'OmschrijvingVanDeRubriek', 'Rubriekscode', 'SleutelkodeVanDeRubriek', 'TypeVanDeRubriek', 'LengteVanDeRubriek', 'AantalDecimalen', 'Opmaak', 'GebruikVanVeld', 'DatumGebruik', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('bestandnummer', 'mutatiekode', 'naamVanHetBestand', 'volgnummer', 'naamVanDeRubriek', 'omschrijvingVanDeRubriek', 'rubriekscode', 'sleutelkodeVanDeRubriek', 'typeVanDeRubriek', 'lengteVanDeRubriek', 'aantalDecimalen', 'opmaak', 'gebruikVanVeld', 'datumGebruik', ),
+        BasePeer::TYPE_COLNAME => array (GsRubriekenPeer::BESTANDNUMMER, GsRubriekenPeer::MUTATIEKODE, GsRubriekenPeer::NAAM_VAN_HET_BESTAND, GsRubriekenPeer::VOLGNUMMER, GsRubriekenPeer::NAAM_VAN_DE_RUBRIEK, GsRubriekenPeer::OMSCHRIJVING_VAN_DE_RUBRIEK, GsRubriekenPeer::RUBRIEKSCODE, GsRubriekenPeer::SLEUTELKODE_VAN_DE_RUBRIEK, GsRubriekenPeer::TYPE_VAN_DE_RUBRIEK, GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK, GsRubriekenPeer::AANTAL_DECIMALEN, GsRubriekenPeer::OPMAAK, GsRubriekenPeer::GEBRUIK_VAN_VELD, GsRubriekenPeer::DATUM_GEBRUIK, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('BESTANDNUMMER', 'MUTATIEKODE', 'NAAM_VAN_HET_BESTAND', 'VOLGNUMMER', 'NAAM_VAN_DE_RUBRIEK', 'OMSCHRIJVING_VAN_DE_RUBRIEK', 'RUBRIEKSCODE', 'SLEUTELKODE_VAN_DE_RUBRIEK', 'TYPE_VAN_DE_RUBRIEK', 'LENGTE_VAN_DE_RUBRIEK', 'AANTAL_DECIMALEN', 'OPMAAK', 'GEBRUIK_VAN_VELD', 'DATUM_GEBRUIK', ),
+        BasePeer::TYPE_FIELDNAME => array ('bestandnummer', 'mutatiekode', 'naam_van_het_bestand', 'volgnummer', 'naam_van_de_rubriek', 'omschrijving_van_de_rubriek', 'rubriekscode', 'sleutelkode_van_de_rubriek', 'type_van_de_rubriek', 'lengte_van_de_rubriek', 'aantal_decimalen', 'opmaak', 'gebruik_van_veld', 'datum_gebruik', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -107,12 +113,12 @@ abstract class BaseGsRubriekenPeer
      * e.g. GsRubriekenPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Bestandnummer' => 0, 'Mutatiekode' => 1, 'NaamVanHetBestand' => 2, 'Volgnummer' => 3, 'NaamVanDeRubriek' => 4, 'OmschrijvingVanDeRubriek' => 5, 'Rubriekscode' => 6, 'SleutelkodeVanDeRubriek' => 7, 'TypeVanDeRubriek' => 8, 'LengteVanDeRubriek' => 9, 'AantalDecimalen' => 10, 'Opmaak' => 11, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('bestandnummer' => 0, 'mutatiekode' => 1, 'naamVanHetBestand' => 2, 'volgnummer' => 3, 'naamVanDeRubriek' => 4, 'omschrijvingVanDeRubriek' => 5, 'rubriekscode' => 6, 'sleutelkodeVanDeRubriek' => 7, 'typeVanDeRubriek' => 8, 'lengteVanDeRubriek' => 9, 'aantalDecimalen' => 10, 'opmaak' => 11, ),
-        BasePeer::TYPE_COLNAME => array (GsRubriekenPeer::BESTANDNUMMER => 0, GsRubriekenPeer::MUTATIEKODE => 1, GsRubriekenPeer::NAAM_VAN_HET_BESTAND => 2, GsRubriekenPeer::VOLGNUMMER => 3, GsRubriekenPeer::NAAM_VAN_DE_RUBRIEK => 4, GsRubriekenPeer::OMSCHRIJVING_VAN_DE_RUBRIEK => 5, GsRubriekenPeer::RUBRIEKSCODE => 6, GsRubriekenPeer::SLEUTELKODE_VAN_DE_RUBRIEK => 7, GsRubriekenPeer::TYPE_VAN_DE_RUBRIEK => 8, GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK => 9, GsRubriekenPeer::AANTAL_DECIMALEN => 10, GsRubriekenPeer::OPMAAK => 11, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('BESTANDNUMMER' => 0, 'MUTATIEKODE' => 1, 'NAAM_VAN_HET_BESTAND' => 2, 'VOLGNUMMER' => 3, 'NAAM_VAN_DE_RUBRIEK' => 4, 'OMSCHRIJVING_VAN_DE_RUBRIEK' => 5, 'RUBRIEKSCODE' => 6, 'SLEUTELKODE_VAN_DE_RUBRIEK' => 7, 'TYPE_VAN_DE_RUBRIEK' => 8, 'LENGTE_VAN_DE_RUBRIEK' => 9, 'AANTAL_DECIMALEN' => 10, 'OPMAAK' => 11, ),
-        BasePeer::TYPE_FIELDNAME => array ('bestandnummer' => 0, 'mutatiekode' => 1, 'naam_van_het_bestand' => 2, 'volgnummer' => 3, 'naam_van_de_rubriek' => 4, 'omschrijving_van_de_rubriek' => 5, 'rubriekscode' => 6, 'sleutelkode_van_de_rubriek' => 7, 'type_van_de_rubriek' => 8, 'lengte_van_de_rubriek' => 9, 'aantal_decimalen' => 10, 'opmaak' => 11, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        BasePeer::TYPE_PHPNAME => array ('Bestandnummer' => 0, 'Mutatiekode' => 1, 'NaamVanHetBestand' => 2, 'Volgnummer' => 3, 'NaamVanDeRubriek' => 4, 'OmschrijvingVanDeRubriek' => 5, 'Rubriekscode' => 6, 'SleutelkodeVanDeRubriek' => 7, 'TypeVanDeRubriek' => 8, 'LengteVanDeRubriek' => 9, 'AantalDecimalen' => 10, 'Opmaak' => 11, 'GebruikVanVeld' => 12, 'DatumGebruik' => 13, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('bestandnummer' => 0, 'mutatiekode' => 1, 'naamVanHetBestand' => 2, 'volgnummer' => 3, 'naamVanDeRubriek' => 4, 'omschrijvingVanDeRubriek' => 5, 'rubriekscode' => 6, 'sleutelkodeVanDeRubriek' => 7, 'typeVanDeRubriek' => 8, 'lengteVanDeRubriek' => 9, 'aantalDecimalen' => 10, 'opmaak' => 11, 'gebruikVanVeld' => 12, 'datumGebruik' => 13, ),
+        BasePeer::TYPE_COLNAME => array (GsRubriekenPeer::BESTANDNUMMER => 0, GsRubriekenPeer::MUTATIEKODE => 1, GsRubriekenPeer::NAAM_VAN_HET_BESTAND => 2, GsRubriekenPeer::VOLGNUMMER => 3, GsRubriekenPeer::NAAM_VAN_DE_RUBRIEK => 4, GsRubriekenPeer::OMSCHRIJVING_VAN_DE_RUBRIEK => 5, GsRubriekenPeer::RUBRIEKSCODE => 6, GsRubriekenPeer::SLEUTELKODE_VAN_DE_RUBRIEK => 7, GsRubriekenPeer::TYPE_VAN_DE_RUBRIEK => 8, GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK => 9, GsRubriekenPeer::AANTAL_DECIMALEN => 10, GsRubriekenPeer::OPMAAK => 11, GsRubriekenPeer::GEBRUIK_VAN_VELD => 12, GsRubriekenPeer::DATUM_GEBRUIK => 13, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('BESTANDNUMMER' => 0, 'MUTATIEKODE' => 1, 'NAAM_VAN_HET_BESTAND' => 2, 'VOLGNUMMER' => 3, 'NAAM_VAN_DE_RUBRIEK' => 4, 'OMSCHRIJVING_VAN_DE_RUBRIEK' => 5, 'RUBRIEKSCODE' => 6, 'SLEUTELKODE_VAN_DE_RUBRIEK' => 7, 'TYPE_VAN_DE_RUBRIEK' => 8, 'LENGTE_VAN_DE_RUBRIEK' => 9, 'AANTAL_DECIMALEN' => 10, 'OPMAAK' => 11, 'GEBRUIK_VAN_VELD' => 12, 'DATUM_GEBRUIK' => 13, ),
+        BasePeer::TYPE_FIELDNAME => array ('bestandnummer' => 0, 'mutatiekode' => 1, 'naam_van_het_bestand' => 2, 'volgnummer' => 3, 'naam_van_de_rubriek' => 4, 'omschrijving_van_de_rubriek' => 5, 'rubriekscode' => 6, 'sleutelkode_van_de_rubriek' => 7, 'type_van_de_rubriek' => 8, 'lengte_van_de_rubriek' => 9, 'aantal_decimalen' => 10, 'opmaak' => 11, 'gebruik_van_veld' => 12, 'datum_gebruik' => 13, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -198,6 +204,8 @@ abstract class BaseGsRubriekenPeer
             $criteria->addSelectColumn(GsRubriekenPeer::LENGTE_VAN_DE_RUBRIEK);
             $criteria->addSelectColumn(GsRubriekenPeer::AANTAL_DECIMALEN);
             $criteria->addSelectColumn(GsRubriekenPeer::OPMAAK);
+            $criteria->addSelectColumn(GsRubriekenPeer::GEBRUIK_VAN_VELD);
+            $criteria->addSelectColumn(GsRubriekenPeer::DATUM_GEBRUIK);
         } else {
             $criteria->addSelectColumn($alias . '.bestandnummer');
             $criteria->addSelectColumn($alias . '.mutatiekode');
@@ -211,6 +219,8 @@ abstract class BaseGsRubriekenPeer
             $criteria->addSelectColumn($alias . '.lengte_van_de_rubriek');
             $criteria->addSelectColumn($alias . '.aantal_decimalen');
             $criteria->addSelectColumn($alias . '.opmaak');
+            $criteria->addSelectColumn($alias . '.gebruik_van_veld');
+            $criteria->addSelectColumn($alias . '.datum_gebruik');
         }
     }
 

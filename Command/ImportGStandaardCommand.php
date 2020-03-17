@@ -12,6 +12,7 @@ use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsArtikelenQuery;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ImportGStandaardCommand extends ContainerAwareCommand
 {
@@ -29,26 +30,42 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 	const MUTATIE_WIJZIGEN = 2;
 	const MUTATIE_NIEUW = 3;
 
-	const GSTANDAARD_URL = 'https://www.z-index.nl/@@download-file?filename=GSTNDDB';
-
+	const GSTANDAARD_URL = 'https://www.z-index.nl/@@download-file?filename=';
+	const ALLE_BESTANDEN = 'all';
+	protected $bestand = self::ALLE_BESTANDEN;
+    
 	protected function configure()
 	{
 		$this
 			->setName('pharma-intelligence:g-standaard:import')
 			->setDescription('Importeerd G-Standaard')
 			->addOption(
-				'alleenMutaties',
-				null,
-				InputOption::VALUE_NONE,
-				'Wanneer alleen records met een mutatiecode > 0 moeten worden verwerkt')
+			    'alleenMutaties',
+			    null,
+			    InputOption::VALUE_NONE,
+			    'Wanneer alleen records met een mutatiecode > 0 moeten worden verwerkt')
+		    ->addOption(
+		        'skipHistorie',
+		        null,
+		        InputOption::VALUE_NONE,
+		        'Geen historie wegschrijven')
+            ->addArgument('bestand', InputArgument::OPTIONAL, 'bestand om te importeren', self::ALLE_BESTANDEN)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
+	    $this->bestand = $input->getArgument('bestand');
+	    if($this->bestand !== self::ALLE_BESTANDEN) {
+	        $output->writeln('Alleen bestand '.$this->bestand);
+	    }
 		$this->downloadGStandaard($input, $output);
 		$this->extractGStandaard($input, $output);
-		$this->updateAddOnHistorie($input, $output);
+		if(!$input->getOption('skipHistorie')) {
+		  $this->updateAddOnHistorie($input, $output);
+		} else {
+		    $output->writeln('skipHistorie');
+		}
 		$this->importGstandaard($input, $output);
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
@@ -81,9 +98,14 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$user = $this->getContainer()->getParameter('pi.gstandaard.user');
         $password = $this->getContainer()->getParameter('pi.gstandaard.password');
 
-
+        if($this->bestand === self::ALLE_BESTANDEN) {
+            $url = self::GSTANDAARD_URL.'GSTNDDB';
+        } else {
+            $url = self::GSTANDAARD_URL.$this->bestand ;
+        }
+        $output->writeln(date('[H:i:s]').' URL: '.$url);
 		$out = fopen($downloadLocation, 'wb');
-		$curl = curl_init(self::GSTANDAARD_URL);
+		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -92,10 +114,11 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FILE, $out);
 		$result = curl_exec($curl);
-
-		if($result === false) {
-			throw new \Exception('Fout bij downloaden G-Standaard: '.curl_errno($curl).' '.curl_error($curl));
+		$info = curl_getinfo($curl);
+		if($result === false || $info['http_code'] != 200) {
+			throw new \Exception(sprintf('Fout bij downloaden G-Standaard. HTTP# %s. Error code %s - %s: ', $info['http_code'], curl_errno($curl), curl_error($curl)));
 		}
+		$output->writeln(date('[H:i:s]').' Downloaded: '.filesize($downloadLocation).' bytes');
 		$output->writeln(date('[H:i:s]').' Gereed downloaden G-Standaard');
 	}
 
@@ -272,9 +295,11 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->zindexConfig = \sfYaml::load($zindexConfig);
 		$this->mapRecordlengths();
 		foreach($this->zindexConfig['import'] as $fileName => $import) {
+		    if($this->bestand !== self::ALLE_BESTANDEN && $fileName != $this->bestand) {
+		        continue;
+		    }
 			try {
 				$this->import($fileName, $import);
-
 			}
 			catch(\Exception $e) {
 				$output->writeln('<error>Import '.$fileName.' failed: '.$e->getMessage().'</error>');
@@ -307,7 +332,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$leveranciers = GsNawGegevensGstandaardQuery::create()
 			->where('Slug IS NULL')
 			->find();
-		foreach($leveranciers as $int => $leverancier) {
+		foreach($leveranciers as $leverancier) {
 			$leverancier->save();
 		}
 	}

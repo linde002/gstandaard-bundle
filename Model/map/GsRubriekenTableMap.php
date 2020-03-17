@@ -54,6 +54,8 @@ class GsRubriekenTableMap extends TableMap
         $this->addColumn('lengte_van_de_rubriek', 'LengteVanDeRubriek', 'INTEGER', false, null, null);
         $this->addColumn('aantal_decimalen', 'AantalDecimalen', 'INTEGER', false, null, null);
         $this->addColumn('opmaak', 'Opmaak', 'VARCHAR', false, 255, null);
+        $this->addColumn('gebruik_van_veld', 'GebruikVanVeld', 'CHAR', false, 1, null);
+        $this->addColumn('datum_gebruik', 'DatumGebruik', 'DATE', false, null, null);
         // validators
     } // initialize()
 

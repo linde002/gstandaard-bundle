@@ -35,10 +35,14 @@ use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaard;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsPreferentieBeleid;
 use PharmaIntelligence\GstandaardBundle\Model\GsPreferentieBeleidQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsPrijsTariefTabel;
 use PharmaIntelligence\GstandaardBundle\Model\GsPrijsTariefTabelQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsRelatieOngewensteGroepensnk;
 use PharmaIntelligence\GstandaardBundle\Model\GsRelatieOngewensteGroepensnkQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraak;
+use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraakQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsSupplementaireProductenHistorie;
 use PharmaIntelligence\GstandaardBundle\Model\GsSupplementaireProductenHistorieQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
@@ -161,6 +165,24 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      */
     protected $collGsSupplementaireProductenHistories;
     protected $collGsSupplementaireProductenHistoriesPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsRzvAanspraak[] Collection to store aggregation of GsRzvAanspraak objects.
+     */
+    protected $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+    protected $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsRzvAanspraak[] Collection to store aggregation of GsRzvAanspraak objects.
+     */
+    protected $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+    protected $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsRzvAanspraak[] Collection to store aggregation of GsRzvAanspraak objects.
+     */
+    protected $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+    protected $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial;
 
     /**
      * @var        PropelObjectCollection|GsAanvullendeMedicatiebewakingsgegevens[] Collection to store aggregation of GsAanvullendeMedicatiebewakingsgegevens objects.
@@ -367,6 +389,42 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
     protected $collGsRelatieOngewensteGroepensnksPartial;
 
     /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+    protected $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype;
+    protected $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial;
+
+    /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+    protected $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+    protected $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+    protected $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial;
+
+    /**
+     * @var        PropelObjectCollection|GsPrescriptieProduct[] Collection to store aggregation of GsPrescriptieProduct objects.
+     */
+    protected $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+    protected $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -391,6 +449,24 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $gsSupplementaireProductenHistoriesScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -595,6 +671,42 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $gsRelatieOngewensteGroepensnksScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion = null;
 
     /**
      * Get the [bestandnummer] column value.
@@ -1196,6 +1308,12 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
 
             $this->collGsSupplementaireProductenHistories = null;
 
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = null;
+
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = null;
+
+            $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = null;
+
             $this->collGsAanvullendeMedicatiebewakingsgegevenss = null;
 
             $this->collGsLogistiekeVerpakkingsinformatiesRelatedByThesaurusSoortenVerpakkingenThesaurusitemSoortenVerpakkingen = null;
@@ -1263,6 +1381,18 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
             $this->collGsPrijsTariefTabelsRelatedByThesaurusverwijzingSoortBronSoortBron = null;
 
             $this->collGsRelatieOngewensteGroepensnks = null;
+
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = null;
+
+            $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = null;
+
+            $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = null;
+
+            $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = null;
+
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = null;
+
+            $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = null;
 
         } // if (deep)
     }
@@ -1400,6 +1530,60 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
 
             if ($this->collGsSupplementaireProductenHistories !== null) {
                 foreach ($this->collGsSupplementaireProductenHistories as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion !== null) {
+                if (!$this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion as $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+                        // need to save related object because we set the relation to null
+                        $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking->save($con);
+                    }
+                    $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking !== null) {
+                foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion !== null) {
+                if (!$this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion as $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+                        // need to save related object because we set the relation to null
+                        $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->save($con);
+                    }
+                    $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg !== null) {
+                foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion !== null) {
+                if (!$this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion as $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+                        // need to save related object because we set the relation to null
+                        $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->save($con);
+                    }
+                    $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 !== null) {
+                foreach ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -2018,6 +2202,114 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
                 }
             }
 
+            if ($this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion as $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->save($con);
+                    }
+                    $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau !== null) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion as $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype->save($con);
+                    }
+                    $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype !== null) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion as $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct->save($con);
+                    }
+                    $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct !== null) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion as $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard->save($con);
+                    }
+                    $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard !== null) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion as $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->save($con);
+                    }
+                    $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend !== null) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion !== null) {
+                if (!$this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion->isEmpty()) {
+                    foreach ($this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion as $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+                        // need to save related object because we set the relation to null
+                        $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->save($con);
+                    }
+                    $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk !== null) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -2235,6 +2527,30 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
 
                 if ($this->collGsSupplementaireProductenHistories !== null) {
                     foreach ($this->collGsSupplementaireProductenHistories as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking !== null) {
+                    foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg !== null) {
+                    foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 !== null) {
+                    foreach ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
                             $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
                         }
@@ -2513,6 +2829,54 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
                     }
                 }
 
+                if ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau !== null) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype !== null) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct !== null) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard !== null) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend !== null) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
+                if ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk !== null) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
 
             $this->alreadyInValidation = false;
         }
@@ -2647,6 +3011,15 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
             if (null !== $this->collGsSupplementaireProductenHistories) {
                 $result['GsSupplementaireProductenHistories'] = $this->collGsSupplementaireProductenHistories->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
+            if (null !== $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+                $result['GsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking'] = $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+                $result['GsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg'] = $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+                $result['GsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2'] = $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collGsAanvullendeMedicatiebewakingsgegevenss) {
                 $result['GsAanvullendeMedicatiebewakingsgegevenss'] = $this->collGsAanvullendeMedicatiebewakingsgegevenss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -2748,6 +3121,24 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
             }
             if (null !== $this->collGsRelatieOngewensteGroepensnks) {
                 $result['GsRelatieOngewensteGroepensnks'] = $this->collGsRelatieOngewensteGroepensnks->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+                $result['GsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau'] = $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype) {
+                $result['GsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype'] = $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+                $result['GsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct'] = $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+                $result['GsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard'] = $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+                $result['GsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend'] = $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+                $result['GsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk'] = $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -2992,6 +3383,24 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
                 }
             }
 
+            foreach ($this->getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getGsAanvullendeMedicatiebewakingsgegevenss() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addGsAanvullendeMedicatiebewakingsgegevens($relObj->copy($deepCopy));
@@ -3196,6 +3605,42 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
                 }
             }
 
+            foreach ($this->getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($relObj->copy($deepCopy));
+                }
+            }
+
             //unflag object copy
             $this->startCopy = false;
         } // if ($deepCopy)
@@ -3258,6 +3703,15 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
     {
         if ('GsSupplementaireProductenHistorie' == $relationName) {
             $this->initGsSupplementaireProductenHistories();
+        }
+        if ('GsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking' == $relationName) {
+            $this->initGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking();
+        }
+        if ('GsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg' == $relationName) {
+            $this->initGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg();
+        }
+        if ('GsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2' == $relationName) {
+            $this->initGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2();
         }
         if ('GsAanvullendeMedicatiebewakingsgegevens' == $relationName) {
             $this->initGsAanvullendeMedicatiebewakingsgegevenss();
@@ -3360,6 +3814,24 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
         }
         if ('GsRelatieOngewensteGroepensnk' == $relationName) {
             $this->initGsRelatieOngewensteGroepensnks();
+        }
+        if ('GsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau' == $relationName) {
+            $this->initGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau();
+        }
+        if ('GsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype' == $relationName) {
+            $this->initGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype();
+        }
+        if ('GsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct' == $relationName) {
+            $this->initGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct();
+        }
+        if ('GsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard' == $relationName) {
+            $this->initGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard();
+        }
+        if ('GsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend' == $relationName) {
+            $this->initGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend();
+        }
+        if ('GsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk' == $relationName) {
+            $this->initGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk();
         }
     }
 
@@ -3611,6 +4083,831 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
         $query->joinWith('GsArtikelen', $join_behavior);
 
         return $this->getGsSupplementaireProductenHistories($query, $con);
+    }
+
+    /**
+     * Clears out the collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking()
+     */
+    public function clearGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking()
+    {
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = null; // important to set this to null since that means it is uninitialized
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking($v = true)
+    {
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking collection.
+     *
+     * By default this just sets the collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking collection to an empty array (like clearcollGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking($overrideExisting = true)
+    {
+        if (null !== $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking && !$overrideExisting) {
+            return;
+        }
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = new PropelObjectCollection();
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->setModel('GsRzvAanspraak');
+    }
+
+    /**
+     * Gets an array of GsRzvAanspraak objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     * @throws PropelException
+     */
+    public function getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial && !$this->isNew();
+        if (null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+                // return empty collection
+                $this->initGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking();
+            } else {
+                $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = GsRzvAanspraakQuery::create(null, $criteria)
+                    ->filterByRzvVerstrekkingOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial && count($collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking)) {
+                      $this->initGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking(false);
+
+                      foreach ($collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking as $obj) {
+                        if (false == $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->contains($obj)) {
+                          $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->append($obj);
+                        }
+                      }
+
+                      $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial = true;
+                    }
+
+                    $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->getInternalIterator()->rewind();
+
+                    return $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+                }
+
+                if ($partial && $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+                    foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = $collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+                $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial = false;
+            }
+        }
+
+        return $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+    }
+
+    /**
+     * Sets a collection of GsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking(PropelCollection $gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking, PropelPDO $con = null)
+    {
+        $gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingToDelete = $this->getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking(new Criteria(), $con)->diff($gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking);
+
+
+        $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion = $gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingToDelete;
+
+        foreach ($gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingToDelete as $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekkingRemoved) {
+            $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekkingRemoved->setRzvVerstrekkingOmschrijving(null);
+        }
+
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = null;
+        foreach ($gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking as $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+            $this->addGsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking($gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking);
+        }
+
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = $gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsRzvAanspraak objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsRzvAanspraak objects.
+     * @throws PropelException
+     */
+    public function countGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial && !$this->isNew();
+        if (null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking());
+            }
+            $query = GsRzvAanspraakQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByRzvVerstrekkingOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking);
+    }
+
+    /**
+     * Method called to associate a GsRzvAanspraak object to this object
+     * through the GsRzvAanspraak foreign key attribute.
+     *
+     * @param    GsRzvAanspraak $l GsRzvAanspraak
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking(GsRzvAanspraak $l)
+    {
+        if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking === null) {
+            $this->initGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking();
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking($l);
+
+            if ($this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion and $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion->contains($l)) {
+                $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion->remove($this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking The gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking object to add.
+     */
+    protected function doAddGsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking($gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking)
+    {
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking[]= $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+        $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking->setRzvVerstrekkingOmschrijving($this);
+    }
+
+    /**
+     * @param	GsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking The gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking($gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking)
+    {
+        if ($this->getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking()->contains($gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking)) {
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->remove($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->search($gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking));
+            if (null === $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion) {
+                $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion = clone $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+                $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion->clear();
+            }
+            $this->gsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingScheduledForDeletion[]= clone $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking;
+            $gsRzvAanspraakRelatedByThesaurusRzvVerstrekkingRzvverstrekking->setRzvVerstrekkingOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     */
+    public function getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingJoinGsArtikelen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsRzvAanspraakQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelen', $join_behavior);
+
+        return $this->getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     */
+    public function getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekkingJoinGsArtikelEigenschappen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsRzvAanspraakQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelEigenschappen', $join_behavior);
+
+        return $this->getGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking($query, $con);
+    }
+
+    /**
+     * Clears out the collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg()
+     */
+    public function clearGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg()
+    {
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = null; // important to set this to null since that means it is uninitialized
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($v = true)
+    {
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg collection.
+     *
+     * By default this just sets the collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg collection to an empty array (like clearcollGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($overrideExisting = true)
+    {
+        if (null !== $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg && !$overrideExisting) {
+            return;
+        }
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = new PropelObjectCollection();
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->setModel('GsRzvAanspraak');
+    }
+
+    /**
+     * Gets an array of GsRzvAanspraak objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     * @throws PropelException
+     */
+    public function getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial && !$this->isNew();
+        if (null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+                // return empty collection
+                $this->initGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg();
+            } else {
+                $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = GsRzvAanspraakQuery::create(null, $criteria)
+                    ->filterByRzvHulpmiddelenOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial && count($collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg)) {
+                      $this->initGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg(false);
+
+                      foreach ($collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg as $obj) {
+                        if (false == $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->contains($obj)) {
+                          $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->append($obj);
+                        }
+                      }
+
+                      $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial = true;
+                    }
+
+                    $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->getInternalIterator()->rewind();
+
+                    return $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+                }
+
+                if ($partial && $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+                    foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = $collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+                $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial = false;
+            }
+        }
+
+        return $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+    }
+
+    /**
+     * Sets a collection of GsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg(PropelCollection $gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg, PropelPDO $con = null)
+    {
+        $gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgToDelete = $this->getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg(new Criteria(), $con)->diff($gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg);
+
+
+        $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion = $gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgToDelete;
+
+        foreach ($gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgToDelete as $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgRemoved) {
+            $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgRemoved->setRzvHulpmiddelenOmschrijving(null);
+        }
+
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = null;
+        foreach ($gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg as $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+            $this->addGsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg);
+        }
+
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = $gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsRzvAanspraak objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsRzvAanspraak objects.
+     * @throws PropelException
+     */
+    public function countGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial && !$this->isNew();
+        if (null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg());
+            }
+            $query = GsRzvAanspraakQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByRzvHulpmiddelenOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg);
+    }
+
+    /**
+     * Method called to associate a GsRzvAanspraak object to this object
+     * through the GsRzvAanspraak foreign key attribute.
+     *
+     * @param    GsRzvAanspraak $l GsRzvAanspraak
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg(GsRzvAanspraak $l)
+    {
+        if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg === null) {
+            $this->initGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg();
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($l);
+
+            if ($this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion and $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion->contains($l)) {
+                $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion->remove($this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg The gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg object to add.
+     */
+    protected function doAddGsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg)
+    {
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg[]= $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+        $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->setRzvHulpmiddelenOmschrijving($this);
+    }
+
+    /**
+     * @param	GsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg The gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg)
+    {
+        if ($this->getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg()->contains($gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg)) {
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->remove($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->search($gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg));
+            if (null === $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion) {
+                $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion = clone $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+                $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion->clear();
+            }
+            $this->gsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgScheduledForDeletion[]= clone $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg;
+            $gsRzvAanspraakRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->setRzvHulpmiddelenOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     */
+    public function getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgJoinGsArtikelen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsRzvAanspraakQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelen', $join_behavior);
+
+        return $this->getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     */
+    public function getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorgJoinGsArtikelEigenschappen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsRzvAanspraakQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelEigenschappen', $join_behavior);
+
+        return $this->getGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg($query, $con);
+    }
+
+    /**
+     * Clears out the collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2()
+     */
+    public function clearGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2()
+    {
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = null; // important to set this to null since that means it is uninitialized
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($v = true)
+    {
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial = $v;
+    }
+
+    /**
+     * Initializes the collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 collection.
+     *
+     * By default this just sets the collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 collection to an empty array (like clearcollGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($overrideExisting = true)
+    {
+        if (null !== $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 && !$overrideExisting) {
+            return;
+        }
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = new PropelObjectCollection();
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->setModel('GsRzvAanspraak');
+    }
+
+    /**
+     * Gets an array of GsRzvAanspraak objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     * @throws PropelException
+     */
+    public function getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial && !$this->isNew();
+        if (null === $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+                // return empty collection
+                $this->initGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2();
+            } else {
+                $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = GsRzvAanspraakQuery::create(null, $criteria)
+                    ->filterByRzvVoorwaardenOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial && count($collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2)) {
+                      $this->initGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2(false);
+
+                      foreach ($collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 as $obj) {
+                        if (false == $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->contains($obj)) {
+                          $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->append($obj);
+                        }
+                      }
+
+                      $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial = true;
+                    }
+
+                    $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->getInternalIterator()->rewind();
+
+                    return $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+                }
+
+                if ($partial && $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+                    foreach ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = $collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+                $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial = false;
+            }
+        }
+
+        return $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+    }
+
+    /**
+     * Sets a collection of GsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2(PropelCollection $gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2, PropelPDO $con = null)
+    {
+        $gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ToDelete = $this->getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2(new Criteria(), $con)->diff($gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2);
+
+
+        $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion = $gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ToDelete;
+
+        foreach ($gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ToDelete as $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Removed) {
+            $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Removed->setRzvVoorwaardenOmschrijving(null);
+        }
+
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = null;
+        foreach ($gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 as $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+            $this->addGsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2);
+        }
+
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = $gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsRzvAanspraak objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsRzvAanspraak objects.
+     * @throws PropelException
+     */
+    public function countGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial && !$this->isNew();
+        if (null === $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2());
+            }
+            $query = GsRzvAanspraakQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByRzvVoorwaardenOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2);
+    }
+
+    /**
+     * Method called to associate a GsRzvAanspraak object to this object
+     * through the GsRzvAanspraak foreign key attribute.
+     *
+     * @param    GsRzvAanspraak $l GsRzvAanspraak
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2(GsRzvAanspraak $l)
+    {
+        if ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 === null) {
+            $this->initGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2();
+            $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2Partial = true;
+        }
+
+        if (!in_array($l, $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($l);
+
+            if ($this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion and $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion->contains($l)) {
+                $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion->remove($this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 The gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 object to add.
+     */
+    protected function doAddGsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2)
+    {
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2[]= $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+        $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->setRzvVoorwaardenOmschrijving($this);
+    }
+
+    /**
+     * @param	GsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 The gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2)
+    {
+        if ($this->getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2()->contains($gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2)) {
+            $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->remove($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->search($gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2));
+            if (null === $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion) {
+                $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion = clone $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+                $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion->clear();
+            }
+            $this->gsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2ScheduledForDeletion[]= clone $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2;
+            $gsRzvAanspraakRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->setRzvVoorwaardenOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     */
+    public function getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2JoinGsArtikelen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsRzvAanspraakQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelen', $join_behavior);
+
+        return $this->getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsRzvAanspraak[] List of GsRzvAanspraak objects
+     */
+    public function getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2JoinGsArtikelEigenschappen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsRzvAanspraakQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelEigenschappen', $join_behavior);
+
+        return $this->getGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($query, $con);
     }
 
     /**
@@ -12816,6 +14113,1656 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
     }
 
     /**
+     * Clears out the collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau()
+     */
+    public function clearGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau()
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($v = true)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau collection.
+     *
+     * By default this just sets the collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau collection to an empty array (like clearcollGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = new PropelObjectCollection();
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+                // return empty collection
+                $this->initGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau();
+            } else {
+                $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByRedenVoorschrijvenHpkNiveauOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial && count($collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau)) {
+                      $this->initGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau(false);
+
+                      foreach ($collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau as $obj) {
+                        if (false == $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->contains($obj)) {
+                          $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial = true;
+                    }
+
+                    $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+                }
+
+                if ($partial && $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = $collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+                $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau(PropelCollection $gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauToDelete = $this->getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau(new Criteria(), $con)->diff($gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau);
+
+
+        $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion = $gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauToDelete;
+
+        foreach ($gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauToDelete as $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauRemoved) {
+            $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauRemoved->setRedenVoorschrijvenHpkNiveauOmschrijving(null);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = null;
+        foreach ($gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau as $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+            $this->addGsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = $gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByRedenVoorschrijvenHpkNiveauOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau === null) {
+            $this->initGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau();
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($l);
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion and $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion->remove($this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau The gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau object to add.
+     */
+    protected function doAddGsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau[]= $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+        $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->setRedenVoorschrijvenHpkNiveauOmschrijving($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau The gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau)
+    {
+        if ($this->getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau()->contains($gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau)) {
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->remove($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->search($gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau));
+            if (null === $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion) {
+                $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion = clone $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+                $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauScheduledForDeletion[]= clone $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau;
+            $gsPrescriptieProductRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->setRedenVoorschrijvenHpkNiveauOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauJoinGsGeneriekeProducten($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsGeneriekeProducten', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveauJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau($query, $con);
+    }
+
+    /**
+     * Clears out the collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype()
+     */
+    public function clearGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype()
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype($v = true)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype collection.
+     *
+     * By default this just sets the collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype collection to an empty array (like clearcollGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = new PropelObjectCollection();
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype) {
+                // return empty collection
+                $this->initGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype();
+            } else {
+                $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByEmballagetypeOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial && count($collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype)) {
+                      $this->initGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype(false);
+
+                      foreach ($collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype as $obj) {
+                        if (false == $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->contains($obj)) {
+                          $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial = true;
+                    }
+
+                    $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype;
+                }
+
+                if ($partial && $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = $collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype;
+                $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype(PropelCollection $gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeToDelete = $this->getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype(new Criteria(), $con)->diff($gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype);
+
+
+        $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion = $gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeToDelete;
+
+        foreach ($gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeToDelete as $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetypeRemoved) {
+            $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetypeRemoved->setEmballagetypeOmschrijving(null);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = null;
+        foreach ($gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype as $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype) {
+            $this->addGsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype($gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = $gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype;
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByEmballagetypeOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype === null) {
+            $this->initGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype();
+            $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypePartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype($l);
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion and $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion->remove($this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype The gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype object to add.
+     */
+    protected function doAddGsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype($gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype[]= $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype;
+        $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype->setEmballagetypeOmschrijving($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype The gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype($gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype)
+    {
+        if ($this->getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype()->contains($gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype)) {
+            $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->remove($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->search($gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype));
+            if (null === $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion) {
+                $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion = clone $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype;
+                $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeScheduledForDeletion[]= clone $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype;
+            $gsPrescriptieProductRelatedByThesnrEmballagetypeEmballagetype->setEmballagetypeOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeJoinGsGeneriekeProducten($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsGeneriekeProducten', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetypeJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype($query, $con);
+    }
+
+    /**
+     * Clears out the collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct()
+     */
+    public function clearGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct()
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct($v = true)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct collection.
+     *
+     * By default this just sets the collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct collection to an empty array (like clearcollGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = new PropelObjectCollection();
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+                // return empty collection
+                $this->initGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct();
+            } else {
+                $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByBasiseenheidProductOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial && count($collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct)) {
+                      $this->initGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct(false);
+
+                      foreach ($collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct as $obj) {
+                        if (false == $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->contains($obj)) {
+                          $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial = true;
+                    }
+
+                    $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+                }
+
+                if ($partial && $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = $collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+                $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct(PropelCollection $gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductToDelete = $this->getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct(new Criteria(), $con)->diff($gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct);
+
+
+        $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion = $gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductToDelete;
+
+        foreach ($gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductToDelete as $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProductRemoved) {
+            $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProductRemoved->setBasiseenheidProductOmschrijving(null);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = null;
+        foreach ($gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct as $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+            $this->addGsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct($gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = $gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByBasiseenheidProductOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct === null) {
+            $this->initGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct();
+            $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct($l);
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion and $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion->remove($this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct The gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct object to add.
+     */
+    protected function doAddGsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct($gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct[]= $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+        $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct->setBasiseenheidProductOmschrijving($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct The gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct($gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct)
+    {
+        if ($this->getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct()->contains($gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct)) {
+            $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->remove($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->search($gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct));
+            if (null === $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion) {
+                $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion = clone $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+                $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductScheduledForDeletion[]= clone $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct;
+            $gsPrescriptieProductRelatedByThesnrBasiseenheidProductBasiseenheidProduct->setBasiseenheidProductOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductJoinGsGeneriekeProducten($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsGeneriekeProducten', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProductJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct($query, $con);
+    }
+
+    /**
+     * Clears out the collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard()
+     */
+    public function clearGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard()
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard($v = true)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard collection.
+     *
+     * By default this just sets the collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard collection to an empty array (like clearcollGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = new PropelObjectCollection();
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+                // return empty collection
+                $this->initGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard();
+            } else {
+                $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByHulpmiddelAardOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial && count($collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard)) {
+                      $this->initGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard(false);
+
+                      foreach ($collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard as $obj) {
+                        if (false == $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->contains($obj)) {
+                          $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial = true;
+                    }
+
+                    $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+                }
+
+                if ($partial && $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = $collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+                $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard(PropelCollection $gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardToDelete = $this->getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard(new Criteria(), $con)->diff($gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard);
+
+
+        $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion = $gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardToDelete;
+
+        foreach ($gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardToDelete as $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAardRemoved) {
+            $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAardRemoved->setHulpmiddelAardOmschrijving(null);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = null;
+        foreach ($gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard as $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+            $this->addGsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard($gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = $gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByHulpmiddelAardOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard === null) {
+            $this->initGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard();
+            $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard($l);
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion and $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion->remove($this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard The gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard object to add.
+     */
+    protected function doAddGsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard($gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard[]= $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+        $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard->setHulpmiddelAardOmschrijving($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard The gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard($gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard)
+    {
+        if ($this->getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard()->contains($gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard)) {
+            $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->remove($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->search($gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard));
+            if (null === $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion) {
+                $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion = clone $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+                $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardScheduledForDeletion[]= clone $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard;
+            $gsPrescriptieProductRelatedByThesnrHulpmiddelAardHulpmiddelAard->setHulpmiddelAardOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardJoinGsGeneriekeProducten($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsGeneriekeProducten', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAardJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard($query, $con);
+    }
+
+    /**
+     * Clears out the collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend()
+     */
+    public function clearGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend()
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($v = true)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend collection.
+     *
+     * By default this just sets the collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend collection to an empty array (like clearcollGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = new PropelObjectCollection();
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+                // return empty collection
+                $this->initGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend();
+            } else {
+                $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByRedenHulpstofIdentificerendOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial && count($collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend)) {
+                      $this->initGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend(false);
+
+                      foreach ($collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend as $obj) {
+                        if (false == $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->contains($obj)) {
+                          $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial = true;
+                    }
+
+                    $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+                }
+
+                if ($partial && $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = $collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+                $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend(PropelCollection $gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendToDelete = $this->getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend(new Criteria(), $con)->diff($gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend);
+
+
+        $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion = $gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendToDelete;
+
+        foreach ($gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendToDelete as $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendRemoved) {
+            $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendRemoved->setRedenHulpstofIdentificerendOmschrijving(null);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = null;
+        foreach ($gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend as $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+            $this->addGsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = $gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByRedenHulpstofIdentificerendOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend === null) {
+            $this->initGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend();
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($l);
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion and $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion->remove($this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend The gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend object to add.
+     */
+    protected function doAddGsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend[]= $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+        $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->setRedenHulpstofIdentificerendOmschrijving($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend The gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend)
+    {
+        if ($this->getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend()->contains($gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend)) {
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->remove($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->search($gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend));
+            if (null === $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion) {
+                $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion = clone $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+                $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendScheduledForDeletion[]= clone $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend;
+            $gsPrescriptieProductRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->setRedenHulpstofIdentificerendOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendJoinGsGeneriekeProducten($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsGeneriekeProducten', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerendJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend($query, $con);
+    }
+
+    /**
+     * Clears out the collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     * @see        addGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk()
+     */
+    public function clearGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk()
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = null; // important to set this to null since that means it is uninitialized
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($v = true)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk collection.
+     *
+     * By default this just sets the collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk collection to an empty array (like clearcollGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($overrideExisting = true)
+    {
+        if (null !== $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk && !$overrideExisting) {
+            return;
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = new PropelObjectCollection();
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->setModel('GsPrescriptieProduct');
+    }
+
+    /**
+     * Gets an array of GsPrescriptieProduct objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsThesauriTotaal is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     * @throws PropelException
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+                // return empty collection
+                $this->initGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk();
+            } else {
+                $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = GsPrescriptieProductQuery::create(null, $criteria)
+                    ->filterByVerwijzingExtraKenmerkOmschrijving($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial && count($collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk)) {
+                      $this->initGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk(false);
+
+                      foreach ($collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk as $obj) {
+                        if (false == $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->contains($obj)) {
+                          $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->append($obj);
+                        }
+                      }
+
+                      $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial = true;
+                    }
+
+                    $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->getInternalIterator()->rewind();
+
+                    return $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+                }
+
+                if ($partial && $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+                    foreach ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = $collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+                $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial = false;
+            }
+        }
+
+        return $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+    }
+
+    /**
+     * Sets a collection of GsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function setGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk(PropelCollection $gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk, PropelPDO $con = null)
+    {
+        $gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkToDelete = $this->getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk(new Criteria(), $con)->diff($gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk);
+
+
+        $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion = $gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkToDelete;
+
+        foreach ($gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkToDelete as $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkRemoved) {
+            $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkRemoved->setVerwijzingExtraKenmerkOmschrijving(null);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = null;
+        foreach ($gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk as $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+            $this->addGsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk);
+        }
+
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = $gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsPrescriptieProduct objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsPrescriptieProduct objects.
+     * @throws PropelException
+     */
+    public function countGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial && !$this->isNew();
+        if (null === $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk());
+            }
+            $query = GsPrescriptieProductQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByVerwijzingExtraKenmerkOmschrijving($this)
+                ->count($con);
+        }
+
+        return count($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk);
+    }
+
+    /**
+     * Method called to associate a GsPrescriptieProduct object to this object
+     * through the GsPrescriptieProduct foreign key attribute.
+     *
+     * @param    GsPrescriptieProduct $l GsPrescriptieProduct
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function addGsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk(GsPrescriptieProduct $l)
+    {
+        if ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk === null) {
+            $this->initGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk();
+            $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($l);
+
+            if ($this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion and $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion->contains($l)) {
+                $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion->remove($this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk The gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk object to add.
+     */
+    protected function doAddGsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk)
+    {
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk[]= $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+        $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->setVerwijzingExtraKenmerkOmschrijving($this);
+    }
+
+    /**
+     * @param	GsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk The gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk object to remove.
+     * @return GsThesauriTotaal The current object (for fluent API support)
+     */
+    public function removeGsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk)
+    {
+        if ($this->getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk()->contains($gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk)) {
+            $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->remove($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->search($gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk));
+            if (null === $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion) {
+                $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion = clone $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+                $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion->clear();
+            }
+            $this->gsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkScheduledForDeletion[]= clone $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk;
+            $gsPrescriptieProductRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->setVerwijzingExtraKenmerkOmschrijving(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkJoinGsGeneriekeProducten($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsGeneriekeProducten', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsThesauriTotaal is new, it will return
+     * an empty collection; or if this GsThesauriTotaal has previously
+     * been saved, it will retrieve related GsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsThesauriTotaal.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsPrescriptieProduct[] List of GsPrescriptieProduct objects
+     */
+    public function getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerkJoinGsNamen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsPrescriptieProductQuery::create(null, $criteria);
+        $query->joinWith('GsNamen', $join_behavior);
+
+        return $this->getGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk($query, $con);
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -12859,6 +15806,21 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = true;
             if ($this->collGsSupplementaireProductenHistories) {
                 foreach ($this->collGsSupplementaireProductenHistories as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking) {
+                foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg) {
+                foreach ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2) {
+                foreach ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
@@ -13032,6 +15994,36 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk) {
+                foreach ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
@@ -13040,6 +16032,18 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
             $this->collGsSupplementaireProductenHistories->clearIterator();
         }
         $this->collGsSupplementaireProductenHistories = null;
+        if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking instanceof PropelCollection) {
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking->clearIterator();
+        }
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvVerstrekkingRzvverstrekking = null;
+        if ($this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg instanceof PropelCollection) {
+            $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg->clearIterator();
+        }
+        $this->collGsRzvAanspraaksRelatedByThesaurusRzvHulpmiddelenHulpmiddelenZorg = null;
+        if ($this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 instanceof PropelCollection) {
+            $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2->clearIterator();
+        }
+        $this->collGsRzvAanspraaksRelatedByRzvThesaurus120RzvvoorwaardenBijlage2 = null;
         if ($this->collGsAanvullendeMedicatiebewakingsgegevenss instanceof PropelCollection) {
             $this->collGsAanvullendeMedicatiebewakingsgegevenss->clearIterator();
         }
@@ -13176,6 +16180,30 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
             $this->collGsRelatieOngewensteGroepensnks->clearIterator();
         }
         $this->collGsRelatieOngewensteGroepensnks = null;
+        if ($this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau instanceof PropelCollection) {
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau->clearIterator();
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenVoorschrijvenHpkNiveauRedenVoorschrijvenHpkNiveau = null;
+        if ($this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype instanceof PropelCollection) {
+            $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype->clearIterator();
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrEmballagetypeEmballagetype = null;
+        if ($this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct instanceof PropelCollection) {
+            $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct->clearIterator();
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrBasiseenheidProductBasiseenheidProduct = null;
+        if ($this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard instanceof PropelCollection) {
+            $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard->clearIterator();
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrHulpmiddelAardHulpmiddelAard = null;
+        if ($this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend instanceof PropelCollection) {
+            $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend->clearIterator();
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrRedenHulpstofIdentificerendRedenHulpstofIdentificerend = null;
+        if ($this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk instanceof PropelCollection) {
+            $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk->clearIterator();
+        }
+        $this->collGsPrescriptieProductsRelatedByThesnrVerwijzingExtraKenmerkVerwijzingExtraKenmerk = null;
     }
 
     /**

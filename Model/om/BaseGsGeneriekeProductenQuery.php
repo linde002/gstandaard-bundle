@@ -18,6 +18,7 @@ use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProducten;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenPeer;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamen;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
 use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
 
@@ -97,6 +98,10 @@ use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentif
  * @method GsGeneriekeProductenQuery leftJoinGsArtikelEigenschappen($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsArtikelEigenschappen relation
  * @method GsGeneriekeProductenQuery rightJoinGsArtikelEigenschappen($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsArtikelEigenschappen relation
  * @method GsGeneriekeProductenQuery innerJoinGsArtikelEigenschappen($relationAlias = null) Adds a INNER JOIN clause to the query using the GsArtikelEigenschappen relation
+ *
+ * @method GsGeneriekeProductenQuery leftJoinGsPrescriptieProduct($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsPrescriptieProduct relation
+ * @method GsGeneriekeProductenQuery rightJoinGsPrescriptieProduct($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsPrescriptieProduct relation
+ * @method GsGeneriekeProductenQuery innerJoinGsPrescriptieProduct($relationAlias = null) Adds a INNER JOIN clause to the query using the GsPrescriptieProduct relation
  *
  * @method GsGeneriekeProductenQuery leftJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
  * @method GsGeneriekeProductenQuery rightJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
@@ -1737,6 +1742,80 @@ abstract class BaseGsGeneriekeProductenQuery extends ModelCriteria
         return $this
             ->joinGsArtikelEigenschappen($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'GsArtikelEigenschappen', '\PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappenQuery');
+    }
+
+    /**
+     * Filter the query by a related GsPrescriptieProduct object
+     *
+     * @param   GsPrescriptieProduct|PropelObjectCollection $gsPrescriptieProduct  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 GsGeneriekeProductenQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByGsPrescriptieProduct($gsPrescriptieProduct, $comparison = null)
+    {
+        if ($gsPrescriptieProduct instanceof GsPrescriptieProduct) {
+            return $this
+                ->addUsingAlias(GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $gsPrescriptieProduct->getGeneriekeproductcode(), $comparison);
+        } elseif ($gsPrescriptieProduct instanceof PropelObjectCollection) {
+            return $this
+                ->useGsPrescriptieProductQuery()
+                ->filterByPrimaryKeys($gsPrescriptieProduct->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByGsPrescriptieProduct() only accepts arguments of type GsPrescriptieProduct or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the GsPrescriptieProduct relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return GsGeneriekeProductenQuery The current query, for fluid interface
+     */
+    public function joinGsPrescriptieProduct($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('GsPrescriptieProduct');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'GsPrescriptieProduct');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the GsPrescriptieProduct relation GsPrescriptieProduct object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery A secondary query class using the current class as primary query
+     */
+    public function useGsPrescriptieProductQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinGsPrescriptieProduct($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'GsPrescriptieProduct', '\PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery');
     }
 
     /**

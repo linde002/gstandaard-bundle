@@ -9,6 +9,7 @@ use \Exception;
 use \PDO;
 use \Persistent;
 use \Propel;
+use \PropelCollection;
 use \PropelException;
 use \PropelPDO;
 use PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappen;
@@ -23,6 +24,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproducten;
 use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaard;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraak;
+use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraakQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
 use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery;
 
@@ -270,6 +273,11 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
      * @var        GsAtcCodes
      */
     protected $aGsAtcCodes;
+
+    /**
+     * @var        GsRzvAanspraak one-to-one related GsRzvAanspraak object
+     */
+    protected $singleGsRzvAanspraak;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -1610,6 +1618,12 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             }
 
 
+                if ($this->singleGsRzvAanspraak !== null) {
+                    if (!$this->singleGsRzvAanspraak->validate($columns)) {
+                        $failureMap = array_merge($failureMap, $this->singleGsRzvAanspraak->getValidationFailures());
+                    }
+                }
+
 
             $this->alreadyInValidation = false;
         }
@@ -1827,6 +1841,9 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             if (null !== $this->aGsAtcCodes) {
                 $result['GsAtcCodes'] = $this->aGsAtcCodes->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
+            if (null !== $this->singleGsRzvAanspraak) {
+                $result['GsRzvAanspraak'] = $this->singleGsRzvAanspraak->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+            }
         }
 
         return $result;
@@ -1974,6 +1991,11 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             $copyObj->setNew(false);
             // store object hash to prevent cycle
             $this->startCopy = true;
+
+            $relObj = $this->getGsRzvAanspraak();
+            if ($relObj) {
+                $copyObj->setGsRzvAanspraak($relObj->copy($deepCopy));
+            }
 
             $relObj = $this->getGsArtikelen();
             if ($relObj) {
@@ -2338,6 +2360,55 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
         return $this->aGsAtcCodes;
     }
 
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+    }
+
+    /**
+     * Gets a single GsRzvAanspraak object, which is related to this object by a one-to-one relationship.
+     *
+     * @param PropelPDO $con optional connection object
+     * @return GsRzvAanspraak
+     * @throws PropelException
+     */
+    public function getGsRzvAanspraak(PropelPDO $con = null)
+    {
+
+        if ($this->singleGsRzvAanspraak === null && !$this->isNew()) {
+            $this->singleGsRzvAanspraak = GsRzvAanspraakQuery::create()->findPk($this->getPrimaryKey(), $con);
+        }
+
+        return $this->singleGsRzvAanspraak;
+    }
+
+    /**
+     * Sets a single GsRzvAanspraak object as related to this object by a one-to-one relationship.
+     *
+     * @param                  GsRzvAanspraak $v GsRzvAanspraak
+     * @return GsArtikelEigenschappen The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setGsRzvAanspraak(GsRzvAanspraak $v = null)
+    {
+        $this->singleGsRzvAanspraak = $v;
+
+        // Make sure that that the passed-in GsRzvAanspraak isn't already associated with this object
+        if ($v !== null && $v->getGsArtikelEigenschappen(null, false) === null) {
+            $v->setGsArtikelEigenschappen($this);
+        }
+
+        return $this;
+    }
+
     /**
      * Clears the current object and sets all attributes to their default values
      */
@@ -2398,6 +2469,9 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
+            if ($this->singleGsRzvAanspraak) {
+                $this->singleGsRzvAanspraak->clearAllReferences($deep);
+            }
             if ($this->aGsArtikelen instanceof Persistent) {
               $this->aGsArtikelen->clearAllReferences($deep);
             }
@@ -2420,6 +2494,10 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
+        if ($this->singleGsRzvAanspraak instanceof PropelCollection) {
+            $this->singleGsRzvAanspraak->clearIterator();
+        }
+        $this->singleGsRzvAanspraak = null;
         $this->aGsArtikelen = null;
         $this->aGsHandelsproducten = null;
         $this->aGsNawGegevensGstandaard = null;

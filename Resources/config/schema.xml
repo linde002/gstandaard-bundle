@@ -115,6 +115,37 @@
       <reference local="atccode" foreign="atccode"/>
     </foreign-key>
   </table>
+	<table name="gs_rzv_aanspraak">
+    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
+    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
+    <column name="zinummer" phpName="Zinummer" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="thesaurus_rzv_verstrekking" type="INTEGER" required="false"/>
+    <column name="rzvverstrekking" type="INTEGER" required="false"/>
+    <column name="thesaurus_rzv_hulpmiddelen" type="INTEGER" required="false"/>
+    <column name="hulpmiddelen_zorg" type="INTEGER" required="false"/>
+    <column name="rzv_thesaurus_120" type="INTEGER" required="false"/>
+    <column name="rzvvoorwaarden_bijlage_2" type="INTEGER" required="false"/>
+    <column name="tekstmodule" type="INTEGER" required="false"/>
+    <column name="tekst_verwijzing" type="INTEGER" required="false"/>
+    <foreign-key foreignTable='gs_artikelen'>
+    	<reference local='zinummer' foreign='zinummer'/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_artikel_eigenschappen' skipSql='true'>
+    	<reference local='zinummer' foreign='zindex_nummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="RzvVerstrekkingOmschrijving">
+    	<reference local='thesaurus_rzv_verstrekking' foreign='thesaurusnummer'/>
+    	<reference local='rzvverstrekking' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="RzvHulpmiddelenOmschrijving">
+    	<reference local='thesaurus_rzv_hulpmiddelen' foreign='thesaurusnummer'/>
+    	<reference local='hulpmiddelen_zorg' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+    <foreign-key foreignTable='gs_thesauri_totaal' phpName="RzvVoorwaardenOmschrijving">
+    	<reference local='rzv_thesaurus_120' foreign='thesaurusnummer'/>
+    	<reference local='rzvvoorwaarden_bijlage_2' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+  </table>
   <table name="gs_aanvullende_medicatiebewakingsgegevens" phpName="GsAanvullendeMedicatiebewakingsgegevens" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
@@ -1348,6 +1379,8 @@
     <column name="lengte_van_de_rubriek" phpName="LengteVanDeRubriek" type="INTEGER" required="false"/>
     <column name="aantal_decimalen" phpName="AantalDecimalen" type="INTEGER" required="false"/>
     <column name="opmaak" phpName="Opmaak" type="VARCHAR" size="255" required="false"/>
+		<column name="gebruik_van_veld" type="char" size="1" required="false"/>
+    <column name="datum_gebruik" type="date" required="false"/>
   </table>
   <table name="gs_samenstelling" phpName="GsSamenstelling" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
@@ -1488,6 +1521,59 @@
     <column name="datum_officiele_uitgifte" phpName="DatumOfficieleUitgifte" type="DATE" required="false"/>
     <column name="omschrijving_versienummer" phpName="OmschrijvingVersienummer" type="VARCHAR" size="255" required="false"/>
   </table>
+
+	<table name="gs_prescriptie_product">
+		<column name="bestandnummer" type="integer" required="false"/>
+		<column name="mutatiekode" type="integer" required="false"/>
+		<column name="prkcode" type="integer" primaryKey="true" required="true"/>
+		<column name='naamnummer_prescriptie_product' type='integer' required='false'/>
+		<column name='generiekeproductcode' type='integer' required='false'/>
+		<column name='thesnr_reden_voorschrijven_hpk_niveau' type='integer' required='false'/>
+		<column name='reden_voorschrijven_hpk_niveau' type='integer' required='false'/>
+		<column name='thesnr_emballagetype' type='integer' required='false'/>
+		<column name='emballagetype' type='integer' required='false'/>
+		<column name='thesnr_basiseenheid_product' type='integer' required='false'/>
+		<column name='basiseenheid_product' type='integer' required='false'/>
+		<column name='productgrootte_algemeen' type='decimal' size='9' scale='2' required='false'/>
+		<column name='thesnr_hulpmiddel_aard' type='integer' required='false'/>
+		<column name='hulpmiddel_aard' type='integer' required='false'/>
+		<column name='hulpmiddel_aard_hoeveelheid' type='integer' required='false'/>
+		<column name='meervoudig_product_jn' type='char' size='1' required='false'/>
+		<column name='thesnr_reden_hulpstof_identificerend' type='integer' required='false'/>
+		<column name='reden_hulpstof_identificerend' type='integer' required='false'/>
+		<column name='thesnr_verwijzing_extra_kenmerk' type='integer' required='false'/>
+		<column name='verwijzing_extra_kenmerk' type='integer' required='false'/>
+		<foreign-key foreignTable="gs_generieke_producten">
+      <reference local="generiekeproductcode" foreign="generiekeproductcode"/>
+    </foreign-key>
+		<foreign-key foreignTable="gs_namen">
+      <reference local="naamnummer_prescriptie_product" foreign="naamnummer"/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_thesauri_totaal' phpName="RedenVoorschrijvenHpkNiveauOmschrijving">
+    	<reference local='thesnr_reden_voorschrijven_hpk_niveau' foreign='thesaurusnummer'/>
+    	<reference local='reden_voorschrijven_hpk_niveau' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_thesauri_totaal' phpName="EmballagetypeOmschrijving">
+    	<reference local='thesnr_emballagetype' foreign='thesaurusnummer'/>
+    	<reference local='emballagetype' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_thesauri_totaal' phpName="BasiseenheidProductOmschrijving">
+    	<reference local='thesnr_basiseenheid_product' foreign='thesaurusnummer'/>
+    	<reference local='basiseenheid_product' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_thesauri_totaal' phpName="HulpmiddelAardOmschrijving">
+    	<reference local='thesnr_hulpmiddel_aard' foreign='thesaurusnummer'/>
+    	<reference local='hulpmiddel_aard' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_thesauri_totaal' phpName="RedenHulpstofIdentificerendOmschrijving">
+    	<reference local='thesnr_reden_hulpstof_identificerend' foreign='thesaurusnummer'/>
+    	<reference local='reden_hulpstof_identificerend' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+		<foreign-key foreignTable='gs_thesauri_totaal' phpName="VerwijzingExtraKenmerkOmschrijving">
+    	<reference local='thesnr_verwijzing_extra_kenmerk' foreign='thesaurusnummer'/>
+    	<reference local='verwijzing_extra_kenmerk' foreign='thesaurus_itemnummer'/>
+    </foreign-key>
+  </table>
   <table name="gs_voorschrijfpr_geneesmiddel_identific" phpName="GsVoorschrijfprGeneesmiddelIdentific" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
@@ -1508,7 +1594,7 @@
     <column name="reden_hulpstof_identificerend" phpName="RedenHulpstofIdentificerend" type="INTEGER" required="false"/>
     <column name="instant" phpName="Instant" type="VARCHAR" size="255" required="false"/>
     <column name="extra_kenmerk_tbv_voorschrijven" phpName="ExtraKenmerkTbvVoorschrijven" type="INTEGER" required="false"/>
-	<foreign-key foreignTable="gs_generieke_producten">
+	  <foreign-key foreignTable="gs_generieke_producten">
       <reference local="generiekeproductcode" foreign="generiekeproductcode"/>
     </foreign-key>
   </table>
