@@ -107,8 +107,8 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$out = fopen($downloadLocation, 'wb');
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($curl, CURLOPT_USERPWD, $user.":".$password);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -451,10 +451,11 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 						break;
 					case 'dateus':
 						    $date = $row[$field];
-						    if(empty($date))
+						    if(empty($date)) {
 						        $date = null;
-						    else
+						    } else {
 						        $row[$field] = substr($date, 0, 4).'-'.substr($date, 4, 2).'-'.substr($date, 6, 2);
+						    }
 						    break;
 					case 'boolean':
 						$row[$field] = $row[$field] == 'J'?true:false;
@@ -466,10 +467,10 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		protected function getPrimaryKeys($importData) {
 			$keys = array();
 			foreach($importData as $columnName => $columnOptions) {
-				if($columnName == '_attributes')
+				if($columnName == '_attributes') {
 					continue;
-				if(array_key_exists('primaryKey', $columnOptions) &&
-						$columnOptions['primaryKey'] == true) {
+				}
+				if(array_key_exists('primaryKey', $columnOptions) && $columnOptions['primaryKey'] == true) {
 					$keys[] = $columnName;
 				}
 			}
@@ -480,15 +481,16 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			$fileDefinition = $this->zindexConfig['import']['BST000T'];
 			$fileName = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/BST000T');
 			$fh = fopen($fileName, 'r');
-			$map = array();
+			$map = [];
 			while(($row = fgets($fh)) == true) {
 				$rowData = $this->getRowData($row, $fileDefinition);
-				$map[$rowData['naam_van_het_bestand']] = array(
-						'totaal' => $rowData['totaal_aantal_records'],
-						'gewijzigd' => $rowData['aantal_gewijzigde_records'],
-						'nieuw' => $rowData['aantal_nieuwe_records'],
-						'vervallen' => $rowData['aantal_vervallen_records'],
-						'ongewijzigd' => $rowData['aantal_ongewijzigde_records']);
+				$map[$rowData['naam_van_het_bestand']] = [
+					'totaal' => $rowData['totaal_aantal_records'],
+					'gewijzigd' => $rowData['aantal_gewijzigde_records'],
+					'nieuw' => $rowData['aantal_nieuwe_records'],
+					'vervallen' => $rowData['aantal_vervallen_records'],
+					'ongewijzigd' => $rowData['aantal_ongewijzigde_records']
+				];
 			}
 			fclose($fh);
 			$this->recordMap = $map;
