@@ -49,6 +49,11 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		        null,
 		        InputOption::VALUE_NONE,
 		        'Geen historie wegschrijven')
+            ->addOption(
+                'skipNotification',
+                null,
+                InputOption::VALUE_NONE,
+                'Geen event dispatchen')
             ->addArgument('bestand', InputArgument::OPTIONAL, 'bestand om te importeren', self::ALLE_BESTANDEN)
 		;
 	}
@@ -70,12 +75,14 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
 
-		/**
-         * Notify subscibers
-		 */
-		$event = new Event();
-		$eventDispatcher = $this->getContainer()->get('event_dispatcher');
-		$eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
+        if(!$input->getOption('skipNotification')) {
+            /**
+             * Notify subscibers
+             */
+            $event = new Event();
+            $eventDispatcher = $this->getContainer()->get('event_dispatcher');
+            $eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
+        }
 	}
 	
 	public function updateAddOnHistorie(InputInterface $input, OutputInterface $output) {
@@ -97,12 +104,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 
 		$user = $this->getContainer()->getParameter('pi.gstandaard.user');
         $password = $this->getContainer()->getParameter('pi.gstandaard.password');
-
-        if($this->bestand === self::ALLE_BESTANDEN) {
-            $url = self::GSTANDAARD_URL.'GSTNDDB';
-        } else {
-            $url = self::GSTANDAARD_URL.$this->bestand ;
-        }
+        $url = self::GSTANDAARD_URL.'GSTNDDB';
         $output->writeln(date('[H:i:s]').' URL: '.$url);
 		$out = fopen($downloadLocation, 'wb');
 		$curl = curl_init($url);
