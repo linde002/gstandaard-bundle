@@ -357,7 +357,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 			 $progress->setRedrawFrequency($recordsPerStap);
 
 			// Vorige maand gewijzigde rijen op code geen wijzigingen zetten.
-			$sql = 'UPDATE '.constant($omClass.'Peer::TABLE_NAME').' SET mutatiekode = 0 WHERE mutatiekode = '.self::MUTATIE_WIJZIGEN;
+			$sql = 'UPDATE '.constant($omClass.'Peer::TABLE_NAME').' SET mutatiekode = 0 WHERE mutatiekode = SET mutatiekode = 0 WHERE mutatiekode IN ('.self::MUTATIE_WIJZIGEN.', '.self::MUTATIE_NIEUW.')';
 			\Propel::getConnection()->query($sql);
 
 			while(($row = fgets($fh)) == true) {
