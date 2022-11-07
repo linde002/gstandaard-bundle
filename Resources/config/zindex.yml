@@ -583,15 +583,6 @@ import:
     actieregel: {start: 77, length: 6, type: integer}
     volgnummer: {start: 83, length: 5, type: integer, primaryKey: true}
 
-  BST500T:
-    _attributes: {table: gs_informatorium_groepen, modelClass: GsInformatoriumGroepen, peerClass: GsInformatoriumGroepenPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    groepkode: {start: 5, length: 4, type: integer, primaryKey: true}
-    groepnaam: {start: 9, length: 50, type: varchar(255)}
-    groepvolgorde_kode: {start: 59, length: 11, type: integer}
-
-
   BST601T:
     _attributes: {table: gs_aanvvoorwaarden_medbew_en_tekstblok, modelClass: GsAanvvoorwaardenMedbewEnTekstblok, peerClass: GsAanvvoorwaardenMedbewEnTekstblokPeer}
     bestandnummer: {start: 0, length: 4, type: integer}

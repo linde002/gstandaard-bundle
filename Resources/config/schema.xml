@@ -1634,4 +1634,24 @@
     <column name="agbcode_van_de_instelling" phpName="AgbcodeVanDeInstelling" type="INTEGER" required="false"/>
     <column name="agbcode_toevoegsel_lokaties" phpName="AgbcodeToevoegselLokaties" type="VARCHAR" size="255" required="false"/>
   </table>
+    <table name="gs_historisch_bestand_add_on">
+        <column name='zindex_nummer' type='integer' required='true' primaryKey='true' autoIncrement='false'/>
+        <column name="artikel_omschrijving" type="varchar" size="255" />
+        <column name="inkoop_hoeveelheid" type="decimal" size="8" scale="2" />
+        <column name="inkoop_eenheid" type="char" size="2" />
+        <column name="maximum_prijs" type="decimal" size="14" scale="6" />
+        <column name="soort_product" type="integer" />
+        <column name="indicatie_id" type="integer"  primaryKey='true' autoIncrement='false' />
+        <column name="soort_indicatie" type="integer" />
+        <column name="duiding_id" type="integer" />
+        <column name="aanspraak_status" type="char" size="1" />
+        <column name="start_datum" type="date"  primaryKey='true' autoIncrement='false' />
+        <column name="eind_datum" type="date"  required="false" />
+        <foreign-key foreignTable="gs_artikelen">
+            <reference local="zindex_nummer" foreign="zinummer"/>
+        </foreign-key>
+        <foreign-key foreignTable="gs_artikel_eigenschappen" skipSql='true'>
+            <reference local="zindex_nummer" foreign="zindex_nummer"/>
+        </foreign-key>
+    </table>
 </database>

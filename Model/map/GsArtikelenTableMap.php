@@ -124,6 +124,7 @@ class GsArtikelenTableMap extends TableMap
         $this->addRelation('GsLogistiekeInformatieRelatedByZindexNummer', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsLogistiekeInformatie', RelationMap::ONE_TO_MANY, array('zinummer' => 'zindex_nummer', ), null, null, 'GsLogistiekeInformatiesRelatedByZindexNummer');
         $this->addRelation('GsPreferentieBeleid', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsPreferentieBeleid', RelationMap::ONE_TO_MANY, array('zinummer' => 'zindex_nummer', ), null, null, 'GsPreferentieBeleids');
         $this->addRelation('GsRelatieTussenZinummerHibc', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsRelatieTussenZinummerHibc', RelationMap::ONE_TO_ONE, array('zinummer' => 'zinummer', ), null, null);
+        $this->addRelation('GsHistorischBestandAddOn', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsHistorischBestandAddOn', RelationMap::ONE_TO_MANY, array('zinummer' => 'zindex_nummer', ), null, null, 'GsHistorischBestandAddOns');
     } // buildRelations()
 
     /**

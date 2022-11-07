@@ -11,6 +11,7 @@ use \Persistent;
 use \Propel;
 use \PropelCollection;
 use \PropelException;
+use \PropelObjectCollection;
 use \PropelPDO;
 use PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappen;
 use PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappenPeer;
@@ -22,6 +23,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProducten;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproducten;
 use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsHistorischBestandAddOn;
+use PharmaIntelligence\GstandaardBundle\Model\GsHistorischBestandAddOnQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaard;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraak;
@@ -280,6 +283,12 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
     protected $singleGsRzvAanspraak;
 
     /**
+     * @var        PropelObjectCollection|GsHistorischBestandAddOn[] Collection to store aggregation of GsHistorischBestandAddOn objects.
+     */
+    protected $collGsHistorischBestandAddOns;
+    protected $collGsHistorischBestandAddOnsPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -298,6 +307,12 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
      * @var        boolean
      */
     protected $alreadyInClearAllReferencesDeep = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $gsHistorischBestandAddOnsScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -1624,6 +1639,14 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
                     }
                 }
 
+                if ($this->collGsHistorischBestandAddOns !== null) {
+                    foreach ($this->collGsHistorischBestandAddOns as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
 
             $this->alreadyInValidation = false;
         }
@@ -1844,6 +1867,9 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             if (null !== $this->singleGsRzvAanspraak) {
                 $result['GsRzvAanspraak'] = $this->singleGsRzvAanspraak->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
             }
+            if (null !== $this->collGsHistorischBestandAddOns) {
+                $result['GsHistorischBestandAddOns'] = $this->collGsHistorischBestandAddOns->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
         }
 
         return $result;
@@ -1995,6 +2021,12 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             $relObj = $this->getGsRzvAanspraak();
             if ($relObj) {
                 $copyObj->setGsRzvAanspraak($relObj->copy($deepCopy));
+            }
+
+            foreach ($this->getGsHistorischBestandAddOns() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addGsHistorischBestandAddOn($relObj->copy($deepCopy));
+                }
             }
 
             $relObj = $this->getGsArtikelen();
@@ -2371,6 +2403,9 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
      */
     public function initRelation($relationName)
     {
+        if ('GsHistorischBestandAddOn' == $relationName) {
+            $this->initGsHistorischBestandAddOns();
+        }
     }
 
     /**
@@ -2407,6 +2442,259 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
         }
 
         return $this;
+    }
+
+    /**
+     * Clears out the collGsHistorischBestandAddOns collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return GsArtikelEigenschappen The current object (for fluent API support)
+     * @see        addGsHistorischBestandAddOns()
+     */
+    public function clearGsHistorischBestandAddOns()
+    {
+        $this->collGsHistorischBestandAddOns = null; // important to set this to null since that means it is uninitialized
+        $this->collGsHistorischBestandAddOnsPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collGsHistorischBestandAddOns collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialGsHistorischBestandAddOns($v = true)
+    {
+        $this->collGsHistorischBestandAddOnsPartial = $v;
+    }
+
+    /**
+     * Initializes the collGsHistorischBestandAddOns collection.
+     *
+     * By default this just sets the collGsHistorischBestandAddOns collection to an empty array (like clearcollGsHistorischBestandAddOns());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initGsHistorischBestandAddOns($overrideExisting = true)
+    {
+        if (null !== $this->collGsHistorischBestandAddOns && !$overrideExisting) {
+            return;
+        }
+        $this->collGsHistorischBestandAddOns = new PropelObjectCollection();
+        $this->collGsHistorischBestandAddOns->setModel('GsHistorischBestandAddOn');
+    }
+
+    /**
+     * Gets an array of GsHistorischBestandAddOn objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this GsArtikelEigenschappen is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|GsHistorischBestandAddOn[] List of GsHistorischBestandAddOn objects
+     * @throws PropelException
+     */
+    public function getGsHistorischBestandAddOns($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collGsHistorischBestandAddOnsPartial && !$this->isNew();
+        if (null === $this->collGsHistorischBestandAddOns || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGsHistorischBestandAddOns) {
+                // return empty collection
+                $this->initGsHistorischBestandAddOns();
+            } else {
+                $collGsHistorischBestandAddOns = GsHistorischBestandAddOnQuery::create(null, $criteria)
+                    ->filterByGsArtikelEigenschappen($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collGsHistorischBestandAddOnsPartial && count($collGsHistorischBestandAddOns)) {
+                      $this->initGsHistorischBestandAddOns(false);
+
+                      foreach ($collGsHistorischBestandAddOns as $obj) {
+                        if (false == $this->collGsHistorischBestandAddOns->contains($obj)) {
+                          $this->collGsHistorischBestandAddOns->append($obj);
+                        }
+                      }
+
+                      $this->collGsHistorischBestandAddOnsPartial = true;
+                    }
+
+                    $collGsHistorischBestandAddOns->getInternalIterator()->rewind();
+
+                    return $collGsHistorischBestandAddOns;
+                }
+
+                if ($partial && $this->collGsHistorischBestandAddOns) {
+                    foreach ($this->collGsHistorischBestandAddOns as $obj) {
+                        if ($obj->isNew()) {
+                            $collGsHistorischBestandAddOns[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collGsHistorischBestandAddOns = $collGsHistorischBestandAddOns;
+                $this->collGsHistorischBestandAddOnsPartial = false;
+            }
+        }
+
+        return $this->collGsHistorischBestandAddOns;
+    }
+
+    /**
+     * Sets a collection of GsHistorischBestandAddOn objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $gsHistorischBestandAddOns A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return GsArtikelEigenschappen The current object (for fluent API support)
+     */
+    public function setGsHistorischBestandAddOns(PropelCollection $gsHistorischBestandAddOns, PropelPDO $con = null)
+    {
+        $gsHistorischBestandAddOnsToDelete = $this->getGsHistorischBestandAddOns(new Criteria(), $con)->diff($gsHistorischBestandAddOns);
+
+
+        //since at least one column in the foreign key is at the same time a PK
+        //we can not just set a PK to NULL in the lines below. We have to store
+        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
+        $this->gsHistorischBestandAddOnsScheduledForDeletion = clone $gsHistorischBestandAddOnsToDelete;
+
+        foreach ($gsHistorischBestandAddOnsToDelete as $gsHistorischBestandAddOnRemoved) {
+            $gsHistorischBestandAddOnRemoved->setGsArtikelEigenschappen(null);
+        }
+
+        $this->collGsHistorischBestandAddOns = null;
+        foreach ($gsHistorischBestandAddOns as $gsHistorischBestandAddOn) {
+            $this->addGsHistorischBestandAddOn($gsHistorischBestandAddOn);
+        }
+
+        $this->collGsHistorischBestandAddOns = $gsHistorischBestandAddOns;
+        $this->collGsHistorischBestandAddOnsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related GsHistorischBestandAddOn objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related GsHistorischBestandAddOn objects.
+     * @throws PropelException
+     */
+    public function countGsHistorischBestandAddOns(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collGsHistorischBestandAddOnsPartial && !$this->isNew();
+        if (null === $this->collGsHistorischBestandAddOns || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGsHistorischBestandAddOns) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getGsHistorischBestandAddOns());
+            }
+            $query = GsHistorischBestandAddOnQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByGsArtikelEigenschappen($this)
+                ->count($con);
+        }
+
+        return count($this->collGsHistorischBestandAddOns);
+    }
+
+    /**
+     * Method called to associate a GsHistorischBestandAddOn object to this object
+     * through the GsHistorischBestandAddOn foreign key attribute.
+     *
+     * @param    GsHistorischBestandAddOn $l GsHistorischBestandAddOn
+     * @return GsArtikelEigenschappen The current object (for fluent API support)
+     */
+    public function addGsHistorischBestandAddOn(GsHistorischBestandAddOn $l)
+    {
+        if ($this->collGsHistorischBestandAddOns === null) {
+            $this->initGsHistorischBestandAddOns();
+            $this->collGsHistorischBestandAddOnsPartial = true;
+        }
+
+        if (!in_array($l, $this->collGsHistorischBestandAddOns->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGsHistorischBestandAddOn($l);
+
+            if ($this->gsHistorischBestandAddOnsScheduledForDeletion and $this->gsHistorischBestandAddOnsScheduledForDeletion->contains($l)) {
+                $this->gsHistorischBestandAddOnsScheduledForDeletion->remove($this->gsHistorischBestandAddOnsScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	GsHistorischBestandAddOn $gsHistorischBestandAddOn The gsHistorischBestandAddOn object to add.
+     */
+    protected function doAddGsHistorischBestandAddOn($gsHistorischBestandAddOn)
+    {
+        $this->collGsHistorischBestandAddOns[]= $gsHistorischBestandAddOn;
+        $gsHistorischBestandAddOn->setGsArtikelEigenschappen($this);
+    }
+
+    /**
+     * @param	GsHistorischBestandAddOn $gsHistorischBestandAddOn The gsHistorischBestandAddOn object to remove.
+     * @return GsArtikelEigenschappen The current object (for fluent API support)
+     */
+    public function removeGsHistorischBestandAddOn($gsHistorischBestandAddOn)
+    {
+        if ($this->getGsHistorischBestandAddOns()->contains($gsHistorischBestandAddOn)) {
+            $this->collGsHistorischBestandAddOns->remove($this->collGsHistorischBestandAddOns->search($gsHistorischBestandAddOn));
+            if (null === $this->gsHistorischBestandAddOnsScheduledForDeletion) {
+                $this->gsHistorischBestandAddOnsScheduledForDeletion = clone $this->collGsHistorischBestandAddOns;
+                $this->gsHistorischBestandAddOnsScheduledForDeletion->clear();
+            }
+            $this->gsHistorischBestandAddOnsScheduledForDeletion[]= clone $gsHistorischBestandAddOn;
+            $gsHistorischBestandAddOn->setGsArtikelEigenschappen(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this GsArtikelEigenschappen is new, it will return
+     * an empty collection; or if this GsArtikelEigenschappen has previously
+     * been saved, it will retrieve related GsHistorischBestandAddOns from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in GsArtikelEigenschappen.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|GsHistorischBestandAddOn[] List of GsHistorischBestandAddOn objects
+     */
+    public function getGsHistorischBestandAddOnsJoinGsArtikelen($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = GsHistorischBestandAddOnQuery::create(null, $criteria);
+        $query->joinWith('GsArtikelen', $join_behavior);
+
+        return $this->getGsHistorischBestandAddOns($query, $con);
     }
 
     /**
@@ -2472,6 +2760,11 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             if ($this->singleGsRzvAanspraak) {
                 $this->singleGsRzvAanspraak->clearAllReferences($deep);
             }
+            if ($this->collGsHistorischBestandAddOns) {
+                foreach ($this->collGsHistorischBestandAddOns as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->aGsArtikelen instanceof Persistent) {
               $this->aGsArtikelen->clearAllReferences($deep);
             }
@@ -2498,6 +2791,10 @@ abstract class BaseGsArtikelEigenschappen extends BaseObject
             $this->singleGsRzvAanspraak->clearIterator();
         }
         $this->singleGsRzvAanspraak = null;
+        if ($this->collGsHistorischBestandAddOns instanceof PropelCollection) {
+            $this->collGsHistorischBestandAddOns->clearIterator();
+        }
+        $this->collGsHistorischBestandAddOns = null;
         $this->aGsArtikelen = null;
         $this->aGsHandelsproducten = null;
         $this->aGsNawGegevensGstandaard = null;

@@ -19,6 +19,7 @@ use PharmaIntelligence\GstandaardBundle\Model\GsArtikelen;
 use PharmaIntelligence\GstandaardBundle\Model\GsAtcCodes;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProducten;
 use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproducten;
+use PharmaIntelligence\GstandaardBundle\Model\GsHistorischBestandAddOn;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaard;
 use PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraak;
 use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
@@ -121,6 +122,10 @@ use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentif
  * @method GsArtikelEigenschappenQuery leftJoinGsRzvAanspraak($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsRzvAanspraak relation
  * @method GsArtikelEigenschappenQuery rightJoinGsRzvAanspraak($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsRzvAanspraak relation
  * @method GsArtikelEigenschappenQuery innerJoinGsRzvAanspraak($relationAlias = null) Adds a INNER JOIN clause to the query using the GsRzvAanspraak relation
+ *
+ * @method GsArtikelEigenschappenQuery leftJoinGsHistorischBestandAddOn($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsHistorischBestandAddOn relation
+ * @method GsArtikelEigenschappenQuery rightJoinGsHistorischBestandAddOn($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsHistorischBestandAddOn relation
+ * @method GsArtikelEigenschappenQuery innerJoinGsHistorischBestandAddOn($relationAlias = null) Adds a INNER JOIN clause to the query using the GsHistorischBestandAddOn relation
  *
  * @method GsArtikelEigenschappen findOne(PropelPDO $con = null) Return the first GsArtikelEigenschappen matching the query
  * @method GsArtikelEigenschappen findOneOrCreate(PropelPDO $con = null) Return the first GsArtikelEigenschappen matching the query, or a new GsArtikelEigenschappen object populated from the query conditions when no match is found
@@ -1949,6 +1954,80 @@ abstract class BaseGsArtikelEigenschappenQuery extends ModelCriteria
         return $this
             ->joinGsRzvAanspraak($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'GsRzvAanspraak', '\PharmaIntelligence\GstandaardBundle\Model\GsRzvAanspraakQuery');
+    }
+
+    /**
+     * Filter the query by a related GsHistorischBestandAddOn object
+     *
+     * @param   GsHistorischBestandAddOn|PropelObjectCollection $gsHistorischBestandAddOn  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 GsArtikelEigenschappenQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByGsHistorischBestandAddOn($gsHistorischBestandAddOn, $comparison = null)
+    {
+        if ($gsHistorischBestandAddOn instanceof GsHistorischBestandAddOn) {
+            return $this
+                ->addUsingAlias(GsArtikelEigenschappenPeer::ZINDEX_NUMMER, $gsHistorischBestandAddOn->getZindexNummer(), $comparison);
+        } elseif ($gsHistorischBestandAddOn instanceof PropelObjectCollection) {
+            return $this
+                ->useGsHistorischBestandAddOnQuery()
+                ->filterByPrimaryKeys($gsHistorischBestandAddOn->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByGsHistorischBestandAddOn() only accepts arguments of type GsHistorischBestandAddOn or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the GsHistorischBestandAddOn relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return GsArtikelEigenschappenQuery The current query, for fluid interface
+     */
+    public function joinGsHistorischBestandAddOn($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('GsHistorischBestandAddOn');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'GsHistorischBestandAddOn');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the GsHistorischBestandAddOn relation GsHistorischBestandAddOn object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsHistorischBestandAddOnQuery A secondary query class using the current class as primary query
+     */
+    public function useGsHistorischBestandAddOnQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinGsHistorischBestandAddOn($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'GsHistorischBestandAddOn', '\PharmaIntelligence\GstandaardBundle\Model\GsHistorischBestandAddOnQuery');
     }
 
     /**

@@ -89,6 +89,7 @@ class GsArtikelEigenschappenTableMap extends TableMap
         $this->addRelation('GsGeneriekeProducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsGeneriekeProducten', RelationMap::MANY_TO_ONE, array('gpk' => 'generiekeproductcode', ), null, null);
         $this->addRelation('GsAtcCodes', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsAtcCodes', RelationMap::MANY_TO_ONE, array('atc' => 'atccode', ), null, null);
         $this->addRelation('GsRzvAanspraak', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsRzvAanspraak', RelationMap::ONE_TO_ONE, array('zindex_nummer' => 'zinummer', ), null, null);
+        $this->addRelation('GsHistorischBestandAddOn', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsHistorischBestandAddOn', RelationMap::ONE_TO_MANY, array('zindex_nummer' => 'zindex_nummer', ), null, null, 'GsHistorischBestandAddOns');
     } // buildRelations()
 
 } // GsArtikelEigenschappenTableMap

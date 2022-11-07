@@ -2,6 +2,7 @@
 
 namespace PharmaIntelligence\GstandaardBundle\Command;
 
+use PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappenQuery;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,6 +40,12 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this
 			->setName('pharma-intelligence:g-standaard:import')
 			->setDescription('Importeerd G-Standaard')
+            ->addOption(
+                'metAddOnHistorie',
+                null,
+                InputOption::VALUE_NONE,
+                'bestand met add-on historie ook meenemen'
+            )
 			->addOption(
 			    'alleenMutaties',
 			    null,
@@ -74,6 +81,10 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->importGstandaard($input, $output);
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
+
+        if(!$input->getOption('metAddOnHistorie')) {
+            $this->importHistorischAddOnBestand();
+        }
 
         if(!$input->getOption('skipNotification')) {
             /**
@@ -310,6 +321,58 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$output->writeln('G-standaard bijgewerkt');
 		$output->writeln('Tijd: '.(time()-$start).' seconden');
 	}
+
+
+    protected function importHistorischAddOnBestand(OutputInterface $output) {
+        $output->writeln(date('[H:i:s]').' Start downloaden historisch add-on bestand');
+        $downloadLocation = $this->getContainer()->get('kernel')->locateResource('@PharmaIntelligenceGstandaardBundle/Resources/g-standaard/').'addonhist.csv';
+        $out = fopen($downloadLocation, 'wb');
+
+        $url = self::GSTANDAARD_URL.'addonhist.csv';
+        $output->writeln('URL: '.$url);
+        $curl = curl_init($url);
+        $user = $this->getContainer()->getParameter('pi.gstandaard.user');
+        $password = $this->getContainer()->getParameter('pi.gstandaard.password');
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_USERPWD, $user.":".$password);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_FILE, $out);
+        $result = curl_exec($curl);
+        $info = curl_getinfo($curl);
+        if($result === false || $info['http_code'] != 200) {
+            throw new \Exception(sprintf('Fout bij downloaden bestand. HTTP# %s. Error code %s - %s: ', $info['http_code'], curl_errno($curl), curl_error($curl)));
+        }
+        $output->writeln('Downloaded: '.filesize($downloadLocation).' bytes');
+        $output->writeln(date('[H:i:s]').' Gereed downloaden historisch add-on bestand');
+
+        $fh = fopen($downloadLocation, 'r');
+        $headers = fgetcsv($fh, null, ';');
+        $sql = 'REPLACE INTO gs_historisch_bestand_add_on VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $statement = \Propel::getConnection()->prepare($sql);
+        while($row = fgetcsv($fh, null, ';')) {
+            $artikelExists = GsArtikelEigenschappenQuery::create()
+                ->filterByZindexNummer($row[0])
+                ->count();
+            if($artikelExists == 0) {
+                continue;
+            }
+            $row[2] = $row[2]/100;
+            $row[4] = $row[4]/1000000;
+            $row[10] = \DateTime::createFromFormat('Ymd', $row[10])->format('Y-m-d');
+            if(empty($row[11]) || $row[11] == "0") {
+                $row[11] = 20991231;
+            }
+            $row[11] = \DateTime::createFromFormat('Ymd', $row[11])->format('Y-m-d');
+
+            $statement->execute($row);
+        }
+        fclose($fh);
+        unlink($downloadLocation);
+    }
 
 	protected function updateSlugs(InputInterface $input, OutputInterface $output) {
 		$output->writeln('Slugs bijwerken');
