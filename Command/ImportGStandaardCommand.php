@@ -82,8 +82,8 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
 
-        if(!$input->getOption('metAddOnHistorie')) {
-            $this->importHistorischAddOnBestand();
+        if($input->getOption('metAddOnHistorie')) {
+            $this->importHistorischAddOnBestand($output);
         }
 
         if(!$input->getOption('skipNotification')) {
