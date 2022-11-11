@@ -86,7 +86,7 @@
 	    <foreign-key foreignTable="gs_naw_gegevens_gstandaard">
 	      <reference local="leverancier_nummer" foreign="naw_nummer"/>
 	    </foreign-key>
-	    <foreign-key foreignTable="gs_voorschrijfpr_geneesmiddel_identific">
+	    <foreign-key foreignTable="gs_prescriptie_product">
 	      <reference local="prk" foreign="prkcode"/>
 	    </foreign-key>
 	    <foreign-key foreignTable="gs_generieke_producten">
@@ -433,7 +433,7 @@
     <foreign-key foreignTable="gs_handelsproducten">
       <reference local="handelsproduktkode" foreign="handelsproduktkode"/>
     </foreign-key>
-    <foreign-key foreignTable="gs_voorschrijfpr_geneesmiddel_identific">
+    <foreign-key foreignTable="gs_prescriptie_product">
       <reference local="prkcode" foreign="prkcode"/>
     </foreign-key>
   </table>
@@ -894,7 +894,7 @@
     <column name="achtergrond_rationaliteit" phpName="AchtergrondRationaliteit" type="INTEGER" required="false"/>
     <column name="thesaurus_rzv_hulpmiddelen" phpName="ThesaurusRzvHulpmiddelen" type="INTEGER" required="false"/>
     <column name="hulpmiddelen_zorg" phpName="HulpmiddelenZorg" type="INTEGER" required="false"/>
-    <foreign-key foreignTable="gs_voorschrijfpr_geneesmiddel_identific">
+    <foreign-key foreignTable="gs_prescriptie_product">
       <reference local="prkcode" foreign="prkcode"/>
     </foreign-key>
 	<foreign-key foreignTable="gs_namen">
@@ -1574,52 +1574,7 @@
     	<reference local='verwijzing_extra_kenmerk' foreign='thesaurus_itemnummer'/>
     </foreign-key>
   </table>
-  <table name="gs_voorschrijfpr_geneesmiddel_identific" phpName="GsVoorschrijfprGeneesmiddelIdentific" idMethod="native">
-    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
-    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
-    <column name="prkcode" phpName="Prkcode" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="naamstoevoeging" phpName="Naamstoevoeging" type="VARCHAR" size="255" required="false"/>
-    <column name="generiekeproductcode" phpName="Generiekeproductcode" type="INTEGER" required="false"/>
-    <column name="emballagetype_kode" phpName="EmballagetypeKode" type="INTEGER" required="false"/>
-    <column name="basiseenheid_product_kode" phpName="BasiseenheidProductKode" type="INTEGER" required="false"/>
-    <column name="hpkgrootte_algemeen" phpName="HpkgrootteAlgemeen" type="DECIMAL" size="7" scale="2" required="false"/>
-    <column name="hulpmiddel_aard_1_kode" phpName="HulpmiddelAard1Kode" type="INTEGER" required="false"/>
-    <column name="hulpmiddel_hoeveelheid_1" phpName="HulpmiddelHoeveelheid1" type="INTEGER" required="false"/>
-    <column name="hulpmiddel_aard_2_kode" phpName="HulpmiddelAard2Kode" type="INTEGER" required="false"/>
-    <column name="hulpmiddel_hoeveelheid_2" phpName="HulpmiddelHoeveelheid2" type="INTEGER" required="false"/>
-    <column name="kode_meervoudigprodukt" phpName="KodeMeervoudigprodukt" type="VARCHAR" size="255" required="false"/>
-    <column name="hpkgrootte_verbandlengte" phpName="HpkgrootteVerbandlengte" type="DECIMAL" size="7" scale="2" required="false"/>
-    <column name="hpkgrootte_verbandbreedte" phpName="HpkgrootteVerbandbreedte" type="DECIMAL" size="7" scale="2" required="false"/>
-    <column name="hpkgrootte_iud" phpName="HpkgrootteIud" type="VARCHAR" size="255" required="false"/>
-    <column name="reden_hulpstof_identificerend" phpName="RedenHulpstofIdentificerend" type="INTEGER" required="false"/>
-    <column name="instant" phpName="Instant" type="VARCHAR" size="255" required="false"/>
-    <column name="extra_kenmerk_tbv_voorschrijven" phpName="ExtraKenmerkTbvVoorschrijven" type="INTEGER" required="false"/>
-	  <foreign-key foreignTable="gs_generieke_producten">
-      <reference local="generiekeproductcode" foreign="generiekeproductcode"/>
-    </foreign-key>
-  </table>
-  <table name="gs_voorschrijfpr_identificerende_velden" phpName="GsVoorschrijfprIdentificerendeVelden" idMethod="native">
-    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
-    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
-    <column name="prkcode" phpName="Prkcode" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="identificerend_kenmerk" phpName="IdentificerendKenmerk" type="VARCHAR" size="255" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="gs_voorschrijfpr_geneesmiddel_identific">
-      <reference local="prkcode" foreign="prkcode"/>
-    </foreign-key>
-  </table>
-  <table name="gs_voorschrijfproducten" phpName="GsVoorschrijfproducten" idMethod="native">
-    <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
-    <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
-    <column name="prkcode" phpName="Prkcode" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="naamnummer_prescriptie_product" phpName="NaamnummerPrescriptieProduct" type="INTEGER" required="false"/>
-    <column name="verwijzing_naar_kenmerken_bestand" phpName="VerwijzingNaarKenmerkenBestand" type="VARCHAR" size="255" required="false"/>
-    <foreign-key foreignTable="gs_voorschrijfpr_geneesmiddel_identific">
-      <reference local="prkcode" foreign="prkcode"/>
-    </foreign-key>
-    <foreign-key foreignTable="gs_namen">
-      <reference local="naamnummer_prescriptie_product" foreign="naamnummer"/>
-    </foreign-key>
-  </table>
+
   <table name="gs_ziccode" phpName="GsZiccode" idMethod="native">
     <column name="bestandnummer" phpName="Bestandnummer" type="INTEGER" required="false"/>
     <column name="mutatiekode" phpName="Mutatiekode" type="INTEGER" required="false"/>
