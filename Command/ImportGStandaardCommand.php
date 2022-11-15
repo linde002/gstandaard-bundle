@@ -82,10 +82,6 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
 
-        if($input->getOption('metAddOnHistorie')) {
-            $this->importHistorischAddOnBestand($output);
-        }
-
         if(!$input->getOption('skipNotification')) {
             /**
              * Notify subscibers
@@ -93,6 +89,9 @@ class ImportGStandaardCommand extends ContainerAwareCommand
             $event = new Event();
             $eventDispatcher = $this->getContainer()->get('event_dispatcher');
             $eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
+       	}
+        if($input->getOption('metAddOnHistorie')) {
+            $this->importHistorischAddOnBestand($output);
         }
 	}
 	

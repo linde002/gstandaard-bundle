@@ -44,7 +44,7 @@ class GsBijzondereKenmerkenTableMap extends TableMap
         // columns
         $this->addColumn('bestandnummer', 'Bestandnummer', 'INTEGER', false, null, null);
         $this->addColumn('mutatiekode', 'Mutatiekode', 'INTEGER', false, null, null);
-        $this->addForeignPrimaryKey('prkcode', 'Prkcode', 'INTEGER' , 'gs_voorschrijfpr_geneesmiddel_identific', 'prkcode', true, null, null);
+        $this->addForeignPrimaryKey('prkcode', 'Prkcode', 'INTEGER' , 'gs_prescriptie_product', 'prkcode', true, null, null);
         $this->addForeignPrimaryKey('handelsproduktkode', 'Handelsproduktkode', 'INTEGER' , 'gs_handelsproducten', 'handelsproduktkode', true, null, null);
         $this->addForeignKey('thesnr_bijzondere_kenmerken', 'ThesnrBijzondereKenmerken', 'INTEGER', 'gs_thesauri_totaal', 'thesaurusnummer', false, null, null);
         $this->addForeignPrimaryKey('bijzondere_kenmerk', 'BijzondereKenmerk', 'INTEGER' , 'gs_thesauri_totaal', 'thesaurus_itemnummer', true, null, null);
@@ -58,7 +58,7 @@ class GsBijzondereKenmerkenTableMap extends TableMap
     {
         $this->addRelation('KenmerkOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('thesnr_bijzondere_kenmerken' => 'thesaurusnummer', 'bijzondere_kenmerk' => 'thesaurus_itemnummer', ), null, null);
         $this->addRelation('GsHandelsproducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsHandelsproducten', RelationMap::MANY_TO_ONE, array('handelsproduktkode' => 'handelsproduktkode', ), null, null);
-        $this->addRelation('GsVoorschrijfprGeneesmiddelIdentific', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsVoorschrijfprGeneesmiddelIdentific', RelationMap::MANY_TO_ONE, array('prkcode' => 'prkcode', ), null, null);
+        $this->addRelation('GsPrescriptieProduct', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsPrescriptieProduct', RelationMap::MANY_TO_ONE, array('prkcode' => 'prkcode', ), null, null);
     } // buildRelations()
 
 } // GsBijzondereKenmerkenTableMap
