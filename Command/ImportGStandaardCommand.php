@@ -247,7 +247,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				LEFT JOIN `gs_eenheden` as eenh ON eenh.`code` = sam.`handelsproduktkode` AND eenh.soort_code = 1 AND eenh.eenheid = sam.`eenhhoeveelheid_werkzame_stof_kode` AND eenh.hoeveelheid > 0
 				LEFT JOIN `gs_thesauri_totaal` as t8 ON t8.thesaurusnummer = 2 AND t8.thesaurus_itemnummer = sam.`eenhhoeveelheid_werkzame_stof_kode`
 				LEFT JOIN `gs_generieke_namen` as nam ON sam.`generiekenaamkode` = nam.`generiekenaamkode`
-                LEFT JOIN `gs_thesauri_totaal` as t9 ON t9.thesaurusnummer = 73 AND t9.thesaurus_itemnummer = pri.emballagetype_kode
+                LEFT JOIN `gs_thesauri_totaal` as t9 ON t9.thesaurusnummer = 73 AND t9.thesaurus_itemnummer = pri.emballagetype
                 LEFT JOIN gs_enkelvoudige_toedieningswegen_hpk as thpk ON hpk.`handelsproduktkode` = thpk.handelsproduktkode
                 LEFT JOIN `gs_thesauri_totaal` as t10 ON t10.thesaurusnummer = 7 AND t10.thesaurus_itemnummer = thpk.enkelvoudige_toedieningsweg_itemnr
 				WHERE zinummer > 0
