@@ -214,7 +214,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				,	IF(COUNT(dwg.`mutatiekode`) > 0, 1, 0) as is_dwg
 				,	a.`fabrikant_artikelkodering`
 				,	t5.`naam_item_50_posities`
-                ,   GROUP_CONCAT(DISTINCT t10.naam_item_50_posities)
+                ,   GROUP_CONCAT(DISTINCT t10.naam_item_50_posities ORDER BY t10.naam_item_50_posities SEPARATOR ", ")
 				,	t6.`naam_item_50_posities`
 				,	t7.`naam_item_50_posities`
 				,	nam.generieke_naam
