@@ -82,10 +82,6 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		$this->updateCacheTables($input, $output);
 		$this->updateSlugs($input, $output);
 
-        if($input->getOption('metAddOnHistorie')) {
-            $this->importHistorischAddOnBestand($output);
-        }
-
         if(!$input->getOption('skipNotification')) {
             /**
              * Notify subscibers
@@ -93,6 +89,9 @@ class ImportGStandaardCommand extends ContainerAwareCommand
             $event = new Event();
             $eventDispatcher = $this->getContainer()->get('event_dispatcher');
             $eventDispatcher->dispatch('pharmaintelligence.gstandaard.import.complete', $event);
+       	}
+        if($input->getOption('metAddOnHistorie')) {
+            $this->importHistorischAddOnBestand($output);
         }
 	}
 	
@@ -225,8 +224,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				FROM `gs_artikelen` as a
 				LEFT JOIN `gs_naw_gegevens_gstandaard` as l ON a.`leverancier_kode` = l.`naw_nummer`
 				LEFT JOIN `gs_handelsproducten` as hpk ON a.`handelsproduktkode` = hpk.`handelsproduktkode`
-				LEFT JOIN `gs_voorschrijfpr_geneesmiddel_identific` as pri ON hpk.`prkcode` = pri.`prkcode`
-				LEFT JOIN `gs_voorschrijfproducten` as prk ON pri.`prkcode` = prk.`prkcode`
+				LEFT JOIN `gs_prescriptie_product` as pri ON hpk.`prkcode` = pri.`prkcode`
 				LEFT JOIN `gs_generieke_producten` as gpk ON pri.`generiekeproductcode` = gpk.`generiekeproductcode`
 				LEFT JOIN `gs_atc_codes` as atc ON gpk.`atccode` = atc.`atccode`
 				LEFT JOIN `gs_bijzondere_kenmerken` as bijz ON (hpk.`handelsproduktkode` = bijz.`handelsproduktkode` AND bijz.`bijzondere_kenmerk` = 106)
@@ -234,7 +232,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 		    
 				LEFT JOIN gs_namen as n1 ON a.`artikelnaamnummer` = n1.`naamnummer`
 				LEFT JOIN gs_namen as n2 ON hpk.`handelsproduktnaamnummer` = n2.`naamnummer`
-				LEFT JOIN gs_namen as n3 ON prk.`naamnummer_prescriptie_product` = n3.`naamnummer`
+				LEFT JOIN gs_namen as n3 ON pri.`naamnummer_prescriptie_product` = n3.`naamnummer`
 				LEFT JOIN gs_namen as n4 ON gpk.`naamnummer_volledige_gpknaam` = n4.`naamnummer`
 				LEFT JOIN gs_namen as n5 ON gpk.`naamnummer_gpkstofnaam` = n5.`naamnummer`
 				LEFT JOIN `gs_thesauri_totaal` as t1 ON a.`hoofdverpakking_omschrijving_kode` = t1.`thesaurus_itemnummer` AND a.`hoofdverpakking_omschrijving_thesnr` = t1.`thesaurusnummer`
@@ -248,7 +246,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 				LEFT JOIN `gs_eenheden` as eenh ON eenh.`code` = sam.`handelsproduktkode` AND eenh.soort_code = 1 AND eenh.eenheid = sam.`eenhhoeveelheid_werkzame_stof_kode` AND eenh.hoeveelheid > 0
 				LEFT JOIN `gs_thesauri_totaal` as t8 ON t8.thesaurusnummer = 2 AND t8.thesaurus_itemnummer = sam.`eenhhoeveelheid_werkzame_stof_kode`
 				LEFT JOIN `gs_generieke_namen` as nam ON sam.`generiekenaamkode` = nam.`generiekenaamkode`
-                LEFT JOIN `gs_thesauri_totaal` as t9 ON t9.thesaurusnummer = 73 AND t9.thesaurus_itemnummer = pri.emballagetype_kode
+                LEFT JOIN `gs_thesauri_totaal` as t9 ON t9.thesaurusnummer = 73 AND t9.thesaurus_itemnummer = pri.emballagetype
                 LEFT JOIN gs_enkelvoudige_toedieningswegen_hpk as thpk ON hpk.`handelsproduktkode` = thpk.handelsproduktkode
                 LEFT JOIN `gs_thesauri_totaal` as t10 ON t10.thesaurusnummer = 7 AND t10.thesaurus_itemnummer = thpk.enkelvoudige_toedieningsweg_itemnr
 				WHERE zinummer > 0
@@ -283,7 +281,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
             LEFT JOIN gs_atc_codes e on rpad(substr(a.atccode,1,5),5,'?') = e.atccode
             LEFT JOIN gs_atc_codes f on rpad(substr(a.atccode,1,7),7,'?') = f.atccode
             LEFT JOIN gs_generieke_producten as gpk ON a.atccode = gpk.atccode
-            LEFT JOIN gs_voorschrijfpr_geneesmiddel_identific as prk ON(gpk.generiekeproductcode = prk.generiekeproductcode AND prk.prkcode > 0)
+            LEFT JOIN gs_prescriptie_product as prk ON(gpk.generiekeproductcode = prk.generiekeproductcode AND prk.prkcode > 0)
             LEFT JOIN gs_handelsproducten as hpk USING(prkcode)
             LEFT JOIN gs_artikelen as art USING(handelsproduktkode)
             WHERE LENGTH(a.atccode) > 0

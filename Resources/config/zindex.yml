@@ -229,36 +229,6 @@ import:
     thesaurus_rzv_hulpmiddelen: {start: 438, length: 4, type: integer}
     hulpmiddelen_zorg: {start: 442, length: 6, type: integer}
 
-  BST050T:
-    _attributes: {table: gs_voorschrijfproducten, modelClass: GsVoorschrijfproducten, peerClass: GsVoorschrijfproductenPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    prkcode: {start: 5, length: 8, type: integer, primaryKey: true}
-    naamnummer_prescriptie_product: {start: 13, length: 7, type: integer}
-    verwijzing_naar_kenmerken_bestand: {start: 20, length: 10, type: varchar(255)}
-
-  BST051T:
-    _attributes: {table: gs_voorschrijfpr_geneesmiddel_identific, modelClass: GsVoorschrijfprGeneesmiddelIdentific, peerClass: GsVoorschrijfprGeneesmiddelIdentificPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    prkcode: {start: 5, length: 8, type: integer, primaryKey: true}
-    naamstoevoeging: {start: 13, length: 13, type: varchar(255)}
-    generiekeproductcode: {start: 26, length: 8, type: integer}
-    emballagetype_kode: {start: 34, length: 3, type: integer}
-    basiseenheid_product_kode: {start: 37, length: 3, type: integer}
-    hpkgrootte_algemeen: {start: 40, length: 7, type: decimal, scale: 2}
-    hulpmiddel_aard_1_kode: {start: 47, length: 3, type: integer}
-    hulpmiddel_hoeveelheid_1: {start: 50, length: 2, type: integer}
-    hulpmiddel_aard_2_kode: {start: 52, length: 3, type: integer}
-    hulpmiddel_hoeveelheid_2: {start: 55, length: 2, type: integer}
-    kode_meervoudigprodukt: {start: 57, length: 1, type: varchar(255)}
-    hpkgrootte_verbandlengte: {start: 58, length: 7, type: decimal, scale: 2}
-    hpkgrootte_verbandbreedte: {start: 65, length: 7, type: decimal, scale: 2}
-    hpkgrootte_iud: {start: 72, length: 1, type: varchar(255)}
-    reden_hulpstof_identificerend: {start: 73, length: 6, type: integer}
-    instant: {start: 79, length: 1, type: varchar(255)}
-    extra_kenmerk_tbv_voorschrijven: {start: 80, length: 6, type: integer}
-
   BST052T:
     _attributes: {table: gs_prescriptie_product, modelClass: GsPrescriptieProduct, peerClass: GsPrescriptieProductPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
@@ -281,13 +251,6 @@ import:
     reden_hulpstof_identificerend: {start: 84, length: 6, type: integer}
     thesnr_verwijzing_extra_kenmerk: {start: 90, length: 4, type: integer}
     verwijzing_extra_kenmerk: {start: 94, length: 6, type: integer}
-
-  BST059T:
-    _attributes: {table: gs_voorschrijfpr_identificerende_velden, modelClass: GsVoorschrijfprIdentificerendeVelden, peerClass: GsVoorschrijfprIdentificerendeVeldenPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    prkcode: {start: 5, length: 8, type: integer, primaryKey: true}
-    identificerend_kenmerk: {start: 13, length: 10, type: varchar(255), primaryKey: true}
 
   BST060T:
     _attributes: {table: gs_meervoudige_produkten, modelClass: GsMeervoudigeProdukten, peerClass: GsMeervoudigeProduktenPeer}
