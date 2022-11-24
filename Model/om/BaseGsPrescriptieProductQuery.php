@@ -12,7 +12,10 @@ use \PropelCollection;
 use \PropelException;
 use \PropelObjectCollection;
 use \PropelPDO;
+use PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappen;
+use PharmaIntelligence\GstandaardBundle\Model\GsBijzondereKenmerken;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProducten;
+use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproducten;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamen;
 use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
 use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductPeer;
@@ -97,6 +100,18 @@ use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
  * @method GsPrescriptieProductQuery leftJoinVerwijzingExtraKenmerkOmschrijving($relationAlias = null) Adds a LEFT JOIN clause to the query using the VerwijzingExtraKenmerkOmschrijving relation
  * @method GsPrescriptieProductQuery rightJoinVerwijzingExtraKenmerkOmschrijving($relationAlias = null) Adds a RIGHT JOIN clause to the query using the VerwijzingExtraKenmerkOmschrijving relation
  * @method GsPrescriptieProductQuery innerJoinVerwijzingExtraKenmerkOmschrijving($relationAlias = null) Adds a INNER JOIN clause to the query using the VerwijzingExtraKenmerkOmschrijving relation
+ *
+ * @method GsPrescriptieProductQuery leftJoinGsArtikelEigenschappen($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsArtikelEigenschappen relation
+ * @method GsPrescriptieProductQuery rightJoinGsArtikelEigenschappen($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsArtikelEigenschappen relation
+ * @method GsPrescriptieProductQuery innerJoinGsArtikelEigenschappen($relationAlias = null) Adds a INNER JOIN clause to the query using the GsArtikelEigenschappen relation
+ *
+ * @method GsPrescriptieProductQuery leftJoinGsBijzondereKenmerken($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsBijzondereKenmerken relation
+ * @method GsPrescriptieProductQuery rightJoinGsBijzondereKenmerken($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsBijzondereKenmerken relation
+ * @method GsPrescriptieProductQuery innerJoinGsBijzondereKenmerken($relationAlias = null) Adds a INNER JOIN clause to the query using the GsBijzondereKenmerken relation
+ *
+ * @method GsPrescriptieProductQuery leftJoinGsHandelsproducten($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsHandelsproducten relation
+ * @method GsPrescriptieProductQuery rightJoinGsHandelsproducten($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsHandelsproducten relation
+ * @method GsPrescriptieProductQuery innerJoinGsHandelsproducten($relationAlias = null) Adds a INNER JOIN clause to the query using the GsHandelsproducten relation
  *
  * @method GsPrescriptieProduct findOne(PropelPDO $con = null) Return the first GsPrescriptieProduct matching the query
  * @method GsPrescriptieProduct findOneOrCreate(PropelPDO $con = null) Return the first GsPrescriptieProduct matching the query, or a new GsPrescriptieProduct object populated from the query conditions when no match is found
@@ -1760,6 +1775,228 @@ abstract class BaseGsPrescriptieProductQuery extends ModelCriteria
         return $this
             ->joinVerwijzingExtraKenmerkOmschrijving($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'VerwijzingExtraKenmerkOmschrijving', '\PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaalQuery');
+    }
+
+    /**
+     * Filter the query by a related GsArtikelEigenschappen object
+     *
+     * @param   GsArtikelEigenschappen|PropelObjectCollection $gsArtikelEigenschappen  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 GsPrescriptieProductQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByGsArtikelEigenschappen($gsArtikelEigenschappen, $comparison = null)
+    {
+        if ($gsArtikelEigenschappen instanceof GsArtikelEigenschappen) {
+            return $this
+                ->addUsingAlias(GsPrescriptieProductPeer::PRKCODE, $gsArtikelEigenschappen->getPrk(), $comparison);
+        } elseif ($gsArtikelEigenschappen instanceof PropelObjectCollection) {
+            return $this
+                ->useGsArtikelEigenschappenQuery()
+                ->filterByPrimaryKeys($gsArtikelEigenschappen->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByGsArtikelEigenschappen() only accepts arguments of type GsArtikelEigenschappen or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the GsArtikelEigenschappen relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return GsPrescriptieProductQuery The current query, for fluid interface
+     */
+    public function joinGsArtikelEigenschappen($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('GsArtikelEigenschappen');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'GsArtikelEigenschappen');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the GsArtikelEigenschappen relation GsArtikelEigenschappen object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappenQuery A secondary query class using the current class as primary query
+     */
+    public function useGsArtikelEigenschappenQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinGsArtikelEigenschappen($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'GsArtikelEigenschappen', '\PharmaIntelligence\GstandaardBundle\Model\GsArtikelEigenschappenQuery');
+    }
+
+    /**
+     * Filter the query by a related GsBijzondereKenmerken object
+     *
+     * @param   GsBijzondereKenmerken|PropelObjectCollection $gsBijzondereKenmerken  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 GsPrescriptieProductQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByGsBijzondereKenmerken($gsBijzondereKenmerken, $comparison = null)
+    {
+        if ($gsBijzondereKenmerken instanceof GsBijzondereKenmerken) {
+            return $this
+                ->addUsingAlias(GsPrescriptieProductPeer::PRKCODE, $gsBijzondereKenmerken->getPrkcode(), $comparison);
+        } elseif ($gsBijzondereKenmerken instanceof PropelObjectCollection) {
+            return $this
+                ->useGsBijzondereKenmerkenQuery()
+                ->filterByPrimaryKeys($gsBijzondereKenmerken->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByGsBijzondereKenmerken() only accepts arguments of type GsBijzondereKenmerken or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the GsBijzondereKenmerken relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return GsPrescriptieProductQuery The current query, for fluid interface
+     */
+    public function joinGsBijzondereKenmerken($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('GsBijzondereKenmerken');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'GsBijzondereKenmerken');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the GsBijzondereKenmerken relation GsBijzondereKenmerken object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsBijzondereKenmerkenQuery A secondary query class using the current class as primary query
+     */
+    public function useGsBijzondereKenmerkenQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinGsBijzondereKenmerken($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'GsBijzondereKenmerken', '\PharmaIntelligence\GstandaardBundle\Model\GsBijzondereKenmerkenQuery');
+    }
+
+    /**
+     * Filter the query by a related GsHandelsproducten object
+     *
+     * @param   GsHandelsproducten|PropelObjectCollection $gsHandelsproducten  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 GsPrescriptieProductQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByGsHandelsproducten($gsHandelsproducten, $comparison = null)
+    {
+        if ($gsHandelsproducten instanceof GsHandelsproducten) {
+            return $this
+                ->addUsingAlias(GsPrescriptieProductPeer::PRKCODE, $gsHandelsproducten->getPrkcode(), $comparison);
+        } elseif ($gsHandelsproducten instanceof PropelObjectCollection) {
+            return $this
+                ->useGsHandelsproductenQuery()
+                ->filterByPrimaryKeys($gsHandelsproducten->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByGsHandelsproducten() only accepts arguments of type GsHandelsproducten or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the GsHandelsproducten relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return GsPrescriptieProductQuery The current query, for fluid interface
+     */
+    public function joinGsHandelsproducten($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('GsHandelsproducten');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'GsHandelsproducten');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the GsHandelsproducten relation GsHandelsproducten object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenQuery A secondary query class using the current class as primary query
+     */
+    public function useGsHandelsproductenQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinGsHandelsproducten($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'GsHandelsproducten', '\PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenQuery');
     }
 
     /**

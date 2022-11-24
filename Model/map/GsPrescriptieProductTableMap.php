@@ -78,6 +78,9 @@ class GsPrescriptieProductTableMap extends TableMap
         $this->addRelation('HulpmiddelAardOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('thesnr_hulpmiddel_aard' => 'thesaurusnummer', 'hulpmiddel_aard' => 'thesaurus_itemnummer', ), null, null);
         $this->addRelation('RedenHulpstofIdentificerendOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('thesnr_reden_hulpstof_identificerend' => 'thesaurusnummer', 'reden_hulpstof_identificerend' => 'thesaurus_itemnummer', ), null, null);
         $this->addRelation('VerwijzingExtraKenmerkOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('thesnr_verwijzing_extra_kenmerk' => 'thesaurusnummer', 'verwijzing_extra_kenmerk' => 'thesaurus_itemnummer', ), null, null);
+        $this->addRelation('GsArtikelEigenschappen', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsArtikelEigenschappen', RelationMap::ONE_TO_MANY, array('prkcode' => 'prk', ), null, null, 'GsArtikelEigenschappens');
+        $this->addRelation('GsBijzondereKenmerken', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsBijzondereKenmerken', RelationMap::ONE_TO_MANY, array('prkcode' => 'prkcode', ), null, null, 'GsBijzondereKenmerkens');
+        $this->addRelation('GsHandelsproducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsHandelsproducten', RelationMap::ONE_TO_MANY, array('prkcode' => 'prkcode', ), null, null, 'GsHandelsproductens');
     } // buildRelations()
 
 } // GsPrescriptieProductTableMap

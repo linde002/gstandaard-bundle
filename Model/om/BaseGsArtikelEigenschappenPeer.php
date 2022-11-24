@@ -16,7 +16,7 @@ use PharmaIntelligence\GstandaardBundle\Model\GsAtcCodesPeer;
 use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenPeer;
 use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenPeer;
 use PharmaIntelligence\GstandaardBundle\Model\GsNawGegevensGstandaardPeer;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificPeer;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductPeer;
 use PharmaIntelligence\GstandaardBundle\Model\map\GsArtikelEigenschappenTableMap;
 
 abstract class BaseGsArtikelEigenschappenPeer
@@ -772,7 +772,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related GsVoorschrijfprGeneesmiddelIdentific table
+     * Returns the number of rows matching criteria, joining the related GsPrescriptieProduct table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -780,7 +780,7 @@ abstract class BaseGsArtikelEigenschappenPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinGsVoorschrijfprGeneesmiddelIdentific(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinGsPrescriptieProduct(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -807,7 +807,7 @@ abstract class BaseGsArtikelEigenschappenPeer
             $con = Propel::getConnection(GsArtikelEigenschappenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -1127,7 +1127,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
 
     /**
-     * Selects a collection of GsArtikelEigenschappen objects pre-filled with their GsVoorschrijfprGeneesmiddelIdentific objects.
+     * Selects a collection of GsArtikelEigenschappen objects pre-filled with their GsPrescriptieProduct objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
@@ -1135,7 +1135,7 @@ abstract class BaseGsArtikelEigenschappenPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinGsVoorschrijfprGeneesmiddelIdentific(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinGsPrescriptieProduct(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -1146,9 +1146,9 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         GsArtikelEigenschappenPeer::addSelectColumns($criteria);
         $startcol = GsArtikelEigenschappenPeer::NUM_HYDRATE_COLUMNS;
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -1168,19 +1168,19 @@ abstract class BaseGsArtikelEigenschappenPeer
                 GsArtikelEigenschappenPeer::addInstanceToPool($obj1, $key1);
             } // if $obj1 already loaded
 
-            $key2 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            $key2 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol);
             if ($key2 !== null) {
-                $obj2 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key2);
+                $obj2 = GsPrescriptieProductPeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                    $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj2, $key2);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 already loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to $obj2 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to $obj2 (GsPrescriptieProduct)
                 $obj2->addGsArtikelEigenschappen($obj1);
 
             } // if joined row was not null
@@ -1369,7 +1369,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -1418,8 +1418,8 @@ abstract class BaseGsArtikelEigenschappenPeer
         GsNawGegevensGstandaardPeer::addSelectColumns($criteria);
         $startcol5 = $startcol4 + GsNawGegevensGstandaardPeer::NUM_HYDRATE_COLUMNS;
 
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
-        $startcol6 = $startcol5 + GsVoorschrijfprGeneesmiddelIdentificPeer::NUM_HYDRATE_COLUMNS;
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
+        $startcol6 = $startcol5 + GsPrescriptieProductPeer::NUM_HYDRATE_COLUMNS;
 
         GsGeneriekeProductenPeer::addSelectColumns($criteria);
         $startcol7 = $startcol6 + GsGeneriekeProductenPeer::NUM_HYDRATE_COLUMNS;
@@ -1433,7 +1433,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -1510,21 +1510,21 @@ abstract class BaseGsArtikelEigenschappenPeer
                 $obj4->addGsArtikelEigenschappen($obj1);
             } // if joined row not null
 
-            // Add objects for joined GsVoorschrijfprGeneesmiddelIdentific rows
+            // Add objects for joined GsPrescriptieProduct rows
 
-            $key5 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol5);
+            $key5 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol5);
             if ($key5 !== null) {
-                $obj5 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key5);
+                $obj5 = GsPrescriptieProductPeer::getInstanceFromPool($key5);
                 if (!$obj5) {
 
-                    $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                    $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj5 = new $cls();
                     $obj5->hydrate($row, $startcol5);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj5, $key5);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj5, $key5);
                 } // if obj5 loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj5 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj5 (GsPrescriptieProduct)
                 $obj5->addGsArtikelEigenschappen($obj1);
             } // if joined row not null
 
@@ -1612,7 +1612,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -1671,7 +1671,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -1730,7 +1730,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::HPK, GsHandelsproductenPeer::HANDELSPRODUKTKODE, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -1750,7 +1750,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related GsVoorschrijfprGeneesmiddelIdentific table
+     * Returns the number of rows matching criteria, joining the related GsPrescriptieProduct table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -1758,7 +1758,7 @@ abstract class BaseGsArtikelEigenschappenPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinAllExceptGsVoorschrijfprGeneesmiddelIdentific(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptGsPrescriptieProduct(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -1850,7 +1850,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::ATC, GsAtcCodesPeer::ATCCODE, $join_behavior);
 
@@ -1909,7 +1909,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -1956,8 +1956,8 @@ abstract class BaseGsArtikelEigenschappenPeer
         GsNawGegevensGstandaardPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + GsNawGegevensGstandaardPeer::NUM_HYDRATE_COLUMNS;
 
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + GsVoorschrijfprGeneesmiddelIdentificPeer::NUM_HYDRATE_COLUMNS;
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + GsPrescriptieProductPeer::NUM_HYDRATE_COLUMNS;
 
         GsGeneriekeProductenPeer::addSelectColumns($criteria);
         $startcol6 = $startcol5 + GsGeneriekeProductenPeer::NUM_HYDRATE_COLUMNS;
@@ -1969,7 +1969,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -2031,21 +2031,21 @@ abstract class BaseGsArtikelEigenschappenPeer
 
             } // if joined row is not null
 
-                // Add objects for joined GsVoorschrijfprGeneesmiddelIdentific rows
+                // Add objects for joined GsPrescriptieProduct rows
 
-                $key4 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                $key4 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol4);
                 if ($key4 !== null) {
-                    $obj4 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key4);
+                    $obj4 = GsPrescriptieProductPeer::getInstanceFromPool($key4);
                     if (!$obj4) {
 
-                        $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                        $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj4 = new $cls();
                     $obj4->hydrate($row, $startcol4);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj4, $key4);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj4, $key4);
                 } // if $obj4 already loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj4 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj4 (GsPrescriptieProduct)
                 $obj4->addGsArtikelEigenschappen($obj1);
 
             } // if joined row is not null
@@ -2126,8 +2126,8 @@ abstract class BaseGsArtikelEigenschappenPeer
         GsNawGegevensGstandaardPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + GsNawGegevensGstandaardPeer::NUM_HYDRATE_COLUMNS;
 
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + GsVoorschrijfprGeneesmiddelIdentificPeer::NUM_HYDRATE_COLUMNS;
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + GsPrescriptieProductPeer::NUM_HYDRATE_COLUMNS;
 
         GsGeneriekeProductenPeer::addSelectColumns($criteria);
         $startcol6 = $startcol5 + GsGeneriekeProductenPeer::NUM_HYDRATE_COLUMNS;
@@ -2139,7 +2139,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -2201,21 +2201,21 @@ abstract class BaseGsArtikelEigenschappenPeer
 
             } // if joined row is not null
 
-                // Add objects for joined GsVoorschrijfprGeneesmiddelIdentific rows
+                // Add objects for joined GsPrescriptieProduct rows
 
-                $key4 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                $key4 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol4);
                 if ($key4 !== null) {
-                    $obj4 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key4);
+                    $obj4 = GsPrescriptieProductPeer::getInstanceFromPool($key4);
                     if (!$obj4) {
 
-                        $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                        $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj4 = new $cls();
                     $obj4->hydrate($row, $startcol4);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj4, $key4);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj4, $key4);
                 } // if $obj4 already loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj4 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj4 (GsPrescriptieProduct)
                 $obj4->addGsArtikelEigenschappen($obj1);
 
             } // if joined row is not null
@@ -2296,8 +2296,8 @@ abstract class BaseGsArtikelEigenschappenPeer
         GsHandelsproductenPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + GsHandelsproductenPeer::NUM_HYDRATE_COLUMNS;
 
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
-        $startcol5 = $startcol4 + GsVoorschrijfprGeneesmiddelIdentificPeer::NUM_HYDRATE_COLUMNS;
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
+        $startcol5 = $startcol4 + GsPrescriptieProductPeer::NUM_HYDRATE_COLUMNS;
 
         GsGeneriekeProductenPeer::addSelectColumns($criteria);
         $startcol6 = $startcol5 + GsGeneriekeProductenPeer::NUM_HYDRATE_COLUMNS;
@@ -2309,7 +2309,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::HPK, GsHandelsproductenPeer::HANDELSPRODUKTKODE, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -2371,21 +2371,21 @@ abstract class BaseGsArtikelEigenschappenPeer
 
             } // if joined row is not null
 
-                // Add objects for joined GsVoorschrijfprGeneesmiddelIdentific rows
+                // Add objects for joined GsPrescriptieProduct rows
 
-                $key4 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+                $key4 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol4);
                 if ($key4 !== null) {
-                    $obj4 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key4);
+                    $obj4 = GsPrescriptieProductPeer::getInstanceFromPool($key4);
                     if (!$obj4) {
 
-                        $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                        $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj4 = new $cls();
                     $obj4->hydrate($row, $startcol4);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj4, $key4);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj4, $key4);
                 } // if $obj4 already loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj4 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj4 (GsPrescriptieProduct)
                 $obj4->addGsArtikelEigenschappen($obj1);
 
             } // if joined row is not null
@@ -2437,7 +2437,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
 
     /**
-     * Selects a collection of GsArtikelEigenschappen objects pre-filled with all related objects except GsVoorschrijfprGeneesmiddelIdentific.
+     * Selects a collection of GsArtikelEigenschappen objects pre-filled with all related objects except GsPrescriptieProduct.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
@@ -2446,7 +2446,7 @@ abstract class BaseGsArtikelEigenschappenPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinAllExceptGsVoorschrijfprGeneesmiddelIdentific(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinAllExceptGsPrescriptieProduct(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -2639,8 +2639,8 @@ abstract class BaseGsArtikelEigenschappenPeer
         GsNawGegevensGstandaardPeer::addSelectColumns($criteria);
         $startcol5 = $startcol4 + GsNawGegevensGstandaardPeer::NUM_HYDRATE_COLUMNS;
 
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
-        $startcol6 = $startcol5 + GsVoorschrijfprGeneesmiddelIdentificPeer::NUM_HYDRATE_COLUMNS;
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
+        $startcol6 = $startcol5 + GsPrescriptieProductPeer::NUM_HYDRATE_COLUMNS;
 
         GsAtcCodesPeer::addSelectColumns($criteria);
         $startcol7 = $startcol6 + GsAtcCodesPeer::NUM_HYDRATE_COLUMNS;
@@ -2651,7 +2651,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::ATC, GsAtcCodesPeer::ATCCODE, $join_behavior);
 
@@ -2730,21 +2730,21 @@ abstract class BaseGsArtikelEigenschappenPeer
 
             } // if joined row is not null
 
-                // Add objects for joined GsVoorschrijfprGeneesmiddelIdentific rows
+                // Add objects for joined GsPrescriptieProduct rows
 
-                $key5 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol5);
+                $key5 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol5);
                 if ($key5 !== null) {
-                    $obj5 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key5);
+                    $obj5 = GsPrescriptieProductPeer::getInstanceFromPool($key5);
                     if (!$obj5) {
 
-                        $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                        $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj5 = new $cls();
                     $obj5->hydrate($row, $startcol5);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj5, $key5);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj5, $key5);
                 } // if $obj5 already loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj5 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj5 (GsPrescriptieProduct)
                 $obj5->addGsArtikelEigenschappen($obj1);
 
             } // if joined row is not null
@@ -2809,8 +2809,8 @@ abstract class BaseGsArtikelEigenschappenPeer
         GsNawGegevensGstandaardPeer::addSelectColumns($criteria);
         $startcol5 = $startcol4 + GsNawGegevensGstandaardPeer::NUM_HYDRATE_COLUMNS;
 
-        GsVoorschrijfprGeneesmiddelIdentificPeer::addSelectColumns($criteria);
-        $startcol6 = $startcol5 + GsVoorschrijfprGeneesmiddelIdentificPeer::NUM_HYDRATE_COLUMNS;
+        GsPrescriptieProductPeer::addSelectColumns($criteria);
+        $startcol6 = $startcol5 + GsPrescriptieProductPeer::NUM_HYDRATE_COLUMNS;
 
         GsGeneriekeProductenPeer::addSelectColumns($criteria);
         $startcol7 = $startcol6 + GsGeneriekeProductenPeer::NUM_HYDRATE_COLUMNS;
@@ -2821,7 +2821,7 @@ abstract class BaseGsArtikelEigenschappenPeer
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::LEVERANCIER_NUMMER, GsNawGegevensGstandaardPeer::NAW_NUMMER, $join_behavior);
 
-        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsVoorschrijfprGeneesmiddelIdentificPeer::PRKCODE, $join_behavior);
+        $criteria->addJoin(GsArtikelEigenschappenPeer::PRK, GsPrescriptieProductPeer::PRKCODE, $join_behavior);
 
         $criteria->addJoin(GsArtikelEigenschappenPeer::GPK, GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $join_behavior);
 
@@ -2900,21 +2900,21 @@ abstract class BaseGsArtikelEigenschappenPeer
 
             } // if joined row is not null
 
-                // Add objects for joined GsVoorschrijfprGeneesmiddelIdentific rows
+                // Add objects for joined GsPrescriptieProduct rows
 
-                $key5 = GsVoorschrijfprGeneesmiddelIdentificPeer::getPrimaryKeyHashFromRow($row, $startcol5);
+                $key5 = GsPrescriptieProductPeer::getPrimaryKeyHashFromRow($row, $startcol5);
                 if ($key5 !== null) {
-                    $obj5 = GsVoorschrijfprGeneesmiddelIdentificPeer::getInstanceFromPool($key5);
+                    $obj5 = GsPrescriptieProductPeer::getInstanceFromPool($key5);
                     if (!$obj5) {
 
-                        $cls = GsVoorschrijfprGeneesmiddelIdentificPeer::getOMClass();
+                        $cls = GsPrescriptieProductPeer::getOMClass();
 
                     $obj5 = new $cls();
                     $obj5->hydrate($row, $startcol5);
-                    GsVoorschrijfprGeneesmiddelIdentificPeer::addInstanceToPool($obj5, $key5);
+                    GsPrescriptieProductPeer::addInstanceToPool($obj5, $key5);
                 } // if $obj5 already loaded
 
-                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj5 (GsVoorschrijfprGeneesmiddelIdentific)
+                // Add the $obj1 (GsArtikelEigenschappen) to the collection in $obj5 (GsPrescriptieProduct)
                 $obj5->addGsArtikelEigenschappen($obj1);
 
             } // if joined row is not null

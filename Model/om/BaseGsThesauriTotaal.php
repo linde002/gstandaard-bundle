@@ -7533,10 +7533,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsBijzondereKenmerken[] List of GsBijzondereKenmerken objects
      */
-    public function getGsBijzondereKenmerkensJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsBijzondereKenmerkensJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsBijzondereKenmerkenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsBijzondereKenmerkens($query, $con);
     }
@@ -9389,10 +9389,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByEenheidInkoophoeveelheidThesnrEenheidInkoophoeveelheidJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByEenheidInkoophoeveelheidThesnrEenheidInkoophoeveelheidJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByEenheidInkoophoeveelheidThesnrEenheidInkoophoeveelheid($query, $con);
     }
@@ -9664,10 +9664,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByBasiseenheidVerpakkingThesnrBasiseenheidVerpakkingJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByBasiseenheidVerpakkingThesnrBasiseenheidVerpakkingJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByBasiseenheidVerpakkingThesnrBasiseenheidVerpakking($query, $con);
     }
@@ -9939,10 +9939,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByEmballagemateriaalThesaurusnummerEmballagemateriaalKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByEmballagemateriaalThesaurusnummerEmballagemateriaalKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByEmballagemateriaalThesaurusnummerEmballagemateriaalKode($query, $con);
     }
@@ -10214,10 +10214,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByEmballagesluitingThesaurusnummerEmballagesluitingKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByEmballagesluitingThesaurusnummerEmballagesluitingKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByEmballagesluitingThesaurusnummerEmballagesluitingKode($query, $con);
     }
@@ -10489,10 +10489,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByEmballagedoseerinrThesaurusnrEmballagedoseerinrichtingKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByEmballagedoseerinrThesaurusnrEmballagedoseerinrichtingKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByEmballagedoseerinrThesaurusnrEmballagedoseerinrichtingKode($query, $con);
     }
@@ -10764,10 +10764,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByKleurThesaurusnummerKleurKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByKleurThesaurusnummerKleurKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByKleurThesaurusnummerKleurKode($query, $con);
     }
@@ -11039,10 +11039,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedBySmaakThesaurusnummerSmaakKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedBySmaakThesaurusnummerSmaakKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedBySmaakThesaurusnummerSmaakKode($query, $con);
     }
@@ -11314,10 +11314,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByBereidingsvoorschrThesaurusnummerBereidingsvoorschriftKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByBereidingsvoorschrThesaurusnummerBereidingsvoorschriftKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByBereidingsvoorschrThesaurusnummerBereidingsvoorschriftKode($query, $con);
     }
@@ -11589,10 +11589,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByProduktgroepThesaurusnummerProduktgroepKodeJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByProduktgroepThesaurusnummerProduktgroepKodeJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByProduktgroepThesaurusnummerProduktgroepKode($query, $con);
     }
@@ -11864,10 +11864,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByThesaurusRzvVerstrekkingRzvverstrekkingJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByThesaurusRzvVerstrekkingRzvverstrekkingJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByThesaurusRzvVerstrekkingRzvverstrekking($query, $con);
     }
@@ -12139,10 +12139,10 @@ abstract class BaseGsThesauriTotaal extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsHandelsproducten[] List of GsHandelsproducten objects
      */
-    public function getGsHandelsproductensRelatedByRzvThesaurus120RzvvoorwaardenBijlage2JoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsHandelsproductensRelatedByRzvThesaurus120RzvvoorwaardenBijlage2JoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsHandelsproductenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsHandelsproductensRelatedByRzvThesaurus120RzvvoorwaardenBijlage2($query, $con);
     }

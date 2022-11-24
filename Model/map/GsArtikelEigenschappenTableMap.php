@@ -50,7 +50,7 @@ class GsArtikelEigenschappenTableMap extends TableMap
         $this->addColumn('basiseenheid_omschrijving', 'BasiseenheidOmschrijving', 'VARCHAR', false, 255, null);
         $this->addColumn('inkoophoeveelheid_omschrijving', 'InkoophoeveelheidOmschrijving', 'VARCHAR', false, 255, null);
         $this->addForeignKey('hpk', 'Hpk', 'INTEGER', 'gs_handelsproducten', 'handelsproduktkode', false, null, null);
-        $this->addForeignKey('prk', 'Prk', 'INTEGER', 'gs_voorschrijfpr_geneesmiddel_identific', 'prkcode', false, null, null);
+        $this->addForeignKey('prk', 'Prk', 'INTEGER', 'gs_prescriptie_product', 'prkcode', false, null, null);
         $this->addForeignKey('gpk', 'Gpk', 'INTEGER', 'gs_generieke_producten', 'generiekeproductcode', false, null, null);
         $this->addForeignKey('atc', 'Atc', 'VARCHAR', 'gs_atc_codes', 'atccode', false, 7, null);
         $this->addColumn('etiket_naam', 'EtiketNaam', 'VARCHAR', false, 255, null);
@@ -85,7 +85,7 @@ class GsArtikelEigenschappenTableMap extends TableMap
         $this->addRelation('GsArtikelen', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsArtikelen', RelationMap::MANY_TO_ONE, array('zindex_nummer' => 'zinummer', ), null, null);
         $this->addRelation('GsHandelsproducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsHandelsproducten', RelationMap::MANY_TO_ONE, array('hpk' => 'handelsproduktkode', ), null, null);
         $this->addRelation('GsNawGegevensGstandaard', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsNawGegevensGstandaard', RelationMap::MANY_TO_ONE, array('leverancier_nummer' => 'naw_nummer', ), null, null);
-        $this->addRelation('GsVoorschrijfprGeneesmiddelIdentific', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsVoorschrijfprGeneesmiddelIdentific', RelationMap::MANY_TO_ONE, array('prk' => 'prkcode', ), null, null);
+        $this->addRelation('GsPrescriptieProduct', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsPrescriptieProduct', RelationMap::MANY_TO_ONE, array('prk' => 'prkcode', ), null, null);
         $this->addRelation('GsGeneriekeProducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsGeneriekeProducten', RelationMap::MANY_TO_ONE, array('gpk' => 'generiekeproductcode', ), null, null);
         $this->addRelation('GsAtcCodes', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsAtcCodes', RelationMap::MANY_TO_ONE, array('atc' => 'atccode', ), null, null);
         $this->addRelation('GsRzvAanspraak', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsRzvAanspraak', RelationMap::ONE_TO_ONE, array('zindex_nummer' => 'zinummer', ), null, null);

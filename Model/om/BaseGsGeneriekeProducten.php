@@ -26,8 +26,6 @@ use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
 use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaalQuery;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery;
 
 abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
 {
@@ -226,12 +224,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
     protected $collGsPrescriptieProductsPartial;
 
     /**
-     * @var        PropelObjectCollection|GsVoorschrijfprGeneesmiddelIdentific[] Collection to store aggregation of GsVoorschrijfprGeneesmiddelIdentific objects.
-     */
-    protected $collGsVoorschrijfprGeneesmiddelIdentifics;
-    protected $collGsVoorschrijfprGeneesmiddelIdentificsPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -262,12 +254,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $gsPrescriptieProductsScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
-     */
-    protected $gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion = null;
 
     /**
      * Get the [bestandnummer] column value.
@@ -1189,8 +1175,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
 
             $this->collGsPrescriptieProducts = null;
 
-            $this->collGsVoorschrijfprGeneesmiddelIdentifics = null;
-
         } // if (deep)
     }
 
@@ -1385,24 +1369,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
 
             if ($this->collGsPrescriptieProducts !== null) {
                 foreach ($this->collGsPrescriptieProducts as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
-            if ($this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion !== null) {
-                if (!$this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion->isEmpty()) {
-                    foreach ($this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion as $gsVoorschrijfprGeneesmiddelIdentific) {
-                        // need to save related object because we set the relation to null
-                        $gsVoorschrijfprGeneesmiddelIdentific->save($con);
-                    }
-                    $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collGsVoorschrijfprGeneesmiddelIdentifics !== null) {
-                foreach ($this->collGsVoorschrijfprGeneesmiddelIdentifics as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1724,14 +1690,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
                     }
                 }
 
-                if ($this->collGsVoorschrijfprGeneesmiddelIdentifics !== null) {
-                    foreach ($this->collGsVoorschrijfprGeneesmiddelIdentifics as $referrerFK) {
-                        if (!$referrerFK->validate($columns)) {
-                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-
 
             $this->alreadyInValidation = false;
         }
@@ -1915,9 +1873,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             }
             if (null !== $this->collGsPrescriptieProducts) {
                 $result['GsPrescriptieProducts'] = $this->collGsPrescriptieProducts->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-            if (null !== $this->collGsVoorschrijfprGeneesmiddelIdentifics) {
-                $result['GsVoorschrijfprGeneesmiddelIdentifics'] = $this->collGsVoorschrijfprGeneesmiddelIdentifics->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -2205,12 +2160,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             foreach ($this->getGsPrescriptieProducts() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addGsPrescriptieProduct($relObj->copy($deepCopy));
-                }
-            }
-
-            foreach ($this->getGsVoorschrijfprGeneesmiddelIdentifics() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addGsVoorschrijfprGeneesmiddelIdentific($relObj->copy($deepCopy));
                 }
             }
 
@@ -2553,9 +2502,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
         if ('GsPrescriptieProduct' == $relationName) {
             $this->initGsPrescriptieProducts();
         }
-        if ('GsVoorschrijfprGeneesmiddelIdentific' == $relationName) {
-            $this->initGsVoorschrijfprGeneesmiddelIdentifics();
-        }
     }
 
     /**
@@ -2875,10 +2821,10 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsArtikelEigenschappen[] List of GsArtikelEigenschappen objects
      */
-    public function getGsArtikelEigenschappensJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsArtikelEigenschappensJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsArtikelEigenschappenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsArtikelEigenschappens($query, $con);
     }
@@ -3309,231 +3255,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
     }
 
     /**
-     * Clears out the collGsVoorschrijfprGeneesmiddelIdentifics collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return GsGeneriekeProducten The current object (for fluent API support)
-     * @see        addGsVoorschrijfprGeneesmiddelIdentifics()
-     */
-    public function clearGsVoorschrijfprGeneesmiddelIdentifics()
-    {
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics = null; // important to set this to null since that means it is uninitialized
-        $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial = null;
-
-        return $this;
-    }
-
-    /**
-     * reset is the collGsVoorschrijfprGeneesmiddelIdentifics collection loaded partially
-     *
-     * @return void
-     */
-    public function resetPartialGsVoorschrijfprGeneesmiddelIdentifics($v = true)
-    {
-        $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial = $v;
-    }
-
-    /**
-     * Initializes the collGsVoorschrijfprGeneesmiddelIdentifics collection.
-     *
-     * By default this just sets the collGsVoorschrijfprGeneesmiddelIdentifics collection to an empty array (like clearcollGsVoorschrijfprGeneesmiddelIdentifics());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initGsVoorschrijfprGeneesmiddelIdentifics($overrideExisting = true)
-    {
-        if (null !== $this->collGsVoorschrijfprGeneesmiddelIdentifics && !$overrideExisting) {
-            return;
-        }
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics = new PropelObjectCollection();
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics->setModel('GsVoorschrijfprGeneesmiddelIdentific');
-    }
-
-    /**
-     * Gets an array of GsVoorschrijfprGeneesmiddelIdentific objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this GsGeneriekeProducten is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|GsVoorschrijfprGeneesmiddelIdentific[] List of GsVoorschrijfprGeneesmiddelIdentific objects
-     * @throws PropelException
-     */
-    public function getGsVoorschrijfprGeneesmiddelIdentifics($criteria = null, PropelPDO $con = null)
-    {
-        $partial = $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial && !$this->isNew();
-        if (null === $this->collGsVoorschrijfprGeneesmiddelIdentifics || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collGsVoorschrijfprGeneesmiddelIdentifics) {
-                // return empty collection
-                $this->initGsVoorschrijfprGeneesmiddelIdentifics();
-            } else {
-                $collGsVoorschrijfprGeneesmiddelIdentifics = GsVoorschrijfprGeneesmiddelIdentificQuery::create(null, $criteria)
-                    ->filterByGsGeneriekeProducten($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    if (false !== $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial && count($collGsVoorschrijfprGeneesmiddelIdentifics)) {
-                      $this->initGsVoorschrijfprGeneesmiddelIdentifics(false);
-
-                      foreach ($collGsVoorschrijfprGeneesmiddelIdentifics as $obj) {
-                        if (false == $this->collGsVoorschrijfprGeneesmiddelIdentifics->contains($obj)) {
-                          $this->collGsVoorschrijfprGeneesmiddelIdentifics->append($obj);
-                        }
-                      }
-
-                      $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial = true;
-                    }
-
-                    $collGsVoorschrijfprGeneesmiddelIdentifics->getInternalIterator()->rewind();
-
-                    return $collGsVoorschrijfprGeneesmiddelIdentifics;
-                }
-
-                if ($partial && $this->collGsVoorschrijfprGeneesmiddelIdentifics) {
-                    foreach ($this->collGsVoorschrijfprGeneesmiddelIdentifics as $obj) {
-                        if ($obj->isNew()) {
-                            $collGsVoorschrijfprGeneesmiddelIdentifics[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collGsVoorschrijfprGeneesmiddelIdentifics = $collGsVoorschrijfprGeneesmiddelIdentifics;
-                $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial = false;
-            }
-        }
-
-        return $this->collGsVoorschrijfprGeneesmiddelIdentifics;
-    }
-
-    /**
-     * Sets a collection of GsVoorschrijfprGeneesmiddelIdentific objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param PropelCollection $gsVoorschrijfprGeneesmiddelIdentifics A Propel collection.
-     * @param PropelPDO $con Optional connection object
-     * @return GsGeneriekeProducten The current object (for fluent API support)
-     */
-    public function setGsVoorschrijfprGeneesmiddelIdentifics(PropelCollection $gsVoorschrijfprGeneesmiddelIdentifics, PropelPDO $con = null)
-    {
-        $gsVoorschrijfprGeneesmiddelIdentificsToDelete = $this->getGsVoorschrijfprGeneesmiddelIdentifics(new Criteria(), $con)->diff($gsVoorschrijfprGeneesmiddelIdentifics);
-
-
-        $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion = $gsVoorschrijfprGeneesmiddelIdentificsToDelete;
-
-        foreach ($gsVoorschrijfprGeneesmiddelIdentificsToDelete as $gsVoorschrijfprGeneesmiddelIdentificRemoved) {
-            $gsVoorschrijfprGeneesmiddelIdentificRemoved->setGsGeneriekeProducten(null);
-        }
-
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics = null;
-        foreach ($gsVoorschrijfprGeneesmiddelIdentifics as $gsVoorschrijfprGeneesmiddelIdentific) {
-            $this->addGsVoorschrijfprGeneesmiddelIdentific($gsVoorschrijfprGeneesmiddelIdentific);
-        }
-
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics = $gsVoorschrijfprGeneesmiddelIdentifics;
-        $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related GsVoorschrijfprGeneesmiddelIdentific objects.
-     *
-     * @param Criteria $criteria
-     * @param boolean $distinct
-     * @param PropelPDO $con
-     * @return int             Count of related GsVoorschrijfprGeneesmiddelIdentific objects.
-     * @throws PropelException
-     */
-    public function countGsVoorschrijfprGeneesmiddelIdentifics(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-    {
-        $partial = $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial && !$this->isNew();
-        if (null === $this->collGsVoorschrijfprGeneesmiddelIdentifics || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collGsVoorschrijfprGeneesmiddelIdentifics) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getGsVoorschrijfprGeneesmiddelIdentifics());
-            }
-            $query = GsVoorschrijfprGeneesmiddelIdentificQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByGsGeneriekeProducten($this)
-                ->count($con);
-        }
-
-        return count($this->collGsVoorschrijfprGeneesmiddelIdentifics);
-    }
-
-    /**
-     * Method called to associate a GsVoorschrijfprGeneesmiddelIdentific object to this object
-     * through the GsVoorschrijfprGeneesmiddelIdentific foreign key attribute.
-     *
-     * @param    GsVoorschrijfprGeneesmiddelIdentific $l GsVoorschrijfprGeneesmiddelIdentific
-     * @return GsGeneriekeProducten The current object (for fluent API support)
-     */
-    public function addGsVoorschrijfprGeneesmiddelIdentific(GsVoorschrijfprGeneesmiddelIdentific $l)
-    {
-        if ($this->collGsVoorschrijfprGeneesmiddelIdentifics === null) {
-            $this->initGsVoorschrijfprGeneesmiddelIdentifics();
-            $this->collGsVoorschrijfprGeneesmiddelIdentificsPartial = true;
-        }
-
-        if (!in_array($l, $this->collGsVoorschrijfprGeneesmiddelIdentifics->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddGsVoorschrijfprGeneesmiddelIdentific($l);
-
-            if ($this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion and $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion->contains($l)) {
-                $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion->remove($this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param	GsVoorschrijfprGeneesmiddelIdentific $gsVoorschrijfprGeneesmiddelIdentific The gsVoorschrijfprGeneesmiddelIdentific object to add.
-     */
-    protected function doAddGsVoorschrijfprGeneesmiddelIdentific($gsVoorschrijfprGeneesmiddelIdentific)
-    {
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics[]= $gsVoorschrijfprGeneesmiddelIdentific;
-        $gsVoorschrijfprGeneesmiddelIdentific->setGsGeneriekeProducten($this);
-    }
-
-    /**
-     * @param	GsVoorschrijfprGeneesmiddelIdentific $gsVoorschrijfprGeneesmiddelIdentific The gsVoorschrijfprGeneesmiddelIdentific object to remove.
-     * @return GsGeneriekeProducten The current object (for fluent API support)
-     */
-    public function removeGsVoorschrijfprGeneesmiddelIdentific($gsVoorschrijfprGeneesmiddelIdentific)
-    {
-        if ($this->getGsVoorschrijfprGeneesmiddelIdentifics()->contains($gsVoorschrijfprGeneesmiddelIdentific)) {
-            $this->collGsVoorschrijfprGeneesmiddelIdentifics->remove($this->collGsVoorschrijfprGeneesmiddelIdentifics->search($gsVoorschrijfprGeneesmiddelIdentific));
-            if (null === $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion) {
-                $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion = clone $this->collGsVoorschrijfprGeneesmiddelIdentifics;
-                $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion->clear();
-            }
-            $this->gsVoorschrijfprGeneesmiddelIdentificsScheduledForDeletion[]= $gsVoorschrijfprGeneesmiddelIdentific;
-            $gsVoorschrijfprGeneesmiddelIdentific->setGsGeneriekeProducten(null);
-        }
-
-        return $this;
-    }
-
-    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -3593,11 +3314,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collGsVoorschrijfprGeneesmiddelIdentifics) {
-                foreach ($this->collGsVoorschrijfprGeneesmiddelIdentifics as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->aGsAtcCodes instanceof Persistent) {
               $this->aGsAtcCodes->clearAllReferences($deep);
             }
@@ -3625,10 +3341,6 @@ abstract class BaseGsGeneriekeProducten extends BaseObject implements Persistent
             $this->collGsPrescriptieProducts->clearIterator();
         }
         $this->collGsPrescriptieProducts = null;
-        if ($this->collGsVoorschrijfprGeneesmiddelIdentifics instanceof PropelCollection) {
-            $this->collGsVoorschrijfprGeneesmiddelIdentifics->clearIterator();
-        }
-        $this->collGsVoorschrijfprGeneesmiddelIdentifics = null;
         $this->aGsAtcCodes = null;
         $this->aGsNamenRelatedByNaamnummerVolledigeGpknaam = null;
         $this->aStofnaam = null;

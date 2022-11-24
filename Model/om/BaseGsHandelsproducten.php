@@ -28,10 +28,10 @@ use PharmaIntelligence\GstandaardBundle\Model\GsIngegevenSamenstellingen;
 use PharmaIntelligence\GstandaardBundle\Model\GsIngegevenSamenstellingenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamen;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamenQuery;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaalQuery;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery;
 
 abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
 {
@@ -529,9 +529,9 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
     protected $hulpmiddelen_zorg;
 
     /**
-     * @var        GsVoorschrijfprGeneesmiddelIdentific
+     * @var        GsPrescriptieProduct
      */
-    protected $aGsVoorschrijfprGeneesmiddelIdentific;
+    protected $aGsPrescriptieProduct;
 
     /**
      * @var        GsNamen
@@ -1622,8 +1622,8 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
             $this->modifiedColumns[] = GsHandelsproductenPeer::PRKCODE;
         }
 
-        if ($this->aGsVoorschrijfprGeneesmiddelIdentific !== null && $this->aGsVoorschrijfprGeneesmiddelIdentific->getPrkcode() !== $v) {
-            $this->aGsVoorschrijfprGeneesmiddelIdentific = null;
+        if ($this->aGsPrescriptieProduct !== null && $this->aGsPrescriptieProduct->getPrkcode() !== $v) {
+            $this->aGsPrescriptieProduct = null;
         }
 
 
@@ -3440,8 +3440,8 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aGsVoorschrijfprGeneesmiddelIdentific !== null && $this->prkcode !== $this->aGsVoorschrijfprGeneesmiddelIdentific->getPrkcode()) {
-            $this->aGsVoorschrijfprGeneesmiddelIdentific = null;
+        if ($this->aGsPrescriptieProduct !== null && $this->prkcode !== $this->aGsPrescriptieProduct->getPrkcode()) {
+            $this->aGsPrescriptieProduct = null;
         }
         if ($this->aGsNamen !== null && $this->handelsproduktnaamnummer !== $this->aGsNamen->getNaamnummer()) {
             $this->aGsNamen = null;
@@ -3551,7 +3551,7 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aGsVoorschrijfprGeneesmiddelIdentific = null;
+            $this->aGsPrescriptieProduct = null;
             $this->aGsNamen = null;
             $this->aInkoophoeveelheidOmschrijving = null;
             $this->aBasiseenheidOmschrijving = null;
@@ -3692,11 +3692,11 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aGsVoorschrijfprGeneesmiddelIdentific !== null) {
-                if ($this->aGsVoorschrijfprGeneesmiddelIdentific->isModified() || $this->aGsVoorschrijfprGeneesmiddelIdentific->isNew()) {
-                    $affectedRows += $this->aGsVoorschrijfprGeneesmiddelIdentific->save($con);
+            if ($this->aGsPrescriptieProduct !== null) {
+                if ($this->aGsPrescriptieProduct->isModified() || $this->aGsPrescriptieProduct->isNew()) {
+                    $affectedRows += $this->aGsPrescriptieProduct->save($con);
                 }
-                $this->setGsVoorschrijfprGeneesmiddelIdentific($this->aGsVoorschrijfprGeneesmiddelIdentific);
+                $this->setGsPrescriptieProduct($this->aGsPrescriptieProduct);
             }
 
             if ($this->aGsNamen !== null) {
@@ -4480,9 +4480,9 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aGsVoorschrijfprGeneesmiddelIdentific !== null) {
-                if (!$this->aGsVoorschrijfprGeneesmiddelIdentific->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aGsVoorschrijfprGeneesmiddelIdentific->getValidationFailures());
+            if ($this->aGsPrescriptieProduct !== null) {
+                if (!$this->aGsPrescriptieProduct->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aGsPrescriptieProduct->getValidationFailures());
                 }
             }
 
@@ -4991,8 +4991,8 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aGsVoorschrijfprGeneesmiddelIdentific) {
-                $result['GsVoorschrijfprGeneesmiddelIdentific'] = $this->aGsVoorschrijfprGeneesmiddelIdentific->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aGsPrescriptieProduct) {
+                $result['GsPrescriptieProduct'] = $this->aGsPrescriptieProduct->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aGsNamen) {
                 $result['GsNamen'] = $this->aGsNamen->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -5739,13 +5739,13 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
     }
 
     /**
-     * Declares an association between this object and a GsVoorschrijfprGeneesmiddelIdentific object.
+     * Declares an association between this object and a GsPrescriptieProduct object.
      *
-     * @param                  GsVoorschrijfprGeneesmiddelIdentific $v
+     * @param                  GsPrescriptieProduct $v
      * @return GsHandelsproducten The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setGsVoorschrijfprGeneesmiddelIdentific(GsVoorschrijfprGeneesmiddelIdentific $v = null)
+    public function setGsPrescriptieProduct(GsPrescriptieProduct $v = null)
     {
         if ($v === null) {
             $this->setPrkcode(NULL);
@@ -5753,10 +5753,10 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
             $this->setPrkcode($v->getPrkcode());
         }
 
-        $this->aGsVoorschrijfprGeneesmiddelIdentific = $v;
+        $this->aGsPrescriptieProduct = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the GsVoorschrijfprGeneesmiddelIdentific object, it will not be re-added.
+        // If this object has already been added to the GsPrescriptieProduct object, it will not be re-added.
         if ($v !== null) {
             $v->addGsHandelsproducten($this);
         }
@@ -5767,27 +5767,27 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated GsVoorschrijfprGeneesmiddelIdentific object
+     * Get the associated GsPrescriptieProduct object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return GsVoorschrijfprGeneesmiddelIdentific The associated GsVoorschrijfprGeneesmiddelIdentific object.
+     * @return GsPrescriptieProduct The associated GsPrescriptieProduct object.
      * @throws PropelException
      */
-    public function getGsVoorschrijfprGeneesmiddelIdentific(PropelPDO $con = null, $doQuery = true)
+    public function getGsPrescriptieProduct(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aGsVoorschrijfprGeneesmiddelIdentific === null && ($this->prkcode !== null) && $doQuery) {
-            $this->aGsVoorschrijfprGeneesmiddelIdentific = GsVoorschrijfprGeneesmiddelIdentificQuery::create()->findPk($this->prkcode, $con);
+        if ($this->aGsPrescriptieProduct === null && ($this->prkcode !== null) && $doQuery) {
+            $this->aGsPrescriptieProduct = GsPrescriptieProductQuery::create()->findPk($this->prkcode, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aGsVoorschrijfprGeneesmiddelIdentific->addGsHandelsproductens($this);
+                $this->aGsPrescriptieProduct->addGsHandelsproductens($this);
              */
         }
 
-        return $this->aGsVoorschrijfprGeneesmiddelIdentific;
+        return $this->aGsPrescriptieProduct;
     }
 
     /**
@@ -6800,10 +6800,10 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsArtikelEigenschappen[] List of GsArtikelEigenschappen objects
      */
-    public function getGsArtikelEigenschappensJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsArtikelEigenschappensJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsArtikelEigenschappenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsArtikelEigenschappens($query, $con);
     }
@@ -7553,10 +7553,10 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsBijzondereKenmerken[] List of GsBijzondereKenmerken objects
      */
-    public function getGsBijzondereKenmerkensJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsBijzondereKenmerkensJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsBijzondereKenmerkenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsBijzondereKenmerkens($query, $con);
     }
@@ -8273,8 +8273,8 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->aGsVoorschrijfprGeneesmiddelIdentific instanceof Persistent) {
-              $this->aGsVoorschrijfprGeneesmiddelIdentific->clearAllReferences($deep);
+            if ($this->aGsPrescriptieProduct instanceof Persistent) {
+              $this->aGsPrescriptieProduct->clearAllReferences($deep);
             }
             if ($this->aGsNamen instanceof Persistent) {
               $this->aGsNamen->clearAllReferences($deep);
@@ -8336,7 +8336,7 @@ abstract class BaseGsHandelsproducten extends BaseObject implements Persistent
             $this->collGsIngegevenSamenstellingens->clearIterator();
         }
         $this->collGsIngegevenSamenstellingens = null;
-        $this->aGsVoorschrijfprGeneesmiddelIdentific = null;
+        $this->aGsPrescriptieProduct = null;
         $this->aGsNamen = null;
         $this->aInkoophoeveelheidOmschrijving = null;
         $this->aBasiseenheidOmschrijving = null;

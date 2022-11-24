@@ -62,7 +62,6 @@ class GsNamenTableMap extends TableMap
         $this->addRelation('GeneriekeProducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsGeneriekeProducten', RelationMap::ONE_TO_MANY, array('naamnummer' => 'naamnummer_gpkstofnaam', ), null, null, 'GeneriekeProductens');
         $this->addRelation('GsHandelsproducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsHandelsproducten', RelationMap::ONE_TO_MANY, array('naamnummer' => 'handelsproduktnaamnummer', ), null, null, 'GsHandelsproductens');
         $this->addRelation('GsPrescriptieProduct', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsPrescriptieProduct', RelationMap::ONE_TO_MANY, array('naamnummer' => 'naamnummer_prescriptie_product', ), null, null, 'GsPrescriptieProducts');
-        $this->addRelation('GsVoorschrijfproducten', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsVoorschrijfproducten', RelationMap::ONE_TO_MANY, array('naamnummer' => 'naamnummer_prescriptie_product', ), null, null, 'GsVoorschrijfproductens');
     } // buildRelations()
 
 } // GsNamenTableMap

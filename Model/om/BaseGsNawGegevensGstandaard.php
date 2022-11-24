@@ -2685,10 +2685,10 @@ abstract class BaseGsNawGegevensGstandaard extends BaseObject implements Persist
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|GsArtikelEigenschappen[] List of GsArtikelEigenschappen objects
      */
-    public function getGsArtikelEigenschappensJoinGsVoorschrijfprGeneesmiddelIdentific($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getGsArtikelEigenschappensJoinGsPrescriptieProduct($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = GsArtikelEigenschappenQuery::create(null, $criteria);
-        $query->joinWith('GsVoorschrijfprGeneesmiddelIdentific', $join_behavior);
+        $query->joinWith('GsPrescriptieProduct', $join_behavior);
 
         return $this->getGsArtikelEigenschappens($query, $con);
     }

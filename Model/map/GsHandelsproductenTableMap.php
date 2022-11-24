@@ -45,7 +45,7 @@ class GsHandelsproductenTableMap extends TableMap
         $this->addColumn('bestandnummer', 'Bestandnummer', 'INTEGER', false, null, null);
         $this->addColumn('mutatiekode', 'Mutatiekode', 'INTEGER', false, null, null);
         $this->addPrimaryKey('handelsproduktkode', 'Handelsproduktkode', 'INTEGER', true, null, null);
-        $this->addForeignKey('prkcode', 'Prkcode', 'INTEGER', 'gs_voorschrijfpr_geneesmiddel_identific', 'prkcode', false, null, null);
+        $this->addForeignKey('prkcode', 'Prkcode', 'INTEGER', 'gs_prescriptie_product', 'prkcode', false, null, null);
         $this->addColumn('medisch_hulpmiddelkode', 'MedischHulpmiddelkode', 'INTEGER', false, null, null);
         $this->addForeignKey('handelsproduktnaamnummer', 'Handelsproduktnaamnummer', 'INTEGER', 'gs_namen', 'naamnummer', false, null, null);
         $this->addColumn('merkstamnaam', 'Merkstamnaam', 'VARCHAR', false, 255, null);
@@ -129,7 +129,7 @@ class GsHandelsproductenTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('GsVoorschrijfprGeneesmiddelIdentific', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsVoorschrijfprGeneesmiddelIdentific', RelationMap::MANY_TO_ONE, array('prkcode' => 'prkcode', ), null, null);
+        $this->addRelation('GsPrescriptieProduct', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsPrescriptieProduct', RelationMap::MANY_TO_ONE, array('prkcode' => 'prkcode', ), null, null);
         $this->addRelation('GsNamen', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsNamen', RelationMap::MANY_TO_ONE, array('handelsproduktnaamnummer' => 'naamnummer', ), null, null);
         $this->addRelation('InkoophoeveelheidOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('eenheid_inkoophoeveelheid_thesnr' => 'thesaurusnummer', 'eenheid_inkoophoeveelheid' => 'thesaurus_itemnummer', ), null, null);
         $this->addRelation('BasiseenheidOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('basiseenheid_verpakking_thesnr' => 'thesaurusnummer', 'basiseenheid_verpakking' => 'thesaurus_itemnummer', ), null, null);

@@ -20,7 +20,6 @@ use PharmaIntelligence\GstandaardBundle\Model\GsGeneriekeProductenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamen;
 use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
 
 /**
  * @method GsGeneriekeProductenQuery orderByBestandnummer($order = Criteria::ASC) Order by the bestandnummer column
@@ -102,10 +101,6 @@ use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentif
  * @method GsGeneriekeProductenQuery leftJoinGsPrescriptieProduct($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsPrescriptieProduct relation
  * @method GsGeneriekeProductenQuery rightJoinGsPrescriptieProduct($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsPrescriptieProduct relation
  * @method GsGeneriekeProductenQuery innerJoinGsPrescriptieProduct($relationAlias = null) Adds a INNER JOIN clause to the query using the GsPrescriptieProduct relation
- *
- * @method GsGeneriekeProductenQuery leftJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
- * @method GsGeneriekeProductenQuery rightJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
- * @method GsGeneriekeProductenQuery innerJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a INNER JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
  *
  * @method GsGeneriekeProducten findOne(PropelPDO $con = null) Return the first GsGeneriekeProducten matching the query
  * @method GsGeneriekeProducten findOneOrCreate(PropelPDO $con = null) Return the first GsGeneriekeProducten matching the query, or a new GsGeneriekeProducten object populated from the query conditions when no match is found
@@ -1816,80 +1811,6 @@ abstract class BaseGsGeneriekeProductenQuery extends ModelCriteria
         return $this
             ->joinGsPrescriptieProduct($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'GsPrescriptieProduct', '\PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery');
-    }
-
-    /**
-     * Filter the query by a related GsVoorschrijfprGeneesmiddelIdentific object
-     *
-     * @param   GsVoorschrijfprGeneesmiddelIdentific|PropelObjectCollection $gsVoorschrijfprGeneesmiddelIdentific  the related object to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 GsGeneriekeProductenQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByGsVoorschrijfprGeneesmiddelIdentific($gsVoorschrijfprGeneesmiddelIdentific, $comparison = null)
-    {
-        if ($gsVoorschrijfprGeneesmiddelIdentific instanceof GsVoorschrijfprGeneesmiddelIdentific) {
-            return $this
-                ->addUsingAlias(GsGeneriekeProductenPeer::GENERIEKEPRODUCTCODE, $gsVoorschrijfprGeneesmiddelIdentific->getGeneriekeproductcode(), $comparison);
-        } elseif ($gsVoorschrijfprGeneesmiddelIdentific instanceof PropelObjectCollection) {
-            return $this
-                ->useGsVoorschrijfprGeneesmiddelIdentificQuery()
-                ->filterByPrimaryKeys($gsVoorschrijfprGeneesmiddelIdentific->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByGsVoorschrijfprGeneesmiddelIdentific() only accepts arguments of type GsVoorschrijfprGeneesmiddelIdentific or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return GsGeneriekeProductenQuery The current query, for fluid interface
-     */
-    public function joinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('GsVoorschrijfprGeneesmiddelIdentific');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'GsVoorschrijfprGeneesmiddelIdentific');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the GsVoorschrijfprGeneesmiddelIdentific relation GsVoorschrijfprGeneesmiddelIdentific object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery A secondary query class using the current class as primary query
-     */
-    public function useGsVoorschrijfprGeneesmiddelIdentificQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinGsVoorschrijfprGeneesmiddelIdentific($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'GsVoorschrijfprGeneesmiddelIdentific', '\PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery');
     }
 
     /**

@@ -80,7 +80,6 @@ class GsGeneriekeProductenTableMap extends TableMap
         $this->addRelation('ToedieningswegOmschrijving', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsThesauriTotaal', RelationMap::MANY_TO_ONE, array('toedieningsweg_thesaurusnummer' => 'thesaurusnummer', 'toedieningsweg_code' => 'thesaurus_itemnummer', ), null, null);
         $this->addRelation('GsArtikelEigenschappen', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsArtikelEigenschappen', RelationMap::ONE_TO_MANY, array('generiekeproductcode' => 'gpk', ), null, null, 'GsArtikelEigenschappens');
         $this->addRelation('GsPrescriptieProduct', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsPrescriptieProduct', RelationMap::ONE_TO_MANY, array('generiekeproductcode' => 'generiekeproductcode', ), null, null, 'GsPrescriptieProducts');
-        $this->addRelation('GsVoorschrijfprGeneesmiddelIdentific', 'PharmaIntelligence\\GstandaardBundle\\Model\\GsVoorschrijfprGeneesmiddelIdentific', RelationMap::ONE_TO_MANY, array('generiekeproductcode' => 'generiekeproductcode', ), null, null, 'GsVoorschrijfprGeneesmiddelIdentifics');
     } // buildRelations()
 
 } // GsGeneriekeProductenTableMap

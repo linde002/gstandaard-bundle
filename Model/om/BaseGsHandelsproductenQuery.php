@@ -21,8 +21,8 @@ use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenPeer;
 use PharmaIntelligence\GstandaardBundle\Model\GsHandelsproductenQuery;
 use PharmaIntelligence\GstandaardBundle\Model\GsIngegevenSamenstellingen;
 use PharmaIntelligence\GstandaardBundle\Model\GsNamen;
+use PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProduct;
 use PharmaIntelligence\GstandaardBundle\Model\GsThesauriTotaal;
-use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentific;
 
 /**
  * @method GsHandelsproductenQuery orderByBestandnummer($order = Criteria::ASC) Order by the bestandnummer column
@@ -189,9 +189,9 @@ use PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentif
  * @method GsHandelsproductenQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method GsHandelsproductenQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method GsHandelsproductenQuery leftJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
- * @method GsHandelsproductenQuery rightJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
- * @method GsHandelsproductenQuery innerJoinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null) Adds a INNER JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
+ * @method GsHandelsproductenQuery leftJoinGsPrescriptieProduct($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsPrescriptieProduct relation
+ * @method GsHandelsproductenQuery rightJoinGsPrescriptieProduct($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsPrescriptieProduct relation
+ * @method GsHandelsproductenQuery innerJoinGsPrescriptieProduct($relationAlias = null) Adds a INNER JOIN clause to the query using the GsPrescriptieProduct relation
  *
  * @method GsHandelsproductenQuery leftJoinGsNamen($relationAlias = null) Adds a LEFT JOIN clause to the query using the GsNamen relation
  * @method GsHandelsproductenQuery rightJoinGsNamen($relationAlias = null) Adds a RIGHT JOIN clause to the query using the GsNamen relation
@@ -753,7 +753,7 @@ abstract class BaseGsHandelsproductenQuery extends ModelCriteria
      * $query->filterByPrkcode(array('max' => 12)); // WHERE prkcode <= 12
      * </code>
      *
-     * @see       filterByGsVoorschrijfprGeneesmiddelIdentific()
+     * @see       filterByGsPrescriptieProduct()
      *
      * @param     mixed $prkcode The value to use as filter.
      *              Use scalar values for equality.
@@ -3827,43 +3827,43 @@ abstract class BaseGsHandelsproductenQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related GsVoorschrijfprGeneesmiddelIdentific object
+     * Filter the query by a related GsPrescriptieProduct object
      *
-     * @param   GsVoorschrijfprGeneesmiddelIdentific|PropelObjectCollection $gsVoorschrijfprGeneesmiddelIdentific The related object(s) to use as filter
+     * @param   GsPrescriptieProduct|PropelObjectCollection $gsPrescriptieProduct The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return                 GsHandelsproductenQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
-    public function filterByGsVoorschrijfprGeneesmiddelIdentific($gsVoorschrijfprGeneesmiddelIdentific, $comparison = null)
+    public function filterByGsPrescriptieProduct($gsPrescriptieProduct, $comparison = null)
     {
-        if ($gsVoorschrijfprGeneesmiddelIdentific instanceof GsVoorschrijfprGeneesmiddelIdentific) {
+        if ($gsPrescriptieProduct instanceof GsPrescriptieProduct) {
             return $this
-                ->addUsingAlias(GsHandelsproductenPeer::PRKCODE, $gsVoorschrijfprGeneesmiddelIdentific->getPrkcode(), $comparison);
-        } elseif ($gsVoorschrijfprGeneesmiddelIdentific instanceof PropelObjectCollection) {
+                ->addUsingAlias(GsHandelsproductenPeer::PRKCODE, $gsPrescriptieProduct->getPrkcode(), $comparison);
+        } elseif ($gsPrescriptieProduct instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(GsHandelsproductenPeer::PRKCODE, $gsVoorschrijfprGeneesmiddelIdentific->toKeyValue('PrimaryKey', 'Prkcode'), $comparison);
+                ->addUsingAlias(GsHandelsproductenPeer::PRKCODE, $gsPrescriptieProduct->toKeyValue('PrimaryKey', 'Prkcode'), $comparison);
         } else {
-            throw new PropelException('filterByGsVoorschrijfprGeneesmiddelIdentific() only accepts arguments of type GsVoorschrijfprGeneesmiddelIdentific or PropelCollection');
+            throw new PropelException('filterByGsPrescriptieProduct() only accepts arguments of type GsPrescriptieProduct or PropelCollection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the GsVoorschrijfprGeneesmiddelIdentific relation
+     * Adds a JOIN clause to the query using the GsPrescriptieProduct relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return GsHandelsproductenQuery The current query, for fluid interface
      */
-    public function joinGsVoorschrijfprGeneesmiddelIdentific($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinGsPrescriptieProduct($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('GsVoorschrijfprGeneesmiddelIdentific');
+        $relationMap = $tableMap->getRelation('GsPrescriptieProduct');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -3878,14 +3878,14 @@ abstract class BaseGsHandelsproductenQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'GsVoorschrijfprGeneesmiddelIdentific');
+            $this->addJoinObject($join, 'GsPrescriptieProduct');
         }
 
         return $this;
     }
 
     /**
-     * Use the GsVoorschrijfprGeneesmiddelIdentific relation GsVoorschrijfprGeneesmiddelIdentific object
+     * Use the GsPrescriptieProduct relation GsPrescriptieProduct object
      *
      * @see       useQuery()
      *
@@ -3893,13 +3893,13 @@ abstract class BaseGsHandelsproductenQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery A secondary query class using the current class as primary query
+     * @return   \PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery A secondary query class using the current class as primary query
      */
-    public function useGsVoorschrijfprGeneesmiddelIdentificQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useGsPrescriptieProductQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
-            ->joinGsVoorschrijfprGeneesmiddelIdentific($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'GsVoorschrijfprGeneesmiddelIdentific', '\PharmaIntelligence\GstandaardBundle\Model\GsVoorschrijfprGeneesmiddelIdentificQuery');
+            ->joinGsPrescriptieProduct($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'GsPrescriptieProduct', '\PharmaIntelligence\GstandaardBundle\Model\GsPrescriptieProductQuery');
     }
 
     /**
