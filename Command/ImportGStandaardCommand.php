@@ -46,6 +46,12 @@ class ImportGStandaardCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'bestand met add-on historie ook meenemen'
             )
+		->addOption(
+                'alleenAddOnHistorie',
+                null,
+                InputOption::VALUE_NONE,
+                'alleen bestand met add-on historie ook meenemen'
+            )
 			->addOption(
 			    'alleenMutaties',
 			    null,
@@ -67,6 +73,10 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
+		if($input->getOption('alleenAddOnHistorie')) {
+			$this->importHistorischAddOnBestand($output);
+			return;
+        	}
 	    $this->bestand = $input->getArgument('bestand');
 	    if($this->bestand !== self::ALLE_BESTANDEN) {
 	        $output->writeln('Alleen bestand '.$this->bestand);
@@ -349,7 +359,8 @@ class ImportGStandaardCommand extends ContainerAwareCommand
 
         $fh = fopen($downloadLocation, 'r');
         $headers = fgetcsv($fh, null, ';');
-        $sql = 'REPLACE INTO gs_historisch_bestand_add_on VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+	\Propel::getConnection()->query('CREATE TABLE gs_historisch_bestand_add_on_new LIKE gs_historisch_bestand_add_on');
+        $sql = 'INSERT INTO gs_historisch_bestand_add_on_new VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $statement = \Propel::getConnection()->prepare($sql);
         while($row = fgetcsv($fh, null, ';')) {
             $artikelExists = GsArtikelEigenschappenQuery::create()
@@ -370,6 +381,8 @@ class ImportGStandaardCommand extends ContainerAwareCommand
         }
         fclose($fh);
         unlink($downloadLocation);
+	\Propel::getConnection()->query('RENAME TABLE gs_historisch_bestand_add_on TO gs_historisch_bestand_add_on_old, gs_historisch_bestand_add_on_new TO gs_historisch_bestand_add_on');
+	\Propel::getConnection()->query('DROP TABLE gs_historisch_bestand_add_on_old');
     }
 
 	protected function updateSlugs(InputInterface $input, OutputInterface $output) {
