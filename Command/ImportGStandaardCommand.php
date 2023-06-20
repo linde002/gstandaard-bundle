@@ -356,7 +356,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
         }
         $output->writeln('Downloaded: '.filesize($downloadLocation).' bytes');
         $output->writeln(date('[H:i:s]').' Gereed downloaden historisch add-on bestand');
-
+	$output->writeln(date('[H:i:s]').' Start import historisch add-on bestand');
         $fh = fopen($downloadLocation, 'r');
         $headers = fgetcsv($fh, null, ';');
 	\Propel::getConnection()->query('CREATE TABLE gs_historisch_bestand_add_on_new LIKE gs_historisch_bestand_add_on');
@@ -383,6 +383,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
         unlink($downloadLocation);
 	\Propel::getConnection()->query('RENAME TABLE gs_historisch_bestand_add_on TO gs_historisch_bestand_add_on_old, gs_historisch_bestand_add_on_new TO gs_historisch_bestand_add_on');
 	\Propel::getConnection()->query('DROP TABLE gs_historisch_bestand_add_on_old');
+	$output->writeln(date('[H:i:s]').' Eind downloaden historisch add-on bestand');
     }
 
 	protected function updateSlugs(InputInterface $input, OutputInterface $output) {
