@@ -10,14 +10,6 @@ import:
     korte_handelsnaam: {start: 45, length: 40, type: varchar(255)}
     naam_volledig: {start: 85, length: 50, type: varchar(255)}
 
-  BST025T:
-    _attributes: {table: gs_relaties_tussen_namen, modelClass: GsRelatiesTussenNamen, peerClass: GsRelatiesTussenNamenPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    relatie_soort: {start: 5, length: 3, type: integer, primaryKey: true}
-    naamnummer_ingang: {start: 8, length: 7, type: integer, primaryKey: true}
-    naamnummer_uitgang: {start: 15, length: 7, type: integer, primaryKey: true}
-
   BST000T:
     _attributes: {table: gs_bestanden, modelClass: GsBestanden, peerClass: GsBestandenPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
