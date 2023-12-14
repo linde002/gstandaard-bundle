@@ -903,19 +903,6 @@ import:
     verwijzing_identificatie_2_numeriek: {start: 39, length: 8, type: integer, primaryKey: true}
     verwijzing_identificatie_2_alfanumeriek: {start: 47, length: 20, type: varchar(255), primaryKey: true}
 
-  BST921T:
-    _attributes: {table: gs_tekstblokken_ascii, modelClass: GsTekstblokkenAscii, peerClass: GsTekstblokkenAsciiPeer}
-    bestandnummer: {start: 0, length: 4, type: integer}
-    mutatiekode: {start: 4, length: 1, type: integer}
-    thesaurus_verwijzing_tekstmodule: {start: 5, length: 4, type: integer}
-    tekstmodule: {start: 9, length: 6, type: integer, primaryKey: true}
-    thesaurus_verwijzing_tekstsoort: {start: 15, length: 4, type: integer}
-    tekstsoort: {start: 19, length: 6, type: integer, primaryKey: true}
-    tekst_nivo_kode: {start: 25, length: 8, type: integer, primaryKey: true}
-    tekstbloknummer: {start: 33, length: 8, type: integer, primaryKey: true}
-    tekstregelnummer: {start: 41, length: 6, type: integer, primaryKey: true}
-    tekst: {start: 47, length: 132, type: varchar(255)}
-
   BST922T:
     _attributes: {table: gs_tekstblokken_html, modelClass: GsTekstblokkenHtml, peerClass: GsTekstblokkenHtmlPeer}
     bestandnummer: {start: 0, length: 4, type: integer}
