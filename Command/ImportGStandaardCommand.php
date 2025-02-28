@@ -397,8 +397,6 @@ class ImportGStandaardCommand extends ContainerAwareCommand
         $statement->execute(array_reduce($values, 'array_merge', []));
     }
 
-    protected function
-
 	protected function updateSlugs(InputInterface $input, OutputInterface $output) {
 		$output->writeln('Slugs bijwerken');
 		$this->createLeverancierSlugs();
