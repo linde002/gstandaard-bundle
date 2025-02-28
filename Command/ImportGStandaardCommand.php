@@ -360,8 +360,7 @@ class ImportGStandaardCommand extends ContainerAwareCommand
         $fh = fopen($downloadLocation, 'r');
         $headers = fgetcsv($fh, null, ';');
 	\Propel::getConnection()->query('CREATE TABLE gs_historisch_bestand_add_on_new LIKE gs_historisch_bestand_add_on');
-        $sql = 'INSERT INTO gs_historisch_bestand_add_on_new VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $statement = \Propel::getConnection()->prepare($sql);
+        $batchValues = [];
         while($row = fgetcsv($fh, null, ';')) {
             $artikelExists = GsArtikelEigenschappenQuery::create()
                 ->filterByZindexNummer($row[0])
@@ -376,15 +375,29 @@ class ImportGStandaardCommand extends ContainerAwareCommand
                 $row[11] = 20991231;
             }
             $row[11] = \DateTime::createFromFormat('Ymd', $row[11])->format('Y-m-d');
-
-            $statement->execute($row);
+            $batchValues[] = $row;
+            if(count($batchValues) >= 1000) {
+                $this->addOnBulkInsert($batchValues);
+                $batchValues = [];
+            }
         }
+        $this->addOnBulkInsert($batchValues);
+        unset($batchValues);
         fclose($fh);
         unlink($downloadLocation);
 	\Propel::getConnection()->query('RENAME TABLE gs_historisch_bestand_add_on TO gs_historisch_bestand_add_on_old, gs_historisch_bestand_add_on_new TO gs_historisch_bestand_add_on');
 	\Propel::getConnection()->query('DROP TABLE gs_historisch_bestand_add_on_old');
 	$output->writeln(date('[H:i:s]').' Eind downloaden historisch add-on bestand');
     }
+
+
+    protected function addOnBulkInsert(array $values) {
+        $sql = 'INSERT INTO gs_historisch_bestand_add_on_new VALUES '.implode(',', array_fill(0, count($values), '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'));
+        $statement = \Propel::getConnection()->prepare($sql);
+        $statement->execute(array_reduce($values, 'array_merge', []));
+    }
+
+    protected function
 
 	protected function updateSlugs(InputInterface $input, OutputInterface $output) {
 		$output->writeln('Slugs bijwerken');
